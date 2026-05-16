@@ -1,0 +1,7 @@
+SCUS_*
+SCUS-*
+objectFiles/
+split/asm/
+__pycache__/
+*.pyc
+*.pyo

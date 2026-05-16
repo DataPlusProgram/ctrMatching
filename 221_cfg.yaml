@@ -1,0 +1,19 @@
+options:
+  platform: psx
+  basename: CrashTeamRacing
+  target_path: ../221_EndRaceMenu_CrystalChallenge.bin
+  base_path: split
+  disassemble_all: true
+  symbol_addrs_path:
+    - ../syms/funcs_ovr_221.txt
+
+segments:
+  - name: ovr_221
+    type: code
+    start: 0x0
+    vram: 0x8009F6FC
+    subsegments:
+      - [0x0,   .rodata, ovr_221]
+      - [0x14,  asm,    ovr_221]
+      - [0x4F0, .data,   ovr_221]
+  - [0x530]
