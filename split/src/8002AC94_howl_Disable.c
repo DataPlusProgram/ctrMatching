@@ -1,3 +1,16 @@
-#include "../../common.h"
+typedef unsigned char u8;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8002AC94_howl_Disable/8002AC94_howl_Disable.s")
+extern u8 DAT_8008d05c;
+
+s32 FUN_8002ac94(void) {
+    s32 ret;
+
+    ret = 1;
+    if (DAT_8008d05c == 0) {
+        return 0;
+    }
+
+    DAT_8008d05c = 0;
+    return ret;
+}

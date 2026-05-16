@@ -1,4 +1,5 @@
 #ifndef COMMON_H
+#define COMMON_H
 
 typedef int s32;
 typedef unsigned int u32;
@@ -11,6 +12,7 @@ typedef struct Driver Driver;
 typedef struct ObjRef ObjRef;
 typedef struct Vec3 Vec3;
 typedef struct SVec3 SVec3;
+typedef struct GameTracker GameTracker;
 
 typedef s32 M2C_UNK;
 
@@ -46,7 +48,7 @@ struct Driver {
     char pad2DC[0x330 - 0x2DC];
     u32 unk330[5];
     char pad344[0x350 - 0x344];
-    ObjRef* underDriver;
+    ObjRef *underDriver;
     char pad354[0x360 - 0x354];
     s32 unk360;
     s16 unk364;
@@ -59,8 +61,7 @@ struct Driver {
     SVec3 accel;
 };
 
-struct GameTracker
-{
+struct GameTracker {
     s32 gameMode1;
     s32 unk4;
     s32 gameMode2;
@@ -69,8 +70,6 @@ struct GameTracker
     u8 unk1A14[0x444];
     s32 cupID;
 };
-
-
 
 #define gte_SetColorMatrix(r0) __asm__ volatile ( \
     "lw     $12, 0(%0);"                          \
@@ -121,10 +120,85 @@ struct GameTracker
     : "r"(r0)                             \
     : "memory" )
 
-#define COMMON_H
+#define gte_ldVXY0(x) gte_ldv0_xy(x)
+#define gte_ldVZ0(z) gte_ldv0_z(z)
+
+#define gte_ldR11R12(v) __asm__ volatile ( \
+    "ctc2 %0, $0"                          \
+    :                                      \
+    : "r"(v) )
+
+#define gte_ldR13R21(v) __asm__ volatile ( \
+    "ctc2 %0, $1"                          \
+    :                                      \
+    : "r"(v) )
+
+#define gte_ldR22R23(v) __asm__ volatile ( \
+    "ctc2 %0, $2"                          \
+    :                                      \
+    : "r"(v) )
+
+#define gte_ldR31R32(v) __asm__ volatile ( \
+    "ctc2 %0, $3"                          \
+    :                                      \
+    : "r"(v) )
+
+#define gte_ldR33(v) __asm__ volatile ( \
+    "ctc2 %0, $4"                       \
+    :                                   \
+    : "r"(v) )
+
+#define gte_ldL11L12(v) __asm__ volatile ( \
+    "ctc2 %0, $8"                          \
+    :                                      \
+    : "r"(v) )
+
+#define gte_ldL13L21(v) __asm__ volatile ( \
+    "ctc2 %0, $9"                          \
+    :                                      \
+    : "r"(v) )
+
+#define gte_ldL22L23(v) __asm__ volatile ( \
+    "ctc2 %0, $10"                         \
+    :                                      \
+    : "r"(v) )
+
+#define gte_ldL31L32(v) __asm__ volatile ( \
+    "ctc2 %0, $11"                         \
+    :                                      \
+    : "r"(v) )
+
+#define gte_ldL33(v) __asm__ volatile ( \
+    "ctc2 %0, $12"                      \
+    :                                   \
+    : "r"(v) )
+
+#define gte_llv0() __asm__ volatile ( \
+    "nop\n\t"                       \
+    "nop\n\t"                       \
+    ".word 0x4A4A6012"              \
+)
+
+#define gte_rtv0() __asm__ volatile ( \
+    "nop\n\t"                       \
+    "nop\n\t"                       \
+    ".word 0x4A486012"              \
+)
+
+#define gte_stlvnl(v) __asm__ volatile ( \
+    "swc2 $25, 0(%0);"                   \
+    "swc2 $26, 4(%0);"                   \
+    "swc2 $27, 8(%0)"                    \
+    :                                    \
+    : "r"(v)                             \
+    : "memory" )
+
+#define read_mt(x, y, z) do { \
+    gte_stmac1(&(x));         \
+    gte_stmac2(&(y));         \
+    gte_stmac3(&(z));         \
+}while (0)
+
+extern s32 XA_State;
 
 #endif
-
-
-
-extern XA_State; //D_8008D708;

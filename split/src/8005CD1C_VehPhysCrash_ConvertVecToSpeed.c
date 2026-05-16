@@ -1,96 +1,47 @@
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
-typedef unsigned int u32;
+typedef unsigned int uint;
+typedef unsigned short ushort;
+typedef unsigned char byte;
+typedef char undefined;
+typedef short undefined2;
+typedef int undefined4;
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+extern int func_80059070(int, int);
+extern int func_8007173C(int, int);
 
-typedef struct {
-    s32 unk0;
-    s32 unk4;
-    u32 unk8;
-} M2cVehPhysCrashConvertVecToSpeedArg1;
-
-u32 VehCalc_FastSqrt(); /* extern */
-s16 ratan2();          /* extern */
-
-void VehPhysCrash_ConvertVecToSpeed(void *arg0, M2cVehPhysCrashConvertVecToSpeedArg1 *arg1) {
-    s16 temp_a0;
-    s16 temp_a1;
-    s16 temp_v1_4;
-    s32 temp_lo;
-    s32 temp_lo_2;
-    s32 temp_lo_3;
-    s32 temp_s0;
-    s32 temp_s1;
-    s32 temp_s2;
-    s32 temp_s3_2;
-    s32 temp_v0;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    u32 temp_s3;
-    u32 temp_v0_2;
-    u32 temp_v1_3;
-    u32 temp_v1_5;
-
-    temp_v0 = arg1->unk0;
-    temp_v0_2 = arg1->unk8;
-    temp_lo = temp_v0 * temp_v0;
-    temp_lo_2 = temp_v0_2 * temp_v0_2;
-    temp_s3 = VehCalc_FastSqrt(temp_lo + temp_lo_2, 0x10, temp_lo_2);
-
-    temp_v1 = arg1->unk0;
-    temp_lo_3 = temp_v1 * temp_v1;
-    temp_v1_2 = arg1->unk4;
-    temp_lo = temp_v1_2 * temp_v1_2;
-    temp_v1_3 = arg1->unk8;
-    temp_v1_3 = temp_v1_3 * temp_v1_3;
-
-    temp_v0_2 = VehCalc_FastSqrt(temp_lo_3 + temp_lo + temp_v1_3, 0x10, temp_lo_3);
-    M2C_FIELD(arg0, s16 *, 0x38C) = (s16)(temp_v0_2 >> 8);
-
-    M2C_FIELD(arg0, s16 *, 0x394) = ratan2(arg1->unk4 << 8, temp_s3);
-    M2C_FIELD(arg0, s16 *, 0x396) = ratan2(arg1->unk0, arg1->unk8);
-
-    temp_a1 = M2C_FIELD(arg0, s16 *, 0x312);
-    temp_v0 = arg1->unk0;
-    temp_lo_3 = temp_v0 * temp_a1;
-
-    temp_a0 = M2C_FIELD(arg0, s16 *, 0x318);
-    temp_v0 = arg1->unk4;
-    temp_lo = temp_v0 * temp_a0;
-
-    temp_v1_4 = M2C_FIELD(arg0, s16 *, 0x31E);
-    temp_v0 = arg1->unk8;
-    temp_v1 = temp_v0 * temp_v1_4;
-
-    temp_v0 = temp_lo_3 + temp_lo;
-    temp_v0 += temp_v1;
-    temp_s3_2 = temp_v0 >> 0xC;
-
-    temp_lo_3 = temp_a1 * temp_s3_2;
-    temp_lo = temp_a0 * temp_s3_2;
-    temp_v1 = temp_v1_4 * temp_s3_2;
-
-    temp_s0 = temp_lo_3 >> 0xC;
-    temp_s1 = temp_lo >> 0xC;
-    temp_s2 = temp_v1 >> 0xC;
-
-    temp_v0_2 = VehCalc_FastSqrt((temp_s0 * temp_s0) + (temp_s1 * temp_s1) + (temp_s2 * temp_s2), 0x10) >> 8;
-    M2C_FIELD(arg0, s16 *, 0x390) = (s16)temp_v0_2;
-
-    if (temp_s3_2 < 0) {
-        M2C_FIELD(arg0, s16 *, 0x390) = (s16)-temp_v0_2;
-    }
-
-    temp_s0 = arg1->unk0 - temp_s0;
-    temp_s1 = arg1->unk4 - temp_s1;
-    temp_s2 = arg1->unk8 - temp_s2;
-
-    temp_v1_5 = VehCalc_FastSqrt((temp_s0 * temp_s0) + (temp_s1 * temp_s1) + (temp_s2 * temp_s2), 0x10) >> 8;
-    M2C_FIELD(arg0, s16 *, 0x38E) = (s16)temp_v1_5;
-
-    if (((temp_s0 * M2C_FIELD(arg0, s16 *, 0x314)) + (temp_s1 * M2C_FIELD(arg0, s16 *, 0x31A)) + (temp_s2 * M2C_FIELD(arg0, s16 *, 0x320))) < 0) {
-        M2C_FIELD(arg0, s16 *, 0x38E) = (s16)-temp_v1_5;
-    }
+void VehPhysCrash_ConvertVecToSpeed(int param_1, int *param_2)
+{
+  int extraout_var_00;
+  int extraout_var_01;
+  int x;
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  iVar4 = func_80059070(((*param_2) * (*param_2)) + (param_2[2] * param_2[2]), 0x10);
+  x = iVar4;
+  *((undefined2 *) (param_1 + 0x38c)) = ((uint) func_80059070((((*param_2) * (*param_2)) + (param_2[1] * param_2[1])) + (param_2[2] * param_2[2]), 0x10)) >> 8;
+  x = func_8007173C(param_2[1] << 8, x);
+  *((undefined2 *) (param_1 + 0x394)) = (short) x;
+  x = func_8007173C(*param_2, param_2[2]);
+  *((undefined2 *) (param_1 + 0x396)) = (short) x;
+  iVar4 = ((((*param_2) * ((int) (*((short *) (param_1 + 0x312))))) + (param_2[1] * ((int) (*((short *) (param_1 + 0x318)))))) + (param_2[2] * ((int) (*((short *) (param_1 + 0x31e)))))) >> 0xc;
+  iVar1 = (((int) (*((short *) (param_1 + 0x312)))) * iVar4) >> 0xc;
+  iVar2 = (((int) (*((short *) (param_1 + 0x318)))) * iVar4) >> 0xc;
+  iVar3 = (((int) (*((short *) (param_1 + 0x31e)))) * iVar4) >> 0xc;
+  extraout_var_00 = ((uint) func_80059070(((iVar1 * iVar1) + (iVar2 * iVar2)) + (iVar3 * iVar3), 0x10)) >> 8;
+  *((short *) (param_1 + 0x390)) = extraout_var_00;
+  if (iVar4 < 0)
+  {
+    *((short *) (param_1 + 0x390)) = -extraout_var_00;
+  }
+  iVar1 = (*param_2) - iVar1;
+  iVar2 = param_2[1] - iVar2;
+  iVar3 = param_2[2] - iVar3;
+  extraout_var_01 = ((uint) func_80059070(((iVar1 * iVar1) + (iVar2 * iVar2)) + (iVar3 * iVar3), 0x10)) >> 8;
+  *((short *) (param_1 + 0x38e)) = extraout_var_01;
+  if ((((iVar1 * (*((short *) (param_1 + 0x314)))) + (iVar2 * (*((short *) (param_1 + 0x31a))))) + (iVar3 * (*((short *) (param_1 + 0x320))))) < 0)
+  {
+    *((short *) (param_1 + 0x38e)) = -extraout_var_01;
+  }
+  return;
 }

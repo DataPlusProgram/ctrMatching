@@ -1,3 +1,19 @@
-#include "../../common.h"
+typedef signed char s8;
+typedef short s16;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80062DB0_VehPhysProc_FreezeVShift_Update/80062DB0_VehPhysProc_FreezeVShift_Update.s")
+typedef s32 M2C_UNK;
+
+#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+
+extern void VehPhysProc_Driving_Init(void);
+
+void VehPhysProc_FreezeVShift_Update(void *unused, void *arg1) {
+    if ((M2C_FIELD(arg1, s16 *, 0x39E) != 0) || (M2C_FIELD(arg1, s32 *, 0x2C8) & 0x10000028)) {
+        VehPhysProc_Driving_Init();
+        return;
+    }
+
+    M2C_FIELD(arg1, s16 *, 0x38C) = 0;
+    M2C_FIELD(arg1, s16 *, 0x38E) = 0;
+}

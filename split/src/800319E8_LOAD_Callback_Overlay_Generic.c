@@ -1,3 +1,7 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800319E8_LOAD_Callback_Overlay_Generic/800319E8_LOAD_Callback_Overlay_Generic.s")
+extern s32 D_8008D0A4;
+
+void UndefinedFunction_800319e8(void) {
+    D_8008D0A4 = 0;
+}
