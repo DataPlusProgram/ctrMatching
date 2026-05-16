@@ -1,8 +1,6 @@
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
-
-M2C_UNK DMACallback();                  /* extern */
+M2C_UNK DMACallback();
 
 void _SpuDataCallback(s32 arg0) {
     DMACallback(4, arg0);

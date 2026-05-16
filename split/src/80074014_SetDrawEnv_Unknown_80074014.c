@@ -1,4 +1,4 @@
-typedef int s32;
+#include "../../common.h"
 
 extern s32 *D_8008AE88;
 

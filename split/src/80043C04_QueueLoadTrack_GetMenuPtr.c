@@ -1,3 +1,7 @@
 #include "../../common.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80043C04_QueueLoadTrack_GetMenuPtr/80043C04_QueueLoadTrack_GetMenuPtr.s")
+extern M2C_UNK D_80085A94;
+
+M2C_UNK *QueueLoadTrack_GetMenuPtr(void) {
+    return &D_80085A94;
+}

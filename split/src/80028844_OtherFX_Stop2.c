@@ -1,6 +1,5 @@
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
 
 M2C_UNK Channel_SearchFX_Destroy(); /* extern */
 M2C_UNK Smart_EnterCriticalSection();               /* extern */

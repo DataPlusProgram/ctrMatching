@@ -1,3 +1,7 @@
 #include "../../common.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800720B4_CdInit_Unknown_800720B4/800720B4_CdInit_Unknown_800720B4.s")
+M2C_UNK DeliverEvent();
+
+void CdInit_Unknown_800720B4(void) {
+    DeliverEvent(0xF0000003, 0x20);
+}

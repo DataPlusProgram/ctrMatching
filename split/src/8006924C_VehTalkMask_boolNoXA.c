@@ -1,7 +1,5 @@
-typedef int s32;
-
-extern s32 D_8008D708;
+#include "../../common.h"
 
 s32 VehTalkMask_boolNoXA(void) {
-    return D_8008D708 == 0;
+    return XA_State == 0;
 }

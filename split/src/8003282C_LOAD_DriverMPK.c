@@ -1,19 +1,4 @@
-typedef int s32;
-typedef unsigned int u32;
-typedef short s16;
-typedef unsigned short u16;
-typedef unsigned char u8;
-
-struct GameTracker
-{
-    s32 gameMode1;
-    s32 unk4;
-    s32 gameMode2;
-    u8 unkC[0x1A04];
-    s32 levelID;
-    u8 unk1A14[0x444];
-    s32 cupID;
-};
+#include "../../common.h"
 
 struct BigFile
 {

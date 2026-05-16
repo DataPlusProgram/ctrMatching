@@ -1,4 +1,4 @@
-typedef int s32;
+#include "../../common.h"
 
 void CTR_Unknown_80021EA8(s32 *arg0, s32 *arg1, s32 arg2) {
     s32 *var_a0;

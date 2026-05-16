@@ -1,3 +1,7 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80072590_CdSearchFile_Unknown_80072590/80072590_CdSearchFile_Unknown_80072590.s")
+s32 strncmp(s32, s32, s32);
+
+s32 CdSearchFile_Unknown_80072590(s32 arg0, s32 arg1) {
+    return strncmp(arg0, arg1, 0xC) == 0;
+}

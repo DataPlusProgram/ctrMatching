@@ -1,10 +1,8 @@
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
-
-M2C_UNK OtherFX_Modify();               /* extern */
-s32 OtherFX_Play_LowLevel();   /* extern */
-M2C_UNK OtherFX_Stop1();                         /* extern */
+M2C_UNK OtherFX_Modify();
+s32 OtherFX_Play_LowLevel();
+M2C_UNK OtherFX_Stop1();
 
 void OtherFX_RecycleNew(s32 *arg0, s32 arg1, M2C_UNK arg2) {
     s32 temp_a0;

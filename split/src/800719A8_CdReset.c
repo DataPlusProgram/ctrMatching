@@ -1,3 +1,9 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800719A8_CdReset/800719A8_CdReset.s")
+typedef s32 M2C_UNK;
+
+M2C_UNK __builtin_delete();                         /* extern */
+
+void CdReset(void) {
+    __builtin_delete();
+}

@@ -1,7 +1,4 @@
-typedef signed char s8;
-typedef int s32;
-
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+#include "../../common.h"
 
 void _Unknown_8007DE24(void *arg0) {
     M2C_FIELD(arg0, s8 *, 0x37) = 0x45;

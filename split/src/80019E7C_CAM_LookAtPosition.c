@@ -1,7 +1,5 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
+#include "../../common.h"
+
 
 #define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
 

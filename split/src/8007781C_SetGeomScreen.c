@@ -1,3 +1,5 @@
-#include "../../common.h"
+#define M2C_ERROR(desc) (0)
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8007781C_SetGeomScreen/8007781C_SetGeomScreen.s")
+void SetGeomScreen(int arg0) {
+    asm("ctc2 $a0,$26");
+}

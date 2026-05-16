@@ -2,14 +2,19 @@
 
 typedef int s32;
 typedef unsigned int u32;
+typedef unsigned short u16;
 typedef short s16;
 typedef unsigned char u8;
+typedef signed char s8;
 
 typedef struct Driver Driver;
 typedef struct ObjRef ObjRef;
 typedef struct Vec3 Vec3;
 typedef struct SVec3 SVec3;
 
+typedef s32 M2C_UNK;
+
+#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
 
 struct Vec3 {
     s32 x;
@@ -53,6 +58,19 @@ struct Driver {
     char pad398[0x3CC - 0x398];
     SVec3 accel;
 };
+
+struct GameTracker
+{
+    s32 gameMode1;
+    s32 unk4;
+    s32 gameMode2;
+    u8 unkC[0x1A04];
+    s32 levelID;
+    u8 unk1A14[0x444];
+    s32 cupID;
+};
+
+
 
 #define gte_SetColorMatrix(r0) __asm__ volatile ( \
     "lw     $12, 0(%0);"                          \
@@ -106,3 +124,7 @@ struct Driver {
 #define COMMON_H
 
 #endif
+
+
+
+extern XA_State; //D_8008D708;

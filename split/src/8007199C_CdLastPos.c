@@ -1,3 +1,7 @@
 #include "../../common.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8007199C_CdLastPos/8007199C_CdLastPos.s")
+extern M2C_UNK D_8008C434;
+
+M2C_UNK *CdLastPos(void) {
+    return &D_8008C434;
+}
