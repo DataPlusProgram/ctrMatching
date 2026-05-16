@@ -1222,5 +1222,5 @@
 | [CTR_Unknown_80021DA0](split/src/80021DA0_CTR_Unknown_80021DA0.c) | 0% | 900/100 |
 | [CTR_Unknown_80021E1C](split/src/80021E1C_CTR_Unknown_80021E1C.c) | 0% | 900/100 |
 
-Total Score: 8264846/11255700
+Total Score: 8264846/11255700  
 Files Matched: 197/1221
