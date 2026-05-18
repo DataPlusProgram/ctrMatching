@@ -1,26 +1,20 @@
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
+typedef unsigned int undefined4;
 
-typedef s32 M2C_UNK;
+extern char *D_8008D2AC;
+extern char D_8008D528;
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+extern void DecalFont_DrawLine(char *str, int x, int y, int p4, int p5);
+extern int sprintf(char *buf, const char *fmt, ...);
 
-typedef struct {
-    char pad0[0x31];
-    s8 unk31;
-} M2cUIDrawNumCrystalArg2;
+void UI_DrawNumCrystal(int param_1, int param_2, int param_3)
+{
+    char acStack32[16];
 
-M2C_UNK DecalFont_DrawLine(); /* extern */
-s32 sprintf(char *arg0, char *arg1, s32 arg2, s32 arg3); /* extern */
-extern char D_800116E0[];
-extern void *D_8008D2AC;
-extern M2C_UNK D_8008D528;
+    DecalFont_DrawLine(&D_8008D528, (int)(short)param_1, (param_2 + 4) * 0x10000 >> 0x10, 2, 0);
 
-void UI_DrawNumCrystal(s32 arg0, s32 arg1, M2cUIDrawNumCrystalArg2 *arg2) {
-    char sp18[16];
+    sprintf(acStack32, "%2.02d/%ld",
+                  (int)*(signed char *)(param_3 + 0x31),
+                  *(undefined4 *)(D_8008D2AC + 0x1E28));
 
-    DecalFont_DrawLine(&D_8008D528, (s16) arg0, (s16) (arg1 + 4), 2, 0);
-    sprintf(sp18, D_800116E0, arg2->unk31, M2C_FIELD(D_8008D2AC, s32 *, 0x1E28));
-    DecalFont_DrawLine(sp18, (s16) (arg0 + 0xD), (s16) arg1, 1, 0);
+    DecalFont_DrawLine(acStack32, (param_1 + 0xD) * 0x10000 >> 0x10, (int)(short)param_2, 1, 0);
 }

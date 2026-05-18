@@ -1,42 +1,17 @@
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
+typedef unsigned int uint;
+typedef unsigned int undefined4;
+typedef unsigned char byte;
 
-s32 UI_VsQuipReadDriver(void *arg0, s32 arg1, s32 arg2)
+uint UI_VsQuipReadDriver(int param_1, int param_2, int param_3)
 {
-    if (arg2 == 2) {
-        goto readShort;
+    switch (param_3) {
+    case 1:
+        return (uint) *(byte *) (param_1 + param_2);
+    case 2:
+        return (int) *(short *) (param_1 + param_2);
+    case 4:
+        return *(undefined4 *) (param_1 + param_2);
     }
 
-    if (arg2 >= 3) {
-        goto checkWord;
-    }
-
-    if (arg2 == 1) {
-        goto readByte;
-    }
-
-    goto returnZero;
-
-checkWord:
-    if (arg2 == 4) {
-        goto readWord;
-    }
-
-    goto returnZero;
-
-readByte:
-    return *(u8 *)((char *)arg0 + arg1);
-
-readShort:
-    return *(s16 *)((char *)arg0 + arg1);
-
-readWord:
-{
-    void *ptr = (char *)arg0 + arg1;
-    return *(s32 *)ptr;
-}
-
-returnZero:
     return 0;
 }

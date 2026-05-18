@@ -1,3 +1,8 @@
-#include "../../common.h"
+#define M2C_ERROR(desc) (0)
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800767D0_ExitCriticalSection/800767D0_ExitCriticalSection.s")
+void ExitCriticalSection(void) {
+    __asm__ volatile(
+        "li $a0, 2\n"
+        "syscall\n"
+    );
+}

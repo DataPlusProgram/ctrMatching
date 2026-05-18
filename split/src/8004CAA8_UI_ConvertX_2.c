@@ -1,3 +1,4 @@
-#include "../../common.h"
-
-#pragma GLOBAL_ASM("asm/nonmatchings/8004CAA8_UI_ConvertX_2/8004CAA8_UI_ConvertX_2.s")
+int UI_ConvertX_2(int param_1, int param_2)
+{
+    return ((param_1 - 0x100) * param_2) / 256;
+}

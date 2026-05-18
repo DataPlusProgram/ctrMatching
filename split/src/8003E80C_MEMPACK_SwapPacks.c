@@ -1,3 +1,17 @@
-#include "../../common.h"
+typedef signed char s8;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8003E80C_MEMPACK_SwapPacks/8003E80C_MEMPACK_SwapPacks.s")
+typedef s32 M2C_UNK;
+
+extern M2C_UNK D_800990E4;
+extern void *D_8008D434; /* gp + 0x4B4 */
+
+void MEMPACK_SwapPacks(s32 arg0) {
+	s32 offset;
+
+	offset = arg0 << 1;
+	offset += arg0;
+	offset <<= 5;
+
+	D_8008D434 = (void *)(offset + (s32)&D_800990E4);
+}

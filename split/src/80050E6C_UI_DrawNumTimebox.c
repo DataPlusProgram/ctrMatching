@@ -1,26 +1,20 @@
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
+typedef unsigned int undefined4;
 
-typedef s32 M2C_UNK;
+extern char *D_8008D2AC;
+extern char D_8008D528;
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+extern void DecalFont_DrawLine(char *str, int x, int y, int p4, int p5);
+extern int sprintf(char *buf, const char *fmt, ...);
 
-typedef struct {
-    char pad0[0x32];
-    s8 unk32;
-} M2cUIDrawNumTimeboxArg2;
+void UI_DrawNumRelic(int param_1, int param_2, int param_3)
+{
+    char acStack32[16];
 
-M2C_UNK DecalFont_DrawLine(); /* extern */
-s32 sprintf(char *arg0, char *arg1, s32 arg2, s32 arg3); /* extern */
-extern char D_800116E0[];
-extern void *D_8008D2AC;
-extern M2C_UNK D_8008D528;
+    DecalFont_DrawLine(&D_8008D528, (param_1 + 0x14) * 0x10000 >> 0x10, (param_2 + -10) * 0x10000 >> 0x10, 2, 0);
 
-void UI_DrawNumTimebox(s32 arg0, s32 arg1, M2cUIDrawNumTimeboxArg2 *arg2) {
-    char sp18[16];
+    sprintf(acStack32, "%2.02d/%ld",
+                  (int)*(signed char *)(param_3 + 0x32),
+                  *(undefined4 *)(D_8008D2AC + 0x1E2C));
 
-    DecalFont_DrawLine(&D_8008D528, (s16) (arg0 + 0x14), (s16) (arg1 - 0xA), 2, 0);
-    sprintf(sp18, D_800116E0, arg2->unk32, M2C_FIELD(D_8008D2AC, s32 *, 0x1E2C));
-    DecalFont_DrawLine(sp18, (s16) (arg0 + 0x21), (s16) (arg1 - 0xE), 1, 0);
+    DecalFont_DrawLine(acStack32, (param_1 + 0x21) * 0x10000 >> 0x10, (param_2 + -0xE) * 0x10000 >> 0x10, 1, 0);
 }

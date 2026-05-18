@@ -5,76 +5,86 @@ typedef unsigned short u16;
 typedef int s32;
 typedef unsigned int u32;
 
-typedef s32 M2C_UNK;
+void VehBirth_TeleportSelf(s32 arg0, s32 arg1, s32 arg2);
+void BOTS_SetRotation(s32 arg0, s32 arg1);
+s32 RngDeadCoed(void *arg0);
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+extern s32 D_8008D698;
+extern u8 D_8008D69C[];
+extern u8 D_8008D680[];
+extern s32 D_8008DAE0[];
+extern s32 D_8008CF80;
+extern s32 D_8008D668;
 
-void FUN_80057c8c(s32 arg0, s32 arg1, s32 arg2);
-void FUN_80013444(s32 arg0, s32 arg1);
-u16 FUN_8006c684(void *arg0);
+void FUN_8001702c(s32 param_1)
+{
+    u8 temp_byte;
+    s32 temp_posX;
+    s32 temp_posY;
+    s32 temp_posZ;
+    s32 temp_model;
+    s32 temp_index;
+    s32 temp_rng;
+    s32 temp_rot;
+    s32 temp_flags;
+    s32 temp_mult;
+    s32 var_s1;
 
-extern s32 DAT_8008d698;
-extern u8 DAT_8008d69c[];
-extern u8 DAT_8008d680[];
-extern s32 DAT_8008dae0[];
-extern s32 DAT_8008cf80;
-extern M2C_UNK DAT_8008d668;
+    D_8008D698 = 0;
+    VehBirth_TeleportSelf(param_1, 3, 0);
 
-void FUN_8001702c(s32 param_1) {
-    u8 bVar1;
-    s32 iVar2;
-    s16 sVar3;
-    u16 temp_v0;
-    s32 uVar4;
+    temp_byte = *((u8 *) (((s8 *) param_1) + 0x4A));
+    temp_posZ = *((s32 *) (((s8 *) param_1) + 0x2DC));
+    var_s1 = D_8008D69C[temp_byte];
+    temp_posX = *((s32 *) (((s8 *) param_1) + 0x2D4));
+    temp_posY = *((s32 *) (((s8 *) param_1) + 0x2D8));
 
-    DAT_8008d698 = 0;
-    FUN_80057c8c(param_1, 3, 0);
+    *((s32 *) (((s8 *) param_1) + 0x5F8)) = temp_posZ;
+    *((s32 *) (((s8 *) param_1) + 0x5EC)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5E8)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5E4)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5E0)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5DC)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5D8)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5D4)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5D0)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5CC)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5F4)) = temp_posY;
+    *((s32 *) (((s8 *) param_1) + 0x5F0)) = temp_posX;
 
-    bVar1 = DAT_8008d69c[M2C_FIELD(param_1, u8 *, 0x4A)];
+    temp_index = *((s16 *) (((s8 *) param_1) + 0x5B8));
+    temp_model = D_8008DAE0[temp_index];
+    *((s32 *) (((s8 *) param_1) + 0x5A8)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x5A4)) = temp_model;
 
-    M2C_FIELD(param_1, s32 *, 0x5F8) = M2C_FIELD(param_1, s32 *, 0x2DC);
-    M2C_FIELD(param_1, s32 *, 0x5EC) = 0;
-    M2C_FIELD(param_1, s32 *, 0x5E8) = 0;
-    M2C_FIELD(param_1, s32 *, 0x5E4) = 0;
-    M2C_FIELD(param_1, s32 *, 0x5E0) = 0;
-    M2C_FIELD(param_1, s32 *, 0x5DC) = 0;
-    M2C_FIELD(param_1, s32 *, 0x5D8) = 0;
-    M2C_FIELD(param_1, s32 *, 0x5D4) = 0;
-    M2C_FIELD(param_1, s32 *, 0x5D0) = 0;
-    M2C_FIELD(param_1, s32 *, 0x5CC) = 0;
+    BOTS_SetRotation(param_1, 1);
 
-    M2C_FIELD(param_1, s32 *, 0x5F4) = M2C_FIELD(param_1, s32 *, 0x2D8);
-    M2C_FIELD(param_1, s32 *, 0x5F0) = M2C_FIELD(param_1, s32 *, 0x2D4);
+    var_s1 = (s32) (&D_8008D680[var_s1]);
+    temp_byte = *((u8 *) var_s1);
+    temp_mult = D_8008CF80 * temp_byte;
 
-    uVar4 = DAT_8008dae0[M2C_FIELD(param_1, s16 *, 0x5B8)];
-    M2C_FIELD(param_1, s32 *, 0x5A8) = 0;
-    M2C_FIELD(param_1, s32 *, 0x5A4) = uVar4;
+    *((s16 *) (((s8 *) param_1) + 0x2F0)) = 0;
+    *((s16 *) (((s8 *) param_1) + 0x2F8)) = 0;
+    *((s16 *) (((s8 *) param_1) + 0x600)) = 0;
+    *((s16 *) (((s8 *) param_1) + 0x2EC)) = 0;
+    *((s16 *) (((s8 *) param_1) + 0x2F4)) = 0;
+    *((s16 *) (((s8 *) param_1) + 0x5FC)) = 0;
 
-    FUN_80013444(param_1, 1);
+    temp_flags = *((s32 *) (((s8 *) param_1) + 0x2C8));
+    temp_rot = *((u8 *) (((s8 *) param_1) + 0x613)) << 4;
 
-    iVar2 = DAT_8008cf80;
-    bVar1 = DAT_8008d680[bVar1];
+    *((s16 *) (((s8 *) param_1) + 0x3C6)) = 0;
+    *((s32 *) (((s8 *) param_1) + 0x2C8)) = temp_flags | 0x100000;
 
-    M2C_FIELD(param_1, s16 *, 0x2F0) = 0;
-    M2C_FIELD(param_1, s16 *, 0x2F8) = 0;
-    M2C_FIELD(param_1, s16 *, 0x600) = 0;
-    M2C_FIELD(param_1, s16 *, 0x2EC) = 0;
-    M2C_FIELD(param_1, s16 *, 0x2F4) = 0;
-    M2C_FIELD(param_1, s16 *, 0x5FC) = 0;
-    M2C_FIELD(param_1, s16 *, 0x3C6) = 0;
+    *((s16 *) (((s8 *) param_1) + 0x608)) = temp_rot;
+    *((s16 *) (((s8 *) param_1) + 0x39A)) = temp_rot;
+    *((s16 *) (((s8 *) param_1) + 0x2EE)) = temp_rot;
+    *((s16 *) (((s8 *) param_1) + 0x2F6)) = temp_rot;
+    *((s16 *) (((s8 *) param_1) + 0x5FE)) = temp_rot;
 
-    sVar3 = M2C_FIELD(param_1, u8 *, 0x613) << 4;
+    *((s32 *) (((s8 *) param_1) + 0x5B4)) = temp_mult;
 
-    M2C_FIELD(param_1, u32 *, 0x2C8) |= 0x100000;
-
-    M2C_FIELD(param_1, s16 *, 0x608) = sVar3;
-    M2C_FIELD(param_1, s16 *, 0x39A) = sVar3;
-    M2C_FIELD(param_1, s16 *, 0x2EE) = sVar3;
-    M2C_FIELD(param_1, s16 *, 0x2F6) = sVar3;
-    M2C_FIELD(param_1, s16 *, 0x5FE) = sVar3;
-
-    M2C_FIELD(param_1, u32 *, 0x5B4) = iVar2 * bVar1;
-
-    temp_v0 = FUN_8006c684(&DAT_8008d668);
-    M2C_FIELD(param_1, u16 *, 0x624) = (temp_v0 & 0xFF) + 300;
+    temp_rng = RngDeadCoed(&D_8008D668);
+    temp_rng = (temp_rng >> 8) & 0xFF;
+    *((u16 *) (((s8 *) param_1) + 0x624)) = temp_rng + 300;
 }
