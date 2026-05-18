@@ -730,8 +730,8 @@
 | ~~[UI_VsQuipReadDriver](split/src/80054A08_UI_VsQuipReadDriver.c)~~ | ~~100%~~ | ~~0/2700~~ |
 | [VehStuckProc_PlantEaten_PhysLinear](split/src/80067554_VehStuckProc_PlantEaten_PhysLinear.c) | 95% | 125/2700 |
 | [CTR_ClearRenderLists_1P2P](split/src/80021BBC_CTR_ClearRenderLists_1P2P.c) | 86% | 376/2700 |
+| [DecalFont_DrawLineOT](split/src/800228C4_DecalFont_DrawLineOT.c) | 82% | 490/2700 |
 | [howl_InstrumentPitch](split/src/8002991C_howl_InstrumentPitch.c) | 72% | 751/2700 |
-| [DecalFont_DrawLineOT](split/src/800228C4_DecalFont_DrawLineOT.c) | 70% | 805/2700 |
 | [main](split/src/800779E4___main.c) | 70% | 817/2700 |
 | [SpuReadDecodedData](split/src/80072CB8_SpuReadDecodedData.c) | 69% | 842/2700 |
 | [SpuStart](split/src/8007A67C_SpuStart.c) | 66% | 930/2700 |
