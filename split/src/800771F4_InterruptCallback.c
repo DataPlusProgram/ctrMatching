@@ -1,3 +1,12 @@
-#include "../../common.h"
+typedef signed char s8;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800771F4_InterruptCallback/800771F4_InterruptCallback.s")
+typedef s32 M2C_UNK;
+
+#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+
+extern void *D_8008C020;
+
+void InterruptCallback(void) {
+    M2C_FIELD(D_8008C020, M2C_UNK (**)(), 8)();
+}

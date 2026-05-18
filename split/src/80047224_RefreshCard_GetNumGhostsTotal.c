@@ -1,3 +1,7 @@
 #include "../../common.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80047224_RefreshCard_GetNumGhostsTotal/80047224_RefreshCard_GetNumGhostsTotal.s")
+extern s16 D_8009AA5C;
+
+void RefreshCard_GetNumGhostsTotal(void) {
+    D_8009AA5C = 0;
+}

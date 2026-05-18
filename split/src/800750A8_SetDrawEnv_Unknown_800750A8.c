@@ -1,3 +1,10 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800750A8_SetDrawEnv_Unknown_800750A8/800750A8_SetDrawEnv_Unknown_800750A8.s")
+s32 VSync();                                 /* extern */
+extern s32 D_8008AEBC;
+extern s32 D_8008AEC0;
+
+void SetDrawEnv_Unknown_800750A8(void) {
+    D_8008AEBC = VSync(-1) + 0xF0;
+    D_8008AEC0 = 0;
+}

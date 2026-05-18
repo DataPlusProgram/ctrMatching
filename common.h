@@ -199,6 +199,15 @@ struct GameTracker {
     gte_stmac3(&(z));         \
 }while (0)
 
-extern s32 XA_State;
+extern s32 XA_State; //D_8008D708
+
+struct SDATA
+{
+	short mcStart; // 8008d478
+	int unk8008d964;
+};
+
+extern struct SDATA *sData;
+
 
 #endif

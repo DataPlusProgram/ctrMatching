@@ -1,3 +1,9 @@
-#include "../../common.h"
+typedef int s32;
+typedef short s16;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800224D0_DecalFont_GetLineWidth/800224D0_DecalFont_GetLineWidth.s")
+s16 DecalFont_GetLineWidthStrlen();
+
+s16 DecalFont_GetLineWidth(s32 arg0, s16 arg1)
+{
+    return DecalFont_GetLineWidthStrlen(arg0, -1, arg1);
+}
