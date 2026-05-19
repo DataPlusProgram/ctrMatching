@@ -1,3 +1,9 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80079960_DecDCToutCallback/80079960_DecDCToutCallback.s")
+typedef s32 M2C_UNK;
+
+M2C_UNK DMACallback();                  /* extern */
+
+void DecDCToutCallback(s32 arg0) {
+    DMACallback(1, arg0);
+}

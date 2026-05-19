@@ -1,3 +1,44 @@
-#include "../../common.h"
+typedef signed char s8;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80021C2C_CTR_ClearRenderLists_3P4P/80021C2C_CTR_ClearRenderLists_3P4P.s")
+#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+
+extern s32 D_80081B30;
+
+void CTR_ClearRenderLists_3P4P(void *arg0, s32 arg1) {
+    s32 *varV1;
+    s32 tempV0;
+    s32 varA2;
+    void *varA0;
+
+    varA0 = arg0;
+    varA2 = 0;
+
+    if (arg1 > 0) {
+        varV1 = &D_80081B30;
+
+        do {
+            M2C_FIELD(varA0, s32 *, 0x180C) = 0;
+
+            tempV0 = *varV1;
+            M2C_FIELD(varA0, s32 *, 0x1808) = tempV0;
+
+            tempV0 = *varV1;
+            M2C_FIELD(varA0, s32 *, 0x1814) = 0;
+            M2C_FIELD(varA0, s32 *, 0x1810) = tempV0;
+
+            tempV0 = *varV1;
+            varA2 += 1;
+            M2C_FIELD(varA0, s32 *, 0x181C) = 0;
+            M2C_FIELD(varA0, s32 *, 0x1818) = tempV0;
+
+            tempV0 = *varV1;
+            varV1 += 1;
+            M2C_FIELD(varA0, s32 *, 0x1824) = 0;
+            M2C_FIELD(varA0, s32 *, 0x1828) = 0;
+            M2C_FIELD(varA0, s32 *, 0x1820) = tempV0;
+
+            varA0 = (s8 *)varA0 + 0x30;
+        } while (varA2 < arg1);
+    }
+}

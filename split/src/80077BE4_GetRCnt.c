@@ -1,3 +1,18 @@
-#include "../../common.h"
+typedef signed char s8;
+typedef unsigned short u16;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80077BE4_GetRCnt/80077BE4_GetRCnt.s")
+extern s32 D_8008C098;
+
+u16 GetRCnt(s32 arg0) {
+    s32 tempV1;
+
+    tempV1 = arg0 & 0xFFFF;
+
+    if (tempV1 >= 3) {
+        return 0U;
+    }
+
+    tempV1 <<= 4;
+    return *(u16 *)((s8 *)D_8008C098 + tempV1);
+}

@@ -199,6 +199,32 @@ struct GameTracker {
     gte_stmac3(&(z));         \
 }while (0)
 
+#define gte_ldR11R12_mem(v) __asm__ volatile ( \
+    "ctc2 %0, $0"                              \
+    :                                          \
+    : "r"(v)                                   \
+    : "memory" )
+
+#define gte_ldR13R21_mem(v) __asm__ volatile ( \
+    "ctc2 %0, $1"                              \
+    :                                          \
+    : "r"(v)                                   \
+    : "memory" )
+
+#define gte_lcv0_exact() __asm__ volatile ( \
+    "nop\n\t"                               \
+    "nop\n\t"                               \
+    ".word 0x4A406012"                      \
+    :                                       \
+    :                                       \
+    : "memory" )
+
+#define gte_mfc2_mac1(r0) __asm__ volatile ( \
+    "mfc2 %0, $25"                           \
+    : "=r"(r0)                               \
+    :                                        \
+    : "memory" )
+
 extern s32 XA_State; //D_8008D708
 
 struct SDATA
