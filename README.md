@@ -74,7 +74,7 @@
 | [PutDispEnv](split/src/800734C8_PutDispEnv.c) | 0% | 31800/31800 |
 | [UI_VsQuipAssignAll](split/src/80054BFC_UI_VsQuipAssignAll.c) | 0% | 31800/31800 |
 | [Music_AsyncParseBanks](split/src/8002DE48_Music_AsyncParseBanks.c) | 0% | 31600/31600 |
-| [UI_DrawSpeedNeedle](split/src/800511C0_UI_DrawSpeedNeedle.c) | 82% | 5661/31500 |
+| [UI_DrawSpeedNeedle](split/src/800511C0_UI_DrawSpeedNeedle.c) | 84% | 5180/31500 |
 | [FLARE_ThTick](split/src/80024C4C_FLARE_ThTick.c) | 39% | 19100/31500 |
 | [SpuSetReverbModeParam](split/src/80075CD0_SpuSetReverbModeParam.c) | 0% | 30900/30900 |
 | ~~[spu_setReverbAttr](split/src/8007F930__spu_setReverbAttr.c)~~ | ~~100%~~ | ~~0/30700~~ |
@@ -183,7 +183,7 @@
 | [MainInit_Drivers](split/src/8003B6D0_MainInit_Drivers.c) | 0% | 15300/15300 |
 | [SetDrawEnv_Unknown_80074BBC](split/src/80074BBC_SetDrawEnv_Unknown_80074BBC.c) | 0% | 15200/15200 |
 | [DotLights_Video](split/src/8002406C_DotLights_Video.c) | 77% | 3420/14700 |
-| [UI_DrawNumWumpa](split/src/80050C20_UI_DrawNumWumpa.c) | 39% | 8940/14700 |
+| [UI_DrawNumWumpa](split/src/80050C20_UI_DrawNumWumpa.c) | 39% | 8925/14700 |
 | [PushBuffer_SetMatrixVP](split/src/80042C04_PushBuffer_SetMatrixVP.c) | 5% | 13910/14700 |
 | ~~[VehPhysCrash_ConvertVecToSpeed](split/src/8005CD1C_VehPhysCrash_ConvertVecToSpeed.c)~~ | ~~100%~~ | ~~0/14600~~ |
 | [GAMEPROG_ResetHighScores](split/src/8002689C_GAMEPROG_ResetHighScores.c) | 0% | 14600/14600 |
@@ -267,7 +267,7 @@
 | [SpuClearReverbWorkArea](split/src/8007FE00_SpuClearReverbWorkArea.c) | 77% | 2288/10100 |
 | [RECTMENU_DrawRwdBlueRect](split/src/80045254_RECTMENU_DrawRwdBlueRect.c) | 26% | 7491/10100 |
 | [cseq_opcode0a](split/src/8002A4A8_cseq_opcode0a.c) | 0% | 10100/10100 |
-| [PushBuffer_FadeOneWindow](split/src/80043928_PushBuffer_FadeOneWindow.c) | 92% | 832/10000 |
+| ~~[PushBuffer_FadeOneWindow](split/src/80043928_PushBuffer_FadeOneWindow.c)~~ | ~~100%~~ | ~~0/10000~~ |
 | [GPU_Unknown_8007CA48](split/src/8007CA48_GPU_Unknown_8007CA48.c) | 85% | 1519/10000 |
 | [LOAD_ReadFile](split/src/800321B4_LOAD_ReadFile.c) | 0% | 10000/10000 |
 | [Voiceline_PoolInit](split/src/8002C918_Voiceline_PoolInit.c) | 0% | 10000/10000 |
@@ -299,7 +299,7 @@
 | [LOAD_Hub_Main](split/src/80033318_LOAD_Hub_Main.c) | 0% | 8700/8700 |
 | ~~[BOTS_LevInstColl](split/src/800135D8_BOTS_LevInstColl.c)~~ | ~~100%~~ | ~~0/8500~~ |
 | [VehGroundSkids_Subset1](split/src/8005C120_VehGroundSkids_Subset1.c) | 87% | 1146/8500 |
-| [PadInitMtap](split/src/80075660_PadInitMtap.c) | 80% | 1735/8500 |
+| [PadInitMtap](split/src/80075660_PadInitMtap.c) | 81% | 1590/8500 |
 | [BOTS_Unknown_800171C4](split/src/800171C4_BOTS_Unknown_800171C4.c) | 0% | 8500/8500 |
 | [VehStuckProc_Tumble_Init](split/src/800682A4_VehStuckProc_Tumble_Init.c) | 96% | 325/8400 |
 | [SetDrawEnv_Unknown_80074E1C](split/src/80074E1C_SetDrawEnv_Unknown_80074E1C.c) | 90% | 882/8400 |
@@ -384,9 +384,9 @@
 | [RaceConfig_LoadGameOptions](split/src/80043C10_RaceConfig_LoadGameOptions.c) | 0% | 6900/6900 |
 | [VehPhysProc_PowerSlide_Init](split/src/80063934_VehPhysProc_PowerSlide_Init.c) | 93% | 460/6800 |
 | [UI_RaceEnd_GetDriverClock](split/src/8005572C_UI_RaceEnd_GetDriverClock.c) | 92% | 530/6800 |
-| [RaceConfig_SaveGameOptions](split/src/80043D24_RaceConfig_SaveGameOptions.c) | 89% | 720/6800 |
+| [RaceConfig_SaveGameOptions](split/src/80043D24_RaceConfig_SaveGameOptions.c) | 90% | 710/6800 |
+| [DecalHUD_DrawPolyFT4](split/src/80022DB0_DecalHUD_DrawPolyFT4.c) | 89% | 750/6800 |
 | [VehPhysForce_ConvertSpeedToVec](split/src/8005E104_VehPhysForce_ConvertSpeedToVec.c) | 58% | 2850/6800 |
-| [DecalHUD_DrawPolyFT4](split/src/80022DB0_DecalHUD_DrawPolyFT4.c) | 37% | 4280/6800 |
 | [DrawSky_Full](split/src/80069BB0_DrawSky_Full.c) | 0% | 6800/6800 |
 | [MainFreeze_IfPressStart](split/src/80039E98_MainFreeze_IfPressStart.c) | 0% | 6800/6800 |
 | ~~[BOTS_ThTick_RevEngine](split/src/8001372C_BOTS_ThTick_RevEngine.c)~~ | ~~100%~~ | ~~0/6700~~ |
@@ -437,8 +437,8 @@
 | [VehTurbo_ProcessBucket](split/src/80069284_VehTurbo_ProcessBucket.c) | 68% | 1846/5800 |
 | [PushBuffer_Unknown_80042824](split/src/80042824_PushBuffer_Unknown_80042824.c) | 40% | 3482/5800 |
 | [CDSYS_XaCallbackCdReady](split/src/8001C7FC_CDSYS_XaCallbackCdReady.c) | 0% | 5800/5800 |
+| ~~[UI_Map_DrawTracking](split/src/8004DFFC_UI_Map_DrawTracking.c)~~ | ~~100%~~ | ~~0/5700~~ |
 | [VehPhysProc_SpinFirst_PhysAngular](split/src/80063DC8_VehPhysProc_SpinFirst_PhysAngular.c) | 87% | 715/5700 |
-| [UI_Map_DrawTracking](split/src/8004DFFC_UI_Map_DrawTracking.c) | 84% | 915/5700 |
 | [MainInit_RainBuffer](split/src/8003B008_MainInit_RainBuffer.c) | 75% | 1428/5700 |
 | [LOAD_DramFile](split/src/80031E00_LOAD_DramFile.c) | 33% | 3825/5700 |
 | [CdRead](split/src/80076F10_CdRead.c) | 21% | 4520/5700 |
@@ -453,7 +453,7 @@
 | [LOAD_Robots2P](split/src/80032700_LOAD_Robots2P.c) | 59% | 2258/5500 |
 | [DecalFont_GetLineWidthStrlen](split/src/800223F4_DecalFont_GetLineWidthStrlen.c) | 12% | 4835/5500 |
 | [DebugFont_DrawNumbers](split/src/80022318_DebugFont_DrawNumbers.c) | 0% | 5500/5500 |
-| [UI_Lerp2D_Linear](split/src/8004ECD4_UI_Lerp2D_Linear.c) | 99% | 60/5400 |
+| ~~[UI_Lerp2D_Linear](split/src/8004ECD4_UI_Lerp2D_Linear.c)~~ | ~~100%~~ | ~~0/5400~~ |
 | [VehFire_Audio](split/src/8005AB24_VehFire_Audio.c) | 94% | 305/5400 |
 | [CseqMusic_ChangeVolume](split/src/80028E5C_CseqMusic_ChangeVolume.c) | 88% | 650/5400 |
 | [Unknown_8007DFB4](split/src/8007DFB4__Unknown_8007DFB4.c) | 88% | 665/5400 |
@@ -602,7 +602,7 @@
 | ~~[CTR_Box_DrawWirePrims](split/src/80021500_CTR_Box_DrawWirePrims.c)~~ | ~~100%~~ | ~~0/3700~~ |
 | ~~[OtherFX_RecycleNew](split/src/8002E690_OtherFX_RecycleNew.c)~~ | ~~100%~~ | ~~0/3700~~ |
 | [VehStuckProc_Warp_AddDustPuff1](split/src/800685B0_VehStuckProc_Warp_AddDustPuff1.c) | 95% | 180/3700 |
-| [VehBirth_Player](split/src/80058EC0_VehBirth_Player.c) | 69% | 1165/3700 |
+| [VehBirth_Player](split/src/80058EC0_VehBirth_Player.c) | 94% | 235/3700 |
 | [BreakDraw](split/src/80077A54_BreakDraw.c) | 65% | 1290/3700 |
 | [VSync_Unknown_800754C8](split/src/800754C8_VSync_Unknown_800754C8.c) | 60% | 1481/3700 |
 | [CDSYS_XAGetTrackLength](split/src/8001CD20_CDSYS_XAGetTrackLength.c) | 0% | 3700/3700 |
@@ -675,10 +675,10 @@
 | ~~[GAMEPAD_ShockForce1](split/src/800264C0_GAMEPAD_ShockForce1.c)~~ | ~~100%~~ | ~~0/3100~~ |
 | ~~[GAMEPAD_ShockForce2](split/src/80026540_GAMEPAD_ShockForce2.c)~~ | ~~100%~~ | ~~0/3100~~ |
 | ~~[GAMEPAD_ShockFreq](split/src/80026440_GAMEPAD_ShockFreq.c)~~ | ~~100%~~ | ~~0/3100~~ |
-| ~~[PROC_DestroyObject](split/src/80041E20_PROC_DestroyObject.c)~~ | ~~100%~~ | ~~0/3100~~ |
 | [CseqMusic_Pause](split/src/80028D64_CseqMusic_Pause.c) | 100% | 10/3100 |
 | [CseqMusic_Resume](split/src/80028DE0_CseqMusic_Resume.c) | 100% | 10/3100 |
 | [PadSetActAlign](split/src/800758D0_PadSetActAlign.c) | 95% | 160/3100 |
+| [PROC_DestroyObject](split/src/80041E20_PROC_DestroyObject.c) | 95% | 167/3100 |
 | [Draw_Unknown_8006D428](split/src/8006D428_Draw_Unknown_8006D428.c) | 0% | 3100/3100 |
 | [InitGeom](split/src/80077854_InitGeom.c) | 0% | 3100/3100 |
 | [LOAD_OvrEndRace](split/src/800334F4_LOAD_OvrEndRace.c) | 0% | 3100/3100 |
@@ -688,20 +688,20 @@
 | [RaceFlag_BeginTransition](split/src/80043FB0_RaceFlag_BeginTransition.c) | 0% | 3100/3100 |
 | ~~[INSTANCE_Birth3D](split/src/8003086C_INSTANCE_Birth3D.c)~~ | ~~100%~~ | ~~0/3000~~ |
 | ~~[JitPool_Init](split/src/8003105C_JitPool_Init.c)~~ | ~~100%~~ | ~~0/3000~~ |
-| [StopCallback_Unknown_80077770](split/src/80077770_StopCallback_Unknown_80077770.c) | 90% | 311/3000 |
+| [PushBuffer_FadeAllWindows](split/src/80043AB8_PushBuffer_FadeAllWindows.c) | 99% | 40/3000 |
 | [DecDCTin](split/src/800798C4_DecDCTin.c) | 86% | 435/3000 |
 | [ElimBG_ToggleInstance](split/src/80024840_ElimBG_ToggleInstance.c) | 84% | 486/3000 |
-| [PushBuffer_FadeAllWindows](split/src/80043AB8_PushBuffer_FadeAllWindows.c) | 80% | 611/3000 |
 | [DecDCToutCallback_Unknown_80079CD0](split/src/80079CD0_DecDCToutCallback_Unknown_80079CD0.c) | 77% | 690/3000 |
+| [StopCallback_Unknown_80077770](split/src/80077770_StopCallback_Unknown_80077770.c) | 73% | 805/3000 |
 | [Audio_SetReverbMode](split/src/8002DCAC_Audio_SetReverbMode.c) | 68% | 952/3000 |
 | [CDSYS_SetMode_StreamAudio](split/src/8001C4F4_CDSYS_SetMode_StreamAudio.c) | 0% | 3000/3000 |
 | [MEMCARD_FindFirstGhost](split/src/8003E600_MEMCARD_FindFirstGhost.c) | 0% | 3000/3000 |
 | [Timer_GetTime_Total](split/src/8004B3A4_Timer_GetTime_Total.c) | 0% | 3000/3000 |
 | ~~[Level_SoundLoopFade](split/src/8002EA44_Level_SoundLoopFade.c)~~ | ~~100%~~ | ~~0/2900~~ |
-| [FLARE_Init](split/src/80025138_FLARE_Init.c) | 77% | 670/2900 |
+| [VehPhysJoystick_ReturnToRest](split/src/8006163C_VehPhysJoystick_ReturnToRest.c) | 88% | 340/2900 |
+| [FLARE_Init](split/src/80025138_FLARE_Init.c) | 75% | 730/2900 |
 | [MainInit_StringToLevID](split/src/8003C1D4_MainInit_StringToLevID.c) | 73% | 775/2900 |
 | [ElimBG_SaveScreenshot_Chunk](split/src/80024524_ElimBG_SaveScreenshot_Chunk.c) | 73% | 786/2900 |
-| [VehPhysJoystick_ReturnToRest](split/src/8006163C_VehPhysJoystick_ReturnToRest.c) | 24% | 2200/2900 |
 | [Bank_DestroyUntilIndex](split/src/80029870_Bank_DestroyUntilIndex.c) | 0% | 2900/2900 |
 | [Channel_SetVolume](split/src/8002B540_Channel_SetVolume.c) | 0% | 2900/2900 |
 | [GPU_Unknown_8007C9D0](split/src/8007C9D0_GPU_Unknown_8007C9D0.c) | 0% | 2900/2900 |
@@ -820,8 +820,8 @@
 | [MainDB_OTMem](split/src/80034A28_MainDB_OTMem.c) | 95% | 120/2200 |
 | [Unknown_8007B084](split/src/8007B084__Unknown_8007B084.c) | 76% | 536/2200 |
 | [StGetBackloc](split/src/8007A3B0_StGetBackloc.c) | 74% | 580/2200 |
+| [MEMCARD_SetIcon](split/src/8003D4E4_MEMCARD_SetIcon.c) | 63% | 820/2200 |
 | [SpuSetTransferStartAddr](split/src/800762B0_SpuSetTransferStartAddr.c) | 54% | 1020/2200 |
-| [MEMCARD_SetIcon](split/src/8003D4E4_MEMCARD_SetIcon.c) | 3% | 2141/2200 |
 | [CDSYS_XaCallbackCdSync](split/src/8001C7A4_CDSYS_XaCallbackCdSync.c) | 0% | 2200/2200 |
 | [Draw_Unknown_8006D55C](split/src/8006D55C_Draw_Unknown_8006D55C.c) | 0% | 2200/2200 |
 | [LOAD_AppendQueue](split/src/80032D30_LOAD_AppendQueue.c) | 0% | 2200/2200 |
@@ -843,6 +843,7 @@
 | [Music_RaiseVolume](split/src/8002E46C_Music_RaiseVolume.c) | 0% | 2100/2100 |
 | [ThTick_FastRET](split/src/80071694_ThTick_FastRET.c) | 0% | 2100/2100 |
 | ~~[MATH_FastSqrt](split/src/8003D214_MATH_FastSqrt.c)~~ | ~~100%~~ | ~~0/2000~~ |
+| ~~[MATH_VectorLength](split/src/8003D328_MATH_VectorLength.c)~~ | ~~100%~~ | ~~0/2000~~ |
 | ~~[VehStuckProc_MaskGrab_PhysLinear](split/src/80066E3C_VehStuckProc_MaskGrab_PhysLinear.c)~~ | ~~100%~~ | ~~0/2000~~ |
 | [VehPhysProc_SpinFirst_Update](split/src/80063CF4_VehPhysProc_SpinFirst_Update.c) | 78% | 432/2000 |
 | [SongPool_CalculateTempo](split/src/8002A678_SongPool_CalculateTempo.c) | 65% | 706/2000 |
@@ -864,7 +865,6 @@
 | [SpuSetVoiceStartAddr_Unknown_80076934](split/src/80076934_SpuSetVoiceStartAddr_Unknown_80076934.c) | 0% | 1900/1900 |
 | [UpdateChannelVol_EngineFX](split/src/8002ACB8_UpdateChannelVol_EngineFX.c) | 0% | 1900/1900 |
 | [howl_VolumeGet](split/src/8002B0E0_howl_VolumeGet.c) | 0% | 1900/1900 |
-| [MATH_VectorLength](split/src/8003D328_MATH_VectorLength.c) | 0% | 3900/1900 |
 | ~~[LOAD_RunPtrMap](split/src/800326B4_LOAD_RunPtrMap.c)~~ | ~~100%~~ | ~~0/1800~~ |
 | ~~[MEMCARD_StringInit](split/src/8003D6E8_MEMCARD_StringInit.c)~~ | ~~100%~~ | ~~0/1800~~ |
 | ~~[SetDrawEnv_Unknown_80074870](split/src/80074870_SetDrawEnv_Unknown_80074870.c)~~ | ~~100%~~ | ~~0/1800~~ |
@@ -884,13 +884,13 @@
 | ~~[RefreshCard_Entry](split/src/80047D64_RefreshCard_Entry.c)~~ | ~~100%~~ | ~~0/1700~~ |
 | ~~[VehCalc_InterpBySpeed](split/src/80058F54_VehCalc_InterpBySpeed.c)~~ | ~~100%~~ | ~~0/1700~~ |
 | [howl_GetNextNote](split/src/80029DCC_howl_GetNextNote.c) | 74% | 441/1700 |
+| [strncmp](split/src/800769A0_strncmp.c) | 72% | 470/1700 |
 | [RngDeadCoed](split/src/8006C684_RngDeadCoed.c) | 47% | 905/1700 |
 | [SelectProfile_MuteCursors](split/src/80048DA0_SelectProfile_MuteCursors.c) | 24% | 1300/1700 |
 | [RefreshCard_NextMemcardAction](split/src/80046B1C_RefreshCard_NextMemcardAction.c) | 17% | 1410/1700 |
 | [Cutscene_VolumeBackup](split/src/8002C18C_Cutscene_VolumeBackup.c) | 0% | 1700/1700 |
 | [MainRaceTrack_StartLoad](split/src/8003CF7C_MainRaceTrack_StartLoad.c) | 0% | 1700/1700 |
 | [Voiceline_SetDefaults](split/src/8002D2B0_Voiceline_SetDefaults.c) | 0% | 1700/1700 |
-| [strncmp](split/src/800769A0_strncmp.c) | 0% | 1700/1700 |
 | ~~[DecalGlobal_Clear](split/src/80022B9C_DecalGlobal_Clear.c)~~ | ~~100%~~ | ~~0/1600~~ |
 | ~~[GAMEPAD_JogCon2](split/src/800263FC_GAMEPAD_JogCon2.c)~~ | ~~100%~~ | ~~0/1600~~ |
 | ~~[JitPool_Remove](split/src/8003112C_JitPool_Remove.c)~~ | ~~100%~~ | ~~0/1600~~ |
@@ -902,9 +902,9 @@
 | ~~[PadSetAct](split/src/80075BA0_PadSetAct.c)~~ | ~~100%~~ | ~~0/1600~~ |
 | ~~[PadStopCom](split/src/8007588C_PadStopCom.c)~~ | ~~100%~~ | ~~0/1600~~ |
 | ~~[SetDrawEnv_Unknown_80074830](split/src/80074830_SetDrawEnv_Unknown_80074830.c)~~ | ~~100%~~ | ~~0/1600~~ |
+| ~~[SpuSetCommonCDMix](split/src/800765D0_SpuSetCommonCDMix.c)~~ | ~~100%~~ | ~~0/1600~~ |
 | ~~[SpuSetCommonCDReverb](split/src/80076800_SpuSetCommonCDReverb.c)~~ | ~~100%~~ | ~~0/1600~~ |
 | ~~[VehPhysProc_SpinLast_Update](split/src/8006402C_VehPhysProc_SpinLast_Update.c)~~ | ~~100%~~ | ~~0/1600~~ |
-| [SpuSetCommonCDMix](split/src/800765D0_SpuSetCommonCDMix.c) | 84% | 260/1600 |
 | [Unknown_8007E9E4](split/src/8007E9E4__Unknown_8007E9E4.c) | 71% | 460/1600 |
 | [Audio_SetState_Safe](split/src/8002D4CC_Audio_SetState_Safe.c) | 0% | 1600/1600 |
 | [ElimBG_Deactivate](split/src/80024C08_ElimBG_Deactivate.c) | 0% | 1600/1600 |
@@ -920,10 +920,10 @@
 | ~~[OtherFX_Stop1](split/src/80028808_OtherFX_Stop1.c)~~ | ~~100%~~ | ~~0/1500~~ |
 | ~~[OtherFX_Stop2](split/src/80028844_OtherFX_Stop2.c)~~ | ~~100%~~ | ~~0/1500~~ |
 | ~~[PROC_DestroyTracker](split/src/80041DC0_PROC_DestroyTracker.c)~~ | ~~100%~~ | ~~0/1500~~ |
+| ~~[SpuSetIRQAddr](split/src/80072C58_SpuSetIRQAddr.c)~~ | ~~100%~~ | ~~0/1500~~ |
 | [SpuSetIRQCallback](split/src/80072278_SpuSetIRQCallback.c) | 85% | 220/1500 |
 | [SetDefDispEnv](split/src/80077DF8_SetDefDispEnv.c) | 72% | 415/1500 |
 | [SongPool_FindFreeChannel](split/src/8002A63C_SongPool_FindFreeChannel.c) | 65% | 530/1500 |
-| [SpuSetIRQAddr](split/src/80072C58_SpuSetIRQAddr.c) | 61% | 580/1500 |
 | [RECTMENU_DrawOuterRect_HighLevel](split/src/80045650_RECTMENU_DrawOuterRect_HighLevel.c) | 52% | 720/1500 |
 | [Draw_Unknown_8006D38C](split/src/8006D38C_Draw_Unknown_8006D38C.c) | 0% | 1500/1500 |
 | [GAMEPROG_NewProfile_InsideAdv](split/src/80026CB8_GAMEPROG_NewProfile_InsideAdv.c) | 0% | 1500/1500 |
@@ -1015,17 +1015,17 @@
 | ~~[StCdInterrupt_Unknown_80079650](split/src/80079650_StCdInterrupt_Unknown_80079650.c)~~ | ~~100%~~ | ~~0/1000~~ |
 | ~~[Unknown_8007B0DC](split/src/8007B0DC__Unknown_8007B0DC.c)~~ | ~~100%~~ | ~~0/1000~~ |
 | ~~[Unknown_8007B104](split/src/8007B104__Unknown_8007B104.c)~~ | ~~100%~~ | ~~0/1000~~ |
+| [SpuSetVoicePitch](split/src/80076560_SpuSetVoicePitch.c) | 70% | 305/1000 |
 | [StSetRing](split/src/8007A234_StSetRing.c) | 68% | 320/1000 |
 | [SpuSetReverbModeDepth](split/src/800761B0_SpuSetReverbModeDepth.c) | 58% | 420/1000 |
 | [RotTrans](split/src/8007170C_RotTrans.c) | 19% | 810/1000 |
-| [SpuSetVoicePitch](split/src/80076560_SpuSetVoicePitch.c) | 17% | 830/1000 |
-| [VehFrameInst_GetStartFrame](split/src/8005B0C4_VehFrameInst_GetStartFrame.c) | 8% | 916/1000 |
 | [CDSYS_XAPauseAtEnd](split/src/8001D06C_CDSYS_XAPauseAtEnd.c) | 0% | 1000/1000 |
 | [CountSounds](split/src/8002843C_CountSounds.c) | 0% | 1000/1000 |
 | [LOAD_Callback_LEV](split/src/80031A78_LOAD_Callback_LEV.c) | 0% | 1000/1000 |
 | [RngDeadCoed_Unknown_8006C6C8](split/src/8006C6C8_RngDeadCoed_Unknown_8006C6C8.c) | 0% | 1000/1000 |
 | [TakeCupProgress_Activate](split/src/8004B230_TakeCupProgress_Activate.c) | 0% | 1000/1000 |
 | [VehTalkMask_End](split/src/8006925C_VehTalkMask_End.c) | 0% | 1000/1000 |
+| [VehFrameInst_GetStartFrame](split/src/8005B0C4_VehFrameInst_GetStartFrame.c) | 0% | 1276/1000 |
 | ~~[CdInit_Unknown_800720B4](split/src/800720B4_CdInit_Unknown_800720B4.c)~~ | ~~100%~~ | ~~0/900~~ |
 | ~~[CdInit_Unknown_800720DC](split/src/800720DC_CdInit_Unknown_800720DC.c)~~ | ~~100%~~ | ~~0/900~~ |
 | ~~[CdInit_Unknown_80072104](split/src/80072104_CdInit_Unknown_80072104.c)~~ | ~~100%~~ | ~~0/900~~ |
@@ -1038,7 +1038,7 @@
 | [howl_Disable](split/src/8002AC94_howl_Disable.c) | 76% | 220/900 |
 | [PadSetActAlign_Unknown_8007594C](split/src/8007594C_PadSetActAlign_Unknown_8007594C.c) | 68% | 285/900 |
 | [SelectProfile_GetTrackID](split/src/800485A8_SelectProfile_GetTrackID.c) | 65% | 315/900 |
-| [SpuSetVoiceStartAddr](split/src/80076910_SpuSetVoiceStartAddr.c) | 10% | 810/900 |
+| [SpuSetVoiceStartAddr](split/src/80076910_SpuSetVoiceStartAddr.c) | 22% | 700/900 |
 | [COLL_FIXED_TRIANGL_TestPoint](split/src/8001EF50_COLL_FIXED_TRIANGL_TestPoint.c) | 0% | 900/900 |
 | [GetVideoMode](split/src/80077CEC_GetVideoMode.c) | 0% | 900/900 |
 | [RefreshCard_SetScreenText](split/src/800471C4_RefreshCard_SetScreenText.c) | 0% | 900/900 |
@@ -1067,7 +1067,7 @@
 | ~~[VehPhysProc_Driving_Audio](split/src/80062A2C_VehPhysProc_Driving_Audio.c)~~ | ~~100%~~ | ~~0/800~~ |
 | ~~[padCmdParaMode](split/src/8007DE04__padCmdParaMode.c)~~ | ~~100%~~ | ~~0/800~~ |
 | ~~[startIntrDMA_Unknown_800804F8](split/src/800804F8_startIntrDMA_Unknown_800804F8.c)~~ | ~~100%~~ | ~~0/800~~ |
-| [SetDrawEnv_Unknown_80073E28](split/src/80073E28_SetDrawEnv_Unknown_80073E28.c) | 99% | 10/800 |
+| [SetDrawEnv_Unknown_80073E28](split/src/80073E28_SetDrawEnv_Unknown_80073E28.c) | 95% | 40/800 |
 | [MEMPACK_SwapPacks](split/src/8003E80C_MEMPACK_SwapPacks.c) | 86% | 110/800 |
 | [Unknown_8007DEAC](split/src/8007DEAC__Unknown_8007DEAC.c) | 79% | 165/800 |
 | [CdDataCallback](split/src/80071E20_CdDataCallback.c) | 73% | 220/800 |
@@ -1082,12 +1082,12 @@
 | ~~[CdReset](split/src/800719A8_CdReset.c)~~ | ~~100%~~ | ~~0/700~~ |
 | ~~[DecDCTout](split/src/80079940_DecDCTout.c)~~ | ~~100%~~ | ~~0/700~~ |
 | ~~[LibraryOfModels_Clear](split/src/800314C0_LibraryOfModels_Clear.c)~~ | ~~100%~~ | ~~0/700~~ |
+| ~~[SpuInit](split/src/80076870_SpuInit.c)~~ | ~~100%~~ | ~~0/700~~ |
 | ~~[SpuSetCommonMasterVolume](split/src/800767E0_SpuSetCommonMasterVolume.c)~~ | ~~100%~~ | ~~0/700~~ |
 | [StSetMask](split/src/8007A214_StSetMask.c) | 91% | 60/700 |
 | [CdDataSync](split/src/80071E44_CdDataSync.c) | 77% | 160/700 |
 | [CdRead2_Unknown_80079DD8](split/src/80079DD8_CdRead2_Unknown_80079DD8.c) | 77% | 160/700 |
 | [CdReady](split/src/800719DC_CdReady.c) | 77% | 160/700 |
-| [SpuInit](split/src/80076870_SpuInit.c) | 77% | 160/700 |
 | [RefreshCard_Unknown1](split/src/80046A74_RefreshCard_Unknown1.c) | 71% | 205/700 |
 | [SetDrawEnv_Unknown_80073F78](split/src/80073F78_SetDrawEnv_Unknown_80073F78.c) | 68% | 225/700 |
 | [SetTransMatrix](split/src/800718DC_SetTransMatrix.c) | 14% | 600/700 |
@@ -1222,5 +1222,5 @@
 | [CTR_Unknown_80021DA0](split/src/80021DA0_CTR_Unknown_80021DA0.c) | 0% | 900/100 |
 | [CTR_Unknown_80021E1C](split/src/80021E1C_CTR_Unknown_80021E1C.c) | 0% | 900/100 |
 
-Total Score: 8152905/11256000
-Files Matched: 272/1221
+Total Score: 8136581/11256100
+Files Matched: 278/1221
