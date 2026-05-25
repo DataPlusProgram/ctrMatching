@@ -1,3 +1,7 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8003EA28_MixRNG_Scramble/8003EA28_MixRNG_Scramble.s")
+s32 battleSetup_Color_UI_1;
+
+void MixRNG_Scramble(void) {
+    battleSetup_Color_UI_1 = ((battleSetup_Color_UI_1 * 0x6255) + 0x3619) & 0xFFFF;
+}

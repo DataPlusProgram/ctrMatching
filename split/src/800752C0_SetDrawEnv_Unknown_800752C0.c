@@ -1,3 +1,12 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800752C0_SetDrawEnv_Unknown_800752C0/800752C0_SetDrawEnv_Unknown_800752C0.s")
+typedef s32 M2C_UNK;
+
+M2C_UNK DMACallback(); /* extern */
+extern M2C_UNK SetDrawEnv_Unknown_80074BBC;
+
+void SetDrawEnv_Unknown_800752C0(void) {
+    void *callback = &SetDrawEnv_Unknown_80074BBC;
+
+    DMACallback(2, callback);
+}

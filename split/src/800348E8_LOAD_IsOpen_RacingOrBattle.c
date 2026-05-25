@@ -4,8 +4,8 @@ typedef int s32;
 
 #define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
 
-extern void *D_8008D2AC;
+extern void *gGamepads;
 
 s32 LOAD_IsOpen_RacingOrBattle(void) {
-    return M2C_FIELD(D_8008D2AC, u8 *, 0x2541) == 1;
+    return M2C_FIELD(gGamepads, u8 *, 0x2541) == 1;
 }

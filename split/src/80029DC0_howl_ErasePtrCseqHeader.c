@@ -1,3 +1,7 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80029DC0_howl_ErasePtrCseqHeader/80029DC0_howl_ErasePtrCseqHeader.s")
+s32 ptrCseqShortSamples;
+
+void howl_ErasePtrCseqHeader(void) {
+    ptrCseqShortSamples = 0;
+}

@@ -1,3 +1,11 @@
-#include "../../common.h"
+typedef signed char s8;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8003EA08_MEMPACK_PopToState/8003EA08_MEMPACK_PopToState.s")
+#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+
+void *battleSetupWeaponHighlighted;
+
+void MEMPACK_PopToState(s32 arg0) {
+    M2C_FIELD(battleSetupWeaponHighlighted, s32 *, 0x1C) = arg0;
+    M2C_FIELD(battleSetupWeaponHighlighted, s32 *, 0x14) = M2C_FIELD((s8 *)battleSetupWeaponHighlighted + (arg0 * 4), s32 *, 0x20);
+}

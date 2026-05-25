@@ -1,3 +1,12 @@
-#include "../../common.h"
+typedef short s16;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80043F8C_RaceFlag_SetDrawOrder/80043F8C_RaceFlag_SetDrawOrder.s")
+s16 DrawSolidBoxData;
+
+void RaceFlag_SetDrawOrder(s32 arg0) {
+    if (arg0 != 0) {
+        DrawSolidBoxData = 1;
+        return;
+    }
+    DrawSolidBoxData = -1;
+}

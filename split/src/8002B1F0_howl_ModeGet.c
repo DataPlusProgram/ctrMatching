@@ -1,3 +1,7 @@
-#include "../../common.h"
+typedef unsigned char u8;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8002B1F0_howl_ModeGet/8002B1F0_howl_ModeGet.s")
+u8 howl_songOffsets;
+
+u8 howl_ModeGet(void) {
+    return howl_songOffsets;
+}

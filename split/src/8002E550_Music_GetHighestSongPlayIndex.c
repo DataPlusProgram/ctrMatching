@@ -1,3 +1,7 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8002E550_Music_GetHighestSongPlayIndex/8002E550_Music_GetHighestSongPlayIndex.s")
+s32 D_8008D824;
+
+s32 Music_GetHighestSongPlayIndex(void) {
+    return D_8008D824;
+}

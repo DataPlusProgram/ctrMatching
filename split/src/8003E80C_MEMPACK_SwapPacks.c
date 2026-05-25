@@ -4,7 +4,7 @@ typedef int s32;
 typedef s32 M2C_UNK;
 
 extern M2C_UNK D_800990E4;
-extern void *D_8008D434; /* gp + 0x4B4 */
+void *D_8008D434; /* gp + 0x4B4 */
 
 void MEMPACK_SwapPacks(s32 arg0) {
 	s32 offset;

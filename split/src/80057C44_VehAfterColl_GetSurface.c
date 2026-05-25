@@ -7,7 +7,7 @@ extern s8 D_80087F94[];
 void *VehAfterColl_GetSurface(u32 arg0) {
     s32 var_v1;
 
-    if (arg0 < 7U) {
+    if (arg0 < 7) {
         goto valid;
     }
 

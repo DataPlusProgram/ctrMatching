@@ -1,7 +1,7 @@
 typedef unsigned char u8;
 typedef int s32;
 
-extern u8 DAT_8008d05c;
+u8 DAT_8008d05c;
 
 s32 FUN_8002ac94(void) {
     s32 ret;

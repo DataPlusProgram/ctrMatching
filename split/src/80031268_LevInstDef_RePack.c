@@ -9,7 +9,7 @@ typedef s32 M2C_UNK;
 
 M2C_UNK LIST_AddFront();              /* extern */
 M2C_UNK PROC_CheckAllForDead();       /* extern */
-extern void *D_8008D2AC;
+extern void *gGamepads;
 
 void LevInstDef_RePack(void *arg0, s32 arg1) {
     register u32 tempV1;
@@ -48,7 +48,7 @@ void LevInstDef_RePack(void *arg0, s32 arg1) {
         varS2 = arg1;
     }
 
-    varS0_2 = (u32) M2C_FIELD(M2C_FIELD(D_8008D2AC, void **, 0x160), void **, 0x24);
+    varS0_2 = (u32) M2C_FIELD(M2C_FIELD(gGamepads, void **, 0x160), void **, 0x24);
     if ((varS0_2 != 0) && (M2C_FIELD(varS0_2, void **, 0) != NULL)) {
         do {
             tempV0_3 = M2C_FIELD(varS0_2, void **, 0);
@@ -59,7 +59,7 @@ void LevInstDef_RePack(void *arg0, s32 arg1) {
                 if (tempV1_2 != NULL) {
                     M2C_FIELD(tempV1_2, s32 *, 0x1C) = M2C_FIELD(tempV1_2, s32 *, 0x1C) | 0x800;
                 }
-                LIST_AddFront(D_8008D2AC + 0x18F8, M2C_FIELD(varS0_2, void **, 0));
+                LIST_AddFront(gGamepads + 0x18F8, M2C_FIELD(varS0_2, void **, 0));
             }
 
             M2C_FIELD(varS0_2, void **, 0) = tempS1;

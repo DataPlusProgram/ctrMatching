@@ -1,3 +1,9 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8002E53C_Music_End/8002E53C_Music_End.s")
+extern s32 D_8008D820 = 0;
+extern s32 D_8008D824 = 0;
+
+void Music_End(void) {
+    D_8008D820 = 0;
+    D_8008D824 = -1;
+}

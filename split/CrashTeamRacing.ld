@@ -1,14 +1,13 @@
 SECTIONS
 {
     __romPos = 0;
+    _gp = 0x8008CF80;
     main_ROM_START = __romPos;
     main_VRAM = ADDR(.main);
     .main 0x80010000 : AT(main_ROM_START) SUBALIGN(16)
     {
         FILL(0x00000000);
         main_TEXT_START = .;
-        build/src/80011D60_func_80011D60.c.o(.text);
-        build/asm/80011D70_BOTS_EmptyFuncData.s.o(.text);
         build/src/800123E0_BOTS_SetGlobalNavData.c.o(.text);
         build/src/80012440_BOTS_InitNavPath.c.o(.text);
         build/src/80012560_BOTS_EmptyFunc.c.o(.text);
@@ -1233,8 +1232,6 @@ SECTIONS
         main_TEXT_END = .;
         main_TEXT_SIZE = ABSOLUTE(main_TEXT_END - main_TEXT_START);
         main_DATA_START = .;
-        build/src/80011D60_func_80011D60.c.o(.data);
-        build/asm/80011D70_BOTS_EmptyFuncData.s.o(.data);
         build/src/800123E0_BOTS_SetGlobalNavData.c.o(.data);
         build/src/80012440_BOTS_InitNavPath.c.o(.data);
         build/src/80012560_BOTS_EmptyFunc.c.o(.data);
@@ -2461,8 +2458,6 @@ SECTIONS
         main_DATA_SIZE = ABSOLUTE(main_DATA_END - main_DATA_START);
         main_RODATA_START = .;
         build/src/SCUS-94426.c.o(.rodata);
-        build/src/80011D60_func_80011D60.c.o(.rodata);
-        build/asm/80011D70_BOTS_EmptyFuncData.s.o(.rodata);
         build/src/800123E0_BOTS_SetGlobalNavData.c.o(.rodata);
         build/src/80012440_BOTS_InitNavPath.c.o(.rodata);
         build/src/80012560_BOTS_EmptyFunc.c.o(.rodata);
@@ -3687,8 +3682,6 @@ SECTIONS
         main_RODATA_END = .;
         main_RODATA_SIZE = ABSOLUTE(main_RODATA_END - main_RODATA_START);
         main_BSS_START = .;
-        build/src/80011D60_func_80011D60.c.o(.bss);
-        build/asm/80011D70_BOTS_EmptyFuncData.s.o(.bss);
         build/src/800123E0_BOTS_SetGlobalNavData.c.o(.bss);
         build/src/80012440_BOTS_InitNavPath.c.o(.bss);
         build/src/80012560_BOTS_EmptyFunc.c.o(.bss);

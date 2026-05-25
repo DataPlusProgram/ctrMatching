@@ -4,6 +4,7 @@ options:
   target_path: ../221_EndRaceMenu_CrystalChallenge.bin
   base_path: split
   disassemble_all: true
+  gp_value: 0x8008CF80
   symbol_addrs_path:
     - ../syms/funcs_ovr_221.txt
 

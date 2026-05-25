@@ -1,3 +1,9 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80071E20_CdDataCallback/80071E20_CdDataCallback.s")
+typedef s32 M2C_UNK;
+
+M2C_UNK DMACallback();                  /* extern */
+
+void CdDataCallback(s32 arg0) {
+    DMACallback(3, arg0);
+}

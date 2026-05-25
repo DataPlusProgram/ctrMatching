@@ -9,7 +9,7 @@ s32 CAM_Path_GetNumPoints(void) {
 	void *camera;
 	void *path;
 	s16 *points;
-	s32 total;
+	s16 total;
 	s32 count;
 	s32 signedCount;
 	s32 step;
@@ -45,5 +45,5 @@ firstLoad:
 		}
 	}
 
-	return (s16)total;
+	return total;
 }

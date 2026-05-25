@@ -1,3 +1,7 @@
-#include "../../common.h"
+typedef short s16;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80044094_RaceFlag_GetCanDraw/80044094_RaceFlag_GetCanDraw.s")
+s16 RaceFlag_CopyLoadStage;
+
+s16 RaceFlag_GetCanDraw(void) {
+    return RaceFlag_CopyLoadStage;
+}

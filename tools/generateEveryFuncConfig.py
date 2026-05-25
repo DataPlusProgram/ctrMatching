@@ -54,8 +54,10 @@ def buildConfigText() -> str:
         "  target_path: ../SCUS_944.26",
         "  base_path: split",
         "  disassemble_all: true",
-        '  generated_c_preamble: "#include \\"../../common.h\\""',
+        "  gp_value: 0x8008CF80",
+        '  generated_c_preamble: "#include \\\"../../common.h\\\""',
         "  symbol_addrs_path:",
+        "    - ../syms/manual_SCUS_94426.txt",
         "    - ../syms/funcs_SCUS_94426_generated.txt",
         "",
         "segments:",
@@ -65,8 +67,6 @@ def buildConfigText() -> str:
         "    vram: 0x80010000",
         "    subsegments:",
         "      - [0x800, .rodata, SCUS-94426]",
-        "      - [0x2560, c, 80011D60_func_80011D60]",
-        "      - [0x2570, asm, 80011D70_BOTS_EmptyFuncData]",
     ]
 
     for romStart, _, fileName in functionEntries:

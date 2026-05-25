@@ -1,3 +1,12 @@
-#include "../../common.h"
+typedef signed char s8;
+typedef unsigned char u8;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80034A80_MainDrawCb_DrawSync/80034A80_MainDrawCb_DrawSync.s")
+#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+
+void *s_OTMem;
+
+void MainDrawCb_DrawSync(void) {
+    if (M2C_FIELD(s_OTMem, u8 *, 0x1D30) == 1) {
+        M2C_FIELD(s_OTMem, u8 *, 0x1D30) = 0;
+    }
+}

@@ -1,10 +1,4 @@
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
-
-typedef s32 M2C_UNK;
-
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+#include "../../common.h"
 
 extern M2C_UNK COLL_FIXED_PlayerSearch;
 extern M2C_UNK COLL_MOVED_PlayerSearch;
@@ -19,51 +13,51 @@ extern M2C_UNK VehPhysProc_SlamWall_PhysAngular;
 extern M2C_UNK VehPhysProc_SlamWall_PhysLinear;
 extern M2C_UNK VehPhysProc_SlamWall_Update;
 
-void VehPhysProc_SlamWall_Init(void *arg0, void *arg1) {
-    void *temp_v1;
+void VehPhysProc_SlamWall_Init(Thread *thread, Driver *driver) {
+    Instance *inst;
 
-    temp_v1 = M2C_FIELD(arg0, void **, 0x34);
-    M2C_FIELD(arg1, s8 *, 0x376) = 1;
-    M2C_FIELD(arg1, s16 *, 0x3E6) = 0x2710;
-    M2C_FIELD(arg1, s16 *, 0x3DC) = 0;
-    M2C_FIELD(arg1, s16 *, 0x3B4) = 0;
-    M2C_FIELD(arg1, s16 *, 0x3D2) = 0;
-    M2C_FIELD(arg1, s16 *, 0x3D4) = 0;
-    M2C_FIELD(arg1, s16 *, 0x3D6) = 0;
-    M2C_FIELD(arg1, s16 *, 0x3D8) = 0;
-    M2C_FIELD(arg1, s16 *, 0xC0) = 0;
-    M2C_FIELD(arg1, s16 *, 0x38C) = 0;
-    M2C_FIELD(arg1, s16 *, 0x38E) = 0;
-    M2C_FIELD(arg1, s32 *, 0x3A0) = 0;
-    M2C_FIELD(arg1, s32 *, 0x3A4) = 0;
-    M2C_FIELD(arg1, s32 *, 0x3A8) = 0;
-    M2C_FIELD(arg1, s32 *, 0x88) = 0;
-    M2C_FIELD(arg1, s32 *, 0x8C) = 0;
-    M2C_FIELD(arg1, s32 *, 0x90) = 0;
-    M2C_FIELD(arg1, s16 *, 0x36E) = 0;
-    M2C_FIELD(arg1, s16 *, 0x3E2) = 0;
-    M2C_FIELD(arg1, s16 *, 0x3DE) = 0;
-    M2C_FIELD(arg1, s16 *, 0x3E0) = 0;
-    M2C_FIELD(arg1, s8 *, 0x377) = 0;
-    M2C_FIELD(arg1, s16 *, 0x3EE) = 0;
-    M2C_FIELD(arg1, s16 *, 0x40E) = 0;
-    M2C_FIELD(arg1, s16 *, 0x410) = 0;
-    M2C_FIELD(arg1, s16 *, 0x40C) = 0;
-    M2C_FIELD(arg1, s16 *, 0x39C) = 0;
-    M2C_FIELD(arg1, s16 *, 0x39E) = 0;
-    M2C_FIELD(temp_v1, s16 *, 0x1E) = 0xCCC;
-    M2C_FIELD(temp_v1, s16 *, 0x1C) = 0xCCC;
-    M2C_FIELD(arg1, M2C_UNK **, 0x58) = &VehPhysProc_SlamWall_Update;
-    M2C_FIELD(arg1, s32 *, 0x54) = 0;
-    M2C_FIELD(arg1, M2C_UNK **, 0x5C) = &VehPhysProc_SlamWall_PhysLinear;
-    M2C_FIELD(arg1, M2C_UNK **, 0x60) = &VehPhysProc_Driving_Audio;
-    M2C_FIELD(arg1, M2C_UNK **, 0x64) = &VehPhysProc_SlamWall_PhysAngular;
-    M2C_FIELD(arg1, M2C_UNK **, 0x68) = &VehPhysForce_OnApplyForces;
-    M2C_FIELD(arg1, M2C_UNK **, 0x6C) = &COLL_MOVED_PlayerSearch;
-    M2C_FIELD(arg1, M2C_UNK **, 0x70) = &VehPhysForce_CollideDrivers;
-    M2C_FIELD(arg1, M2C_UNK **, 0x74) = &COLL_FIXED_PlayerSearch;
-    M2C_FIELD(arg1, M2C_UNK **, 0x78) = &VehPhysGeneral_JumpAndFriction;
-    M2C_FIELD(arg1, M2C_UNK **, 0x7C) = &VehPhysForce_TranslateMatrix;
-    M2C_FIELD(arg1, M2C_UNK **, 0x80) = &VehPhysProc_SlamWall_Animate;
-    M2C_FIELD(arg1, M2C_UNK **, 0x84) = &VehEmitter_DriverMain;
+    inst = thread->inst;
+    driver->kartState = 1;
+    driver->numFramesSpentSteering = 0x2710;
+    driver->turboMeterRoomLeft = 0;
+    driver->rotationSpinRate = 0;
+    driver->unkLerpToForwards = 0;
+    driver->unk3D4[0] = 0;
+    driver->unk3D4[1] = 0;
+    driver->unk3D4[2] = 0;
+    driver->ampTurnState = 0;
+    driver->speed = 0;
+    driver->speedApprox = 0;
+    driver->xSpeed = 0;
+    driver->ySpeed = 0;
+    driver->zSpeed = 0;
+    driver->velocity.x = 0;
+    driver->velocity.y = 0;
+    driver->velocity.z = 0;
+    driver->unk36E = 0;
+    driver->reserves = 0;
+    driver->turboOutsideTimer = 0;
+    driver->vehFireAudioCooldown = 0;
+    driver->screenOffsetY = 0;
+    driver->distanceFromGround = 0;
+    driver->unk40E = 0;
+    driver->jumpSquishStretch2 = 0;
+    driver->jumpSquishStretch = 0;
+    driver->baseSpeed = 0;
+    driver->fireSpeed = 0;
+    M2C_FIELD(inst, s16 *, 0x1E) = 0xCCC;
+    M2C_FIELD(inst, s16 *, 0x1C) = 0xCCC;
+    driver->funcPtrs[1] = &VehPhysProc_SlamWall_Update;
+    driver->funcPtrs[0] = 0;
+    driver->funcPtrs[2] = &VehPhysProc_SlamWall_PhysLinear;
+    driver->funcPtrs[3] = &VehPhysProc_Driving_Audio;
+    driver->funcPtrs[4] = &VehPhysProc_SlamWall_PhysAngular;
+    driver->funcPtrs[5] = &VehPhysForce_OnApplyForces;
+    driver->funcPtrs[6] = &COLL_MOVED_PlayerSearch;
+    driver->funcPtrs[7] = &VehPhysForce_CollideDrivers;
+    driver->funcPtrs[8] = &COLL_FIXED_PlayerSearch;
+    driver->funcPtrs[9] = &VehPhysGeneral_JumpAndFriction;
+    driver->funcPtrs[10] = &VehPhysForce_TranslateMatrix;
+    driver->funcPtrs[11] = &VehPhysProc_SlamWall_Animate;
+    driver->funcPtrs[12] = &VehEmitter_DriverMain;
 }

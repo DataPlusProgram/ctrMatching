@@ -4,8 +4,10 @@ options:
   target_path: ../SCUS_944.26
   base_path: split
   disassemble_all: true
+  gp_value: 0x8008CF80
   generated_c_preamble: "#include \"../../common.h\""
   symbol_addrs_path:
+    - ../syms/manual_SCUS_94426.txt
     - ../syms/funcs_SCUS_94426_generated.txt
 
 segments:
@@ -32,6 +34,7 @@ segments:
       - [0x782C, c, 8001702C_BOTS_GotoStartingLine]
       - [0x7964, c, 80017164_BOTS_Driver_Init]
       - [0x79C4, c, 800171C4_BOTS_Unknown_800171C4]
+      - [0x7A04, c, 80017204_BOTS_Unknown_80017204]
       - [0x7B18, c, 80017318_BOTS_Driver_Convert]
       - [0x7DCC, c, 800175CC_CAM_SkyboxGlow]
       - [0x8E1C, c, 8001861C_CAM_ClearScreen]
@@ -80,7 +83,7 @@ segments:
       - [0xF30C, c, 8001EB0C_COLL_SearchBSP_CallbackQUADBLK]
       - [0xF3EC, c, 8001EBEC_COLL_SearchBSP_CallbackPARAM]
       - [0xF5E4, c, 8001EDE4_COLL_FIXED_TRIANGL_Barycentrics]
-      - [0xF71C, c, 8001EF1C_COLL_Unknown_8001EF1C]
+      - [0xF71C, c, 8001EF1C_COLL_FIXED_TRIANGL_UNUSED]
       - [0xF750, c, 8001EF50_COLL_FIXED_TRIANGL_TestPoint]
       - [0xF774, c, 8001EF74_COLL_Unknown_8001EF74]
       - [0xFADC, c, 8001F2DC_COLL_FIXED_TRIANGL_GetNormVec]
@@ -89,11 +92,11 @@ segments:
       - [0xFE7C, c, 8001F67C_COLL_FIXED_QUADBLK_GetNormVecs_LoLOD]
       - [0xFEF0, c, 8001F6F0_COLL_FIXED_QUADBLK_GetNormVecs_HiLOD]
       - [0xFFF0, c, 8001F7F0_COLL_FIXED_QUADBLK_LoadScratchpadVerts]
-      - [0x10128, c, 8001F928_COLL_Unknown_8001F928]
+      - [0x10128, c, 8001F928_COLL_MOVED_TRIANGL_ReorderNormals]
       - [0x10440, c, 8001FC40_COLL_MOVED_TRIANGL_TestPoint]
       - [0x10864, c, 80020064_COLL_MOVED_QUADBLK_TestTriangles]
       - [0x10AA8, c, 800202A8_COLL_MOVED_BSPLEAF_TestQuadblocks]
-      - [0x10B34, c, 80020334_COLL_Unknown_80020334]
+      - [0x10B34, c, 80020334_COLL_MOVED_FindScrub]
       - [0x10C10, c, 80020410_COLL_MOVED_PlayerSearch]
       - [0x11458, c, 80020C58_COLL_MOVED_ScrubImpact]
       - [0x11D00, c, 80021500_CTR_Box_DrawWirePrims]
@@ -857,7 +860,7 @@ segments:
       - [0x5CBB0, c, 8006C3B0_MatrixRotate]
       - [0x5CC30, c, 8006C430_TRIG_AngleSinCos_r16r17r18_duplicate]
       - [0x5CC9C, c, 8006C49C_TRIG_Unknown_8006C49C]
-      - [0x5CD40, c, 8006C540_TRIG_Unknown_8006C540]
+      - [0x5CD40, c, 8006C540_MATRIX_SET_r11r12r13r14r15]
       - [0x5CD58, c, 8006C558_TRIG_Unknown_8006C558]
       - [0x5CE00, c, 8006C600_TRIG_Unknown_8006C600]
       - [0x5CE18, c, 8006C618_SquareRoot0_stub]
@@ -1159,8 +1162,8 @@ segments:
       - [0x6D144, c, 8007C944_GPU_Unknown_8007C944]
       - [0x6D170, c, 8007C970_GPU_Unknown_8007C970]
       - [0x6D1A8, c, 8007C9A8_GPU_Unknown_8007C9A8]
-      - [0x6D1C0, c, 8007C9C0_GPU_Unknown_8007C9C0]
-      - [0x6D1D0, c, 8007C9D0_GPU_Unknown_8007C9D0]
+      - [0x6D1C0, c, 8007C9C0_ChangeClearPAD]
+      - [0x6D1D0, c, 8007C9D0_ChangeClearRCnt]
       - [0x6D248, c, 8007CA48_GPU_Unknown_8007CA48]
       - [0x6D3D8, c, 8007CBD8_GPU_Unknown_8007CBD8]
       - [0x6D70C, c, 8007CF0C_GPU_Unknown_8007CF0C]
