@@ -1,36 +1,22 @@
-typedef short s16;
-typedef int s32;
+#include "../../common.h"
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-} M2cVehPhysGeneralJumpGetVelYArg0;
+s32 VehPhysGeneral_JumpGetVelY(struct Vec16 *normalVec, Vec3 *speedXYZ) {
+    s32 tempA2;
+    s32 varV0;
+    s32 varV1;
 
-typedef struct {
-    s32 unk0;
-    char pad4[0x4];
-    s32 unk8;
-} M2cVehPhysGeneralJumpGetVelYArg1;
+    tempA2 = normalVec->y;
+    varV0 = tempA2;
 
-s32 VehPhysGeneral_JumpGetVelY(M2cVehPhysGeneralJumpGetVelYArg0 *arg0, M2cVehPhysGeneralJumpGetVelYArg1 *arg1)
-{
-    s16 temp_a2;
-    s32 var_v0;
-    s32 var_v1;
-
-    temp_a2 = arg0->unk2;
-    var_v0 = temp_a2;
-
-    if (temp_a2 < 0) {
-        var_v0 = -var_v0;
+    if (tempA2 < 0) {
+        varV0 = -varV0;
     }
 
-    var_v1 = 0;
+    varV1 = 0;
 
-    if (var_v0 >= 0x15) {
-        var_v1 = ((arg1->unk0 * arg0->unk0) + (arg1->unk8 * arg0->unk4)) / temp_a2;
+    if (varV0 >= 0x15) {
+        varV1 = ((speedXYZ->x * normalVec->x) + (speedXYZ->z * normalVec->z)) / tempA2;
     }
 
-    return var_v1;
+    return varV1;
 }

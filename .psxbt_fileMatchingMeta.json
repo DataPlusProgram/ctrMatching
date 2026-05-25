@@ -18,9 +18,9 @@
 	"80012440_BOTS_InitNavPath": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 7100,
+		"maxScore": 7100.0,
 		"patchEnabled": false,
-		"score": 7100,
+		"score": 7100.0,
 		"scoreText": "0.00% | 7100 / 7100"
 	},
 	"80012560_BOTS_EmptyFunc": {
@@ -132,8 +132,8 @@
 		"matchPercent": 0.0,
 		"maxScore": 2400.0,
 		"patchEnabled": false,
-		"score": 9785.0,
-		"scoreText": "0.00% | 9785 / 2400"
+		"score": 2435.0,
+		"scoreText": "0.00% | 2435 / 2400"
 	},
 	"800171C4_BOTS_Unknown_800171C4": {
 		"gccVersion": "gcc2.8.1",
@@ -3450,9 +3450,9 @@
 	"8003B6D0_MainInit_Drivers": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 83.640522875817,
-		"maxScore": 15300,
+		"maxScore": 15300.0,
 		"patchEnabled": false,
-		"score": 2503,
+		"score": 2503.0,
 		"scoreText": "83.64% | 2503 / 15300"
 	},
 	"8003B934_MainInit_FinalizeInit": {
@@ -5914,17 +5914,17 @@
 	"80060F0C_VehPhysGeneral_SetHeldItem": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 35100,
+		"maxScore": 35100.0,
 		"patchEnabled": false,
-		"score": 35100,
+		"score": 35100.0,
 		"scoreText": "0.00% | 35100 / 35100"
 	},
 	"80061488_VehPhysGeneral_GetBaseSpeed": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 10900,
+		"maxScore": 10900.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 10900"
 	},
 	"8006163C_VehPhysJoystick_ReturnToRest": {
@@ -5970,17 +5970,17 @@
 	"80062A4C_VehPhysProc_Driving_Update": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 87.1891891891892,
-		"maxScore": 7400,
+		"maxScore": 7400.0,
 		"patchEnabled": false,
-		"score": 948,
+		"score": 948.0,
 		"scoreText": "87.19% | 948 / 7400"
 	},
 	"80062B74_VehPhysProc_Driving_Init": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 7700,
+		"maxScore": 7700.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 7700"
 	},
 	"80062CA8_VehPhysProc_FreezeEndEvent_PhysLinear": {
@@ -6018,9 +6018,9 @@
 	"80062E94_VehPhysProc_FreezeVShift_Init": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 94.8913043478261,
-		"maxScore": 4600,
+		"maxScore": 4600.0,
 		"patchEnabled": false,
-		"score": 235,
+		"score": 235.0,
 		"scoreText": "94.89% | 235 / 4600"
 	},
 	"80062F4C_VehPhysProc_PowerSlide_PhysAngular": {
@@ -6066,9 +6066,9 @@
 	"80063934_VehPhysProc_PowerSlide_Init": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 98.8235294117647,
-		"maxScore": 6800,
+		"maxScore": 6800.0,
 		"patchEnabled": false,
-		"score": 80,
+		"score": 80.0,
 		"scoreText": "98.82% | 80 / 6800"
 	},
 	"80063A44_VehPhysProc_SlamWall_PhysAngular": {
@@ -6106,9 +6106,9 @@
 	"80063BD4_VehPhysProc_SlamWall_Init": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 7200,
+		"maxScore": 7200.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 7200"
 	},
 	"80063CF4_VehPhysProc_SpinFirst_Update": {
@@ -6138,18 +6138,18 @@
 	"80063EAC_VehPhysProc_SpinFirst_InitSetUpdate": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 500,
+		"maxScore": 500.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 500"
 	},
 	"80063EC0_VehPhysProc_SpinFirst_Init": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 96.4835164835165,
+		"matchPercent": 0.0,
 		"maxScore": 9100,
 		"patchEnabled": false,
-		"score": 320,
-		"scoreText": "96.48% | 320 / 9100"
+		"score": 9100,
+		"scoreText": "0.00% | 9100 / 9100"
 	},
 	"8006402C_VehPhysProc_SpinLast_Update": {
 		"gccVersion": "gcc2.8.1",
@@ -6218,9 +6218,9 @@
 	"800644D0_VehPhysProc_SpinStop_Init": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 3800.0,
+		"maxScore": 3800,
 		"patchEnabled": false,
-		"score": 0.0,
+		"score": 0,
 		"scoreText": "100.00% | 0 / 3800"
 	},
 	"80064568_VehPickState_NewState": {
@@ -6322,9 +6322,9 @@
 	"800671B0_VehStuckProc_MaskGrab_Init": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 90.6631016042781,
-		"maxScore": 18700.0,
+		"maxScore": 18700,
 		"patchEnabled": false,
-		"score": 1746.0,
+		"score": 1746,
 		"scoreText": "90.66% | 1746 / 18700"
 	},
 	"8006749C_VehStuckProc_PlantEaten_Update": {
@@ -6354,9 +6354,9 @@
 	"800677D0_VehStuckProc_PlantEaten_Init": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 99.3181818181818,
-		"maxScore": 8800,
+		"maxScore": 8800.0,
 		"patchEnabled": false,
-		"score": 60,
+		"score": 60.0,
 		"scoreText": "99.32% | 60 / 8800"
 	},
 	"80067930_VehStuckProc_RIP_Init": {
