@@ -13,7 +13,7 @@ extern M2C_UNK VehPhysProc_PowerSlide_InitSetUpdate;
 extern M2C_UNK VehPhysProc_PowerSlide_PhysAngular;
 extern M2C_UNK VehPhysProc_PowerSlide_PhysLinear;
 
-void VehPhysProc_PowerSlide_Init(M2C_UNK arg0, Driver *driver)
+void VehPhysProc_PowerSlide_Init(Thread *thread, Driver *driver)
 {
     s32 temp_v1;
     M2C_UNK *tempEmitter;

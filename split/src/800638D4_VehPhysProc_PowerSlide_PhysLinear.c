@@ -1,21 +1,12 @@
-typedef signed char s8;
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
+extern GameTracker *gT;
+extern void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver);
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+void VehPhysProc_PowerSlide_PhysLinear(Thread *thread, Driver *driver)
+{
+    VehPhysProc_Driving_PhysLinear(thread, driver);
 
-M2C_UNK VehPhysProc_Driving_PhysLinear();           /* extern */
-extern void *D_8008D2AC;
-
-void VehPhysProc_PowerSlide_PhysLinear(s32 arg0, void *arg1) {
-    void *temp_v1;
-    s32 temp_v0;
-
-    VehPhysProc_Driving_PhysLinear();
-
-    temp_v0 = M2C_FIELD(arg1, s32 *, 0x2C8);
-    temp_v1 = D_8008D2AC;
-    M2C_FIELD(arg1, s32 *, 0x2C8) = temp_v0 | 0x1800;
-    M2C_FIELD(arg1, s32 *, 0x538) = M2C_FIELD(arg1, s32 *, 0x538) + M2C_FIELD(temp_v1, s32 *, 0x1D04);
+    driver->actionsFlagSet |= 0x1800;
+    driver->timeSpentDrifting += gT->elapsedTimeMS;
 }

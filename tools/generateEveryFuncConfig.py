@@ -4,8 +4,8 @@ import re
 
 repoRoot = Path(__file__).resolve().parent.parent
 symbolMapPath = repoRoot / "syms" / "funcs_SCUS_94426.txt"
-generatedSymbolMapPath = repoRoot / "syms" / "funcs_SCUS_94426_generated.txt"
 outputConfigPath = repoRoot / "executable_cfg.yaml"
+srcPath = repoRoot / "split" / "src"
 
 
 def formatOffsetName(romStart: int, functionName: str) -> str:
@@ -13,8 +13,24 @@ def formatOffsetName(romStart: int, functionName: str) -> str:
     return f"{vramStart:08X}_{functionName}"
 
 
+def getExistingFileNamesByVram() -> dict[int, str]:
+    existingFileNamesByVram = {}
+    fileNamePattern = re.compile(r"^([0-9A-Fa-f]{8})_(.+)\.c$")
+
+    for path in srcPath.glob("*.c"):
+        match = fileNamePattern.match(path.name)
+        if match is None:
+            continue
+
+        vramStart = int(match.group(1), 16)
+        existingFileNamesByVram[vramStart] = path.stem
+
+    return existingFileNamesByVram
+
+
 def getFunctionEntries() -> list[tuple[int, str, str]]:
     functionEntries = []
+    existingFileNamesByVram = getExistingFileNamesByVram()
     symbolPattern = re.compile(r"^\s*([A-Za-z0-9_]+)\s*=\s*0x([0-9A-Fa-f]+);")
 
     for line in symbolMapPath.read_text(encoding="utf-8").splitlines():
@@ -25,27 +41,15 @@ def getFunctionEntries() -> list[tuple[int, str, str]]:
         functionName = match.group(1)
         vramStart = int(match.group(2), 16)
         romStart = (vramStart - 0x80010000) + 0x800
-        functionEntries.append((romStart, functionName, formatOffsetName(romStart, functionName)))
+        fileName = existingFileNamesByVram.get(vramStart, formatOffsetName(romStart, functionName))
+        functionEntries.append((romStart, functionName, fileName))
 
     functionEntries.sort(key=lambda entry: entry[0])
     return functionEntries
 
 
-def writeGeneratedSymbolMap(functionEntries: list[tuple[int, str, str]]) -> None:
-    generatedLines = ["func_80011D60 = 0x80011D60; // type:func filename:80011D60_func_80011D60"]
-
-    for romStart, functionName, fileName in functionEntries:
-        vramStart = (romStart - 0x800) + 0x80010000
-        generatedLines.append(
-            f"{functionName} = 0x{vramStart:08X}; // type:func filename:{fileName}"
-        )
-
-    generatedSymbolMapPath.write_text("\n".join([*generatedLines, ""]), encoding="utf-8")
-
-
 def buildConfigText() -> str:
     functionEntries = getFunctionEntries()
-    writeGeneratedSymbolMap(functionEntries)
 
     yamlLines = [
         "options:",
@@ -58,7 +62,7 @@ def buildConfigText() -> str:
         '  generated_c_preamble: "#include \\\"../../common.h\\\""',
         "  symbol_addrs_path:",
         "    - ../syms/manual_SCUS_94426.txt",
-        "    - ../syms/funcs_SCUS_94426_generated.txt",
+        "    - ../syms/funcs_SCUS_94426.txt",
         "",
         "segments:",
         "  - name: main",

@@ -1,45 +1,37 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
+extern void COLL_FIXED_PlayerSearch(void);
+extern void COLL_MOVED_PlayerSearch(void);
+extern void VehEmitter_DriverMain(void);
+extern void VehFrameProc_Driving(void);
+extern void VehPhysForce_CollideDrivers(void);
+extern void VehPhysForce_OnApplyForces(void);
+extern void VehPhysForce_TranslateMatrix(void);
+extern void VehPhysGeneral_JumpAndFriction(void);
+extern void VehPhysGeneral_PhysAngular(void);
+extern void VehPhysProc_Driving_Audio(void);
+extern void VehPhysProc_FreezeEndEvent_PhysLinear(void);
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+void VehPhysProc_FreezeEndEvent_Init(Thread *thread, Driver *driver)
+{
+    (void)thread;
 
-extern M2C_UNK COLL_FIXED_PlayerSearch;
-extern M2C_UNK COLL_MOVED_PlayerSearch;
-extern M2C_UNK VehEmitter_DriverMain;
-extern M2C_UNK VehFrameProc_Driving;
-extern M2C_UNK VehPhysForce_CollideDrivers;
-extern M2C_UNK VehPhysForce_OnApplyForces;
-extern M2C_UNK VehPhysForce_TranslateMatrix;
-extern M2C_UNK VehPhysGeneral_JumpAndFriction;
-extern M2C_UNK VehPhysGeneral_PhysAngular;
-extern M2C_UNK VehPhysProc_Driving_Audio;
-extern M2C_UNK VehPhysProc_FreezeEndEvent_PhysLinear;
-
-void VehPhysProc_FreezeEndEvent_Init(void *unused, void *arg1) {
-    M2C_UNK *temp_v0;
-
-    temp_v0 = &VehPhysProc_FreezeEndEvent_PhysLinear;
-
-    if (M2C_FIELD(arg1, u8 *, 0x376) != 0xB) {
-        M2C_FIELD(arg1, M2C_UNK **, 0x5C) = temp_v0;
-        M2C_FIELD(arg1, M2C_UNK **, 0x60) = &VehPhysProc_Driving_Audio;
-        M2C_FIELD(arg1, M2C_UNK **, 0x64) = &VehPhysGeneral_PhysAngular;
-        M2C_FIELD(arg1, M2C_UNK **, 0x68) = &VehPhysForce_OnApplyForces;
-        M2C_FIELD(arg1, M2C_UNK **, 0x6C) = &COLL_MOVED_PlayerSearch;
-        M2C_FIELD(arg1, M2C_UNK **, 0x70) = &VehPhysForce_CollideDrivers;
-        M2C_FIELD(arg1, M2C_UNK **, 0x74) = &COLL_FIXED_PlayerSearch;
-        M2C_FIELD(arg1, M2C_UNK **, 0x78) = &VehPhysGeneral_JumpAndFriction;
-        M2C_FIELD(arg1, M2C_UNK **, 0x7C) = &VehPhysForce_TranslateMatrix;
-        M2C_FIELD(arg1, M2C_UNK **, 0x80) = &VehFrameProc_Driving;
-        M2C_FIELD(arg1, u8 *, 0x376) = 0xB;
-        M2C_FIELD(arg1, s16 *, 0x38C) = 0;
-        M2C_FIELD(arg1, s16 *, 0x38E) = 0;
-        M2C_FIELD(arg1, s32 *, 0x54) = 0;
-        M2C_FIELD(arg1, s32 *, 0x58) = 0;
-        M2C_FIELD(arg1, M2C_UNK **, 0x84) = &VehEmitter_DriverMain;
+    if ((u8)driver->kartState != 0xB) {
+        driver->funcPtrs[2] = &VehPhysProc_FreezeEndEvent_PhysLinear;
+        driver->funcPtrs[3] = &VehPhysProc_Driving_Audio;
+        driver->funcPtrs[4] = &VehPhysGeneral_PhysAngular;
+        driver->funcPtrs[5] = &VehPhysForce_OnApplyForces;
+        driver->funcPtrs[6] = &COLL_MOVED_PlayerSearch;
+        driver->funcPtrs[7] = &VehPhysForce_CollideDrivers;
+        driver->funcPtrs[8] = &COLL_FIXED_PlayerSearch;
+        driver->funcPtrs[9] = &VehPhysGeneral_JumpAndFriction;
+        driver->funcPtrs[10] = &VehPhysForce_TranslateMatrix;
+        driver->funcPtrs[11] = &VehFrameProc_Driving;
+        driver->kartState = 0xB;
+        driver->speed = 0;
+        driver->speedApprox = 0;
+        driver->funcPtrs[0] = 0;
+        driver->funcPtrs[1] = 0;
+        driver->funcPtrs[12] = &VehEmitter_DriverMain;
     }
 }

@@ -12,6 +12,7 @@ typedef struct Driver Driver;
 typedef struct ObjRef ObjRef;
 typedef struct Vec3 Vec3;
 typedef struct SVec3 SVec3;
+typedef struct MatrixNd MatrixNd;
 typedef struct GameTracker GameTracker;
 typedef struct Icon Icon;
 typedef struct Instance Instance;
@@ -22,11 +23,13 @@ typedef struct GhostTape GhostTape;
 typedef struct DB DB;
 typedef struct Level Level;
 typedef struct RainBuffer RainBuffer;
+typedef struct InstDrawPerPlayer InstDrawPerPlayer;
 typedef struct ControllerPacket ControllerPacket;
 typedef struct MultitapPacket MultitapPacket;
 typedef struct RacingWheelData RacingWheelData;
 typedef struct GamepadBuffer GamepadBuffer;
 typedef struct GamepadSystem GamepadSystem;
+typedef struct Pvs Pvs;
 
 typedef s32 M2C_UNK;
 
@@ -54,9 +57,96 @@ struct SVec3 {
     s16 z;
 };
 
+struct MatrixNd {
+    s16 m[3][3];
+    s16 extraShort;
+    s32 t[3];
+};
+
+struct Instance {
+    Instance *next;                     // 0x000
+    Instance *prev;                     // 0x004
+    char name[0x10];                    // 0x008
+    void *model;                        // 0x018
+    s16 scale[3];                       // 0x01C
+    s16 alphaScale;                     // 0x022
+    u32 colorRGBA;                      // 0x024
+    u32 flags;                          // 0x028
+    void *instDef;                      // 0x02C
+    MatrixNd matrix;                    // 0x030
+    u8 unk50;                           // 0x050
+    u8 unk51;                           // 0x051
+    u8 animIndex;                       // 0x052
+    u8 unk53;                           // 0x053
+    s16 animFrame;                      // 0x054
+    s16 vertSplit;                      // 0x056
+    u32 reflectionRGBA;                 // 0x058
+    void *funcPtr[4];                   // 0x05C
+    Thread *thread;                     // 0x06C
+    s32 bitCompressed_NormalVector_AndDriverIndex; // 0x070
+};
+
+struct InstDrawPerPlayer {
+    void *pushBuffer;               // 0x000
+    char mvp[0x20];                 // 0x004
+    char m3x3[0x20];                // 0x024
+    u32 instFlags;                  // 0x044
+    s32 unkBC;                      // 0x048
+    void *ptrCurrFrame;             // 0x04C
+    void *ptrNextFrame;             // 0x050
+    u32 ptrCommandList;             // 0x054
+    void *ptrTexLayout;             // 0x058
+    u32 ptrColorLayout;             // 0x05C
+    s32 ptrDeltaArray;              // 0x060
+    s32 lodIndex;                   // 0x064
+    s16 depthOffset[2];             // 0x068
+    void *modelHeader;              // 0x06C
+    s32 unkE4;                      // 0x070
+    s32 unkE8;                      // 0x074
+    s32 drawFunc1;                  // 0x078
+    s32 drawFunc2;                  // 0x07C
+    s16 specLight[4];               // 0x080
+};
+
+#define INST_GETIDPP(instance) ((InstDrawPerPlayer *)((s8 *)(instance) + sizeof(Instance)))
+
 struct ObjRef {
     char pad0[0x38];
     u8 terrain_type;
+};
+
+struct Pvs {
+    s32 *visLeafSrc;
+    s32 *visFaceSrc;
+    Instance **visInstSrc;
+    s32 *visExtraSrc;
+};
+
+struct QuadBlock {
+    s16 index[9];                  // 0x000
+    u16 quadFlags;                 // 0x012
+    u32 drawOrderLow;              // 0x014
+    u32 drawOrderHigh;             // 0x018
+    void *ptrTextureMid[4];        // 0x01C
+    u8 bbox[0x0C];                 // 0x02C
+    s8 terrainType;                // 0x038
+    s8 weatherIntensity;           // 0x039
+    s8 weatherVanishRate;          // 0x03A
+    s8 mulNormVecY;                // 0x03B
+    s16 blockId;                   // 0x03C
+    s8 checkpointIndex;            // 0x03E
+    s8 triNormalVecBitShift;       // 0x03F
+    void *ptrTextureLow;           // 0x040
+    Pvs *pvs;                      // 0x044
+};
+
+struct Terrain {
+    char *name;                    // 0x000
+    u32 flags;                     // 0x004
+    s32 unk0x8;                    // 0x008
+    s32 slowUntilSpeed;            // 0x00C
+    s32 counterSteerRatio;         // 0x010
+    s32 unk14;                     // 0x014
 };
 
 struct Thread {
@@ -312,8 +402,8 @@ struct Driver {
     s16 jumpMeterTimer;                  // 0x048
     u8 driverId;                         // 0x04A
     s8 simpTurnState;                    // 0x04B
-    u8 matrixArray;                      // 0x04C
-    u8 matrixIndex;                      // 0x04D
+    u8 matrixAnimState;                  // 0x04C
+    u8 matrixAnimFrame;                  // 0x04D
     s16 numTurbos;                       // 0x04E
     u16 frameAgainstWall;                // 0x050
     u16 pad52;                           // 0x052
@@ -342,8 +432,8 @@ struct Driver {
     s16 rotPrev[4];                      // 0x2F4
     s32 sfxDistortOffset;                // 0x2FC
     void *driverAudioPtrs[4];            // 0x300
-    u8 matrixMovingDir[0x20];            // 0x310
-    u8 matrixFacingDir[0x20];            // 0x330
+    MatrixNd matrixMovingDir;            // 0x310
+    MatrixNd matrixFacingDir;            // 0x330
     QuadBlock *underDriver;              // 0x350
     QuadBlock *lastValid;                // 0x354
     Terrain *terrainMeta1;               // 0x358
@@ -355,7 +445,7 @@ struct Driver {
     s16 axisAngle2NormalVec[3];          // 0x368
     s16 unk36E;                          // 0x36E
     s16 axisAngle3NormalVec[3];          // 0x370
-    s8 kartState;                        // 0x376
+    u8 kartState;                        // 0x376
     s8 screenOffsetY;                    // 0x377
     s16 axisAngle4NormalVec[3];          // 0x378
     s16 unk37E;                          // 0x37E
@@ -587,18 +677,129 @@ struct GameTracker {
     u8 db[0x148];                     // 0x018
     Level *level1;                    // 0x160
     Level *level2;                    // 0x164
-    u8 unk168[0x18A8];                // 0x168
+
+    u8 pushBuffer[4][0x110];          // 0x168
+    u8 decalMp[12][0x128];            // 0x5A8
+    u8 pushBufferUi[0x110];           // 0x1388
+    u8 cameraDC[4][0xDC];             // 0x1498
+    u8 levRenderLists[4][0x30];       // 0x1808
+    void *otSwapchainDB[2];           // 0x18C8
+    u8 jitPools[0x140];               // 0x18D0
+
     s32 levelID;                      // 0x1A10
     char levelName[0x24];             // 0x1A14
     void *visMem1;                    // 0x1A38
     void *visMem2;                    // 0x1A3C
     RainBuffer rainBuffer[4];         // 0x1A40
-    u8 unk1B00[0x1A8];                // 0x1B00
+
+    struct {
+        s16 numParticlesCurr;         // 0x1B00
+        s16 unk1;
+        s16 numParticlesMax;          // 0x1B04
+        s16 unk2;
+        s32 velY;                     // 0x1B08
+    } confetti;
+
+    u8 stars[8];                      // 0x1B0C
+    void *ptrCircle;                  // 0x1B14
+    void *ptrClod;                    // 0x1B18
+    void *ptrDustpuff;                // 0x1B1C
+    void *ptrSmoking;                 // 0x1B20
+    void *ptrSparkle;                 // 0x1B24
+    void *mpkIcons;                   // 0x1B28
+    u8 threadBuckets[0x168];          // 0x1B2C
+    void *ptrRenderBucketInstance;    // 0x1C94
+    s32 unk1C98;                      // 0x1C98
+    void *particleListOrdinary;       // 0x1C9C
+    void *particleListHeatWarp;       // 0x1CA0
+    s32 numParticles;                 // 0x1CA4
     char numPlyrCurrGame;             // 0x1CA8
     char numPlyrNextGame;             // 0x1CA9
     char numBotsCurrGame;             // 0x1CAA
     char numBotsNextGame;             // 0x1CAB
-    u8 unk1CAC[0x1AC];                // 0x1CAC
+    s32 unk1CAC[5];                   // 0x1CAC
+    s32 bspLeafsDrawn;                // 0x1CC0
+    s32 unk1CC4[6];                   // 0x1CC4
+    s32 clockDurationStall;           // 0x1CDC
+    s32 vSyncBetweenDrawSync;         // 0x1CE0
+    s32 frameTimerVsyncCallback;      // 0x1CE4
+    s32 frameTimerNotPaused;          // 0x1CE8
+    s32 timer;                        // 0x1CEC
+    s32 frameTimerConfetti;           // 0x1CF0
+    s32 unk1CF4;                      // 0x1CF4
+    s32 frameTimerMainFrameResetDB;   // 0x1CF8
+    s32 framesInThisLEV;              // 0x1CFC
+    s32 msInThisLEV;                  // 0x1D00
+    s32 elapsedTimeMS;                // 0x1D04
+    s32 clockFrameStart;              // 0x1D08
+    s32 trafficLightsTimer;           // 0x1D0C
+    s32 elapsedEventTime;             // 0x1D10
+    s32 lapTime[7];                   // 0x1D14
+    u8 boolDrawOTagInProgress;        // 0x1D30
+    u8 hudFlags;                      // 0x1D31
+    s8 boolDemoMode;                  // 0x1D32
+    s8 numLaps;                       // 0x1D33
+    s16 unkTimerCooldownSimilarTo1D36; // 0x1D34
+    s16 timerEndOfRaceVS;             // 0x1D36
+    s8 cooldownfromPauseUntilUnpause; // 0x1D38
+    s8 cooldownFromUnpauseUntilPause; // 0x1D39
+    s16 advPausePage;                 // 0x1D3A
+    s32 bestLapTime;                  // 0x1D3C
+    s32 lapIndexNewBest;              // 0x1D40
+    u32 gameModeEnd;                  // 0x1D44
+    s8 unknown1D48NotFound;           // 0x1D48
+    s8 newHighScoreIndex;             // 0x1D49
+    s16 notFoundInCode1;              // 0x1D4A
+    s16 typeCursorPosition;           // 0x1D4C
+    s16 notFoundInCode2;              // 0x1D4E
+    s16 langIndex;                    // 0x1D50
+    s16 constVal9000;                 // 0x1D52
+    char prevNameEntered[0x11];       // 0x1D54
+    char currNameEntered[0x11];       // 0x1D65
+    s16 nameEnterPadding;             // 0x1D76
+    s32 timeToBeatInTimeTrialForCurrentEvent; // 0x1D78
+    s32 trackLengthXNumLapsX8;        // 0x1D7C
+    s32 battleLifeLimit;              // 0x1D80
+    s32 originalEventTime;            // 0x1D84
+
+    struct {
+        s32 lifeLimit;                // 0x1D88
+        s32 killLimit;                // 0x1D8C
+        s32 pointsPerTeam[4];         // 0x1D90
+        s32 enabledWeapons;           // 0x1DA0
+        s8 teamOfEachPlayer[4];       // 0x1DA4
+        s32 finishedRankOfEachTeam[4]; // 0x1DA8
+        s32 unk1DB8[4];               // 0x1DB8
+        s32 unk1DC8[4];               // 0x1DC8
+        u32 teamFlags;                // 0x1DD8
+        s32 numTeams;                 // 0x1DDC
+        s32 unkAfterTeams[4];         // 0x1DE0
+        s32 numWeapons;               // 0x1DF0
+        s32 rngItemSetCustom[0xB];    // 0x1DF4
+    } battleSetup;
+
+    s32 frozenTimeRemaining;          // 0x1E20
+    s32 timeCrateTypeSmashed;         // 0x1E24
+    s32 numCrystalsInLEV;             // 0x1E28
+    s32 timeCratesInLEV;              // 0x1E2C
+
+    struct {
+        s32 numTrophies;              // 0x1E30
+        s32 numRelics;                // 0x1E34
+        s32 numKeys;                  // 0x1E38
+
+        struct {
+            s32 total;                // 0x1E3C
+            s32 red;
+            s32 green;
+            s32 blue;
+            s32 yellow;
+            s32 purple;
+        } numCtrTokens;
+
+        s32 completionPercent;        // 0x1E54
+    } currAdvProfile;
+
     s32 cupID;                        // 0x1E58
 };
 

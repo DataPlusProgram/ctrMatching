@@ -22,8 +22,6 @@ extern s32 *gGamepads;
 
 void VehPhysProc_SpinFirst_Init(Thread *thread, Driver *driver)
 {
-    M2C_UNK var_a1;
-
     driver->kartState = 3;
     driver->unkLerpToForwards = 0;
     driver->turboMeterRoomLeft = 0;
@@ -63,12 +61,10 @@ void VehPhysProc_SpinFirst_Init(Thread *thread, Driver *driver)
 
     if (driver->simpTurnState > 0)
     {
-        var_a1 = 0x29;
+        GAMEPAD_JogCon1(driver, 0x29, 0x60);
     }
     else
     {
-        var_a1 = 0x19;
+        GAMEPAD_JogCon1(driver, 0x19, 0x60);
     }
-
-    GAMEPAD_JogCon1(driver, var_a1, 0x60);
 }

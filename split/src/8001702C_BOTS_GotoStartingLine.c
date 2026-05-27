@@ -1,90 +1,86 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
-typedef unsigned int u32;
-
-void VehBirth_TeleportSelf(s32 arg0, s32 arg1, s32 arg2);
-void BOTS_SetRotation(s32 arg0, s32 arg1);
-s32 RngDeadCoed(void *arg0);
+#include "../../common.h"
 
 extern s32 D_8008D698;
 extern u8 D_8008D69C[];
 extern u8 D_8008D680[];
-extern s32 D_8008DAE0[];
+extern void *D_8008DAE0[];
 extern s32 D_8008CF80;
 extern s32 D_8008D668;
 
-void FUN_8001702c(s32 param_1)
+void VehBirth_TeleportSelf(Driver *driver, s32 arg1, s32 arg2);
+void BOTS_SetRotation(Driver *driver, s32 arg1);
+s32 RngDeadCoed(void *arg0);
+
+void FUN_8001702c(Driver *driver)
 {
-    u8 temp_byte;
-    s32 temp_posX;
-    s32 temp_posY;
-    s32 temp_posZ;
-    s32 temp_model;
-    s32 temp_index;
-    s32 temp_rng;
-    s32 temp_rot;
-    s32 temp_flags;
-    s32 temp_mult;
-    s32 var_s1;
+    u8 spawnOrder;
+    s32 posX;
+    s32 posY;
+    s32 posZ;
+    void *navFrame;
+    s32 pathIndex;
+    s32 randomValue;
+    s32 rotation;
+    s32 flags;
+    s32 accelValue;
+    s32 accelIndex;
+    u8 *accelPtr;
 
     D_8008D698 = 0;
-    VehBirth_TeleportSelf(param_1, 3, 0);
+    VehBirth_TeleportSelf(driver, 3, 0);
 
-    temp_byte = *((u8 *) (((s8 *) param_1) + 0x4A));
-    temp_posZ = *((s32 *) (((s8 *) param_1) + 0x2DC));
-    var_s1 = D_8008D69C[temp_byte];
-    temp_posX = *((s32 *) (((s8 *) param_1) + 0x2D4));
-    temp_posY = *((s32 *) (((s8 *) param_1) + 0x2D8));
+    spawnOrder = driver->driverId;
+    posZ = driver->posCurr.z;
+    accelIndex = D_8008D69C[spawnOrder];
+    posX = driver->posCurr.x;
+    posY = driver->posCurr.y;
 
-    *((s32 *) (((s8 *) param_1) + 0x5F8)) = temp_posZ;
-    *((s32 *) (((s8 *) param_1) + 0x5EC)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5E8)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5E4)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5E0)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5DC)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5D8)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5D4)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5D0)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5CC)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5F4)) = temp_posY;
-    *((s32 *) (((s8 *) param_1) + 0x5F0)) = temp_posX;
+    driver->botData.aiPosBackup[2] = posZ;
+    driver->botData.aiVelAxis[2] = 0;
+    driver->botData.aiVelAxis[1] = 0;
+    driver->botData.aiVelAxis[0] = 0;
+    driver->botData.aiAccelAxis[2] = 0;
+    driver->botData.aiAccelAxis[1] = 0;
+    driver->botData.aiAccelAxis[0] = 0;
+    driver->botData.aiSpeedLinear = 0;
+    driver->botData.aiSpeedY = 0;
+    driver->botData.unk5CC = 0;
+    driver->botData.aiPosBackup[1] = posY;
+    driver->botData.aiPosBackup[0] = posX;
 
-    temp_index = *((s16 *) (((s8 *) param_1) + 0x5B8));
-    temp_model = D_8008DAE0[temp_index];
-    *((s32 *) (((s8 *) param_1) + 0x5A8)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x5A4)) = temp_model;
+    pathIndex = driver->botData.botPath;
+    navFrame = D_8008DAE0[pathIndex];
+    driver->botData.unk5A8 = 0;
+    driver->botData.botNavFrame = navFrame;
 
-    BOTS_SetRotation(param_1, 1);
+    BOTS_SetRotation(driver, 1);
 
-    var_s1 = (s32) (&D_8008D680[var_s1]);
-    temp_byte = *((u8 *) var_s1);
-    temp_mult = D_8008CF80 * temp_byte;
+    accelPtr = &D_8008D680[accelIndex];
+    spawnOrder = *accelPtr;
+    accelValue = D_8008CF80 * spawnOrder;
 
-    *((s16 *) (((s8 *) param_1) + 0x2F0)) = 0;
-    *((s16 *) (((s8 *) param_1) + 0x2F8)) = 0;
-    *((s16 *) (((s8 *) param_1) + 0x600)) = 0;
-    *((s16 *) (((s8 *) param_1) + 0x2EC)) = 0;
-    *((s16 *) (((s8 *) param_1) + 0x2F4)) = 0;
-    *((s16 *) (((s8 *) param_1) + 0x5FC)) = 0;
+    driver->rotCurr[2] = 0;
+    driver->rotPrev[2] = 0;
+    driver->botData.aiRot4[2] = 0;
+    driver->rotCurr[0] = 0;
+    driver->rotPrev[0] = 0;
+    driver->botData.aiRot4[0] = 0;
 
-    temp_flags = *((s32 *) (((s8 *) param_1) + 0x2C8));
-    temp_rot = *((u8 *) (((s8 *) param_1) + 0x613)) << 4;
+    flags = driver->actionsFlagSet;
+    rotation = driver->botData.estimateRotNav[1] << 4;
 
-    *((s16 *) (((s8 *) param_1) + 0x3C6)) = 0;
-    *((s32 *) (((s8 *) param_1) + 0x2C8)) = temp_flags | 0x100000;
+    driver->turnAngleCurr = 0;
+    driver->actionsFlagSet = flags | 0x100000;
 
-    *((s16 *) (((s8 *) param_1) + 0x608)) = temp_rot;
-    *((s16 *) (((s8 *) param_1) + 0x39A)) = temp_rot;
-    *((s16 *) (((s8 *) param_1) + 0x2EE)) = temp_rot;
-    *((s16 *) (((s8 *) param_1) + 0x2F6)) = temp_rot;
-    *((s16 *) (((s8 *) param_1) + 0x5FE)) = temp_rot;
+    driver->botData.aiRotY608 = rotation;
+    driver->angle = rotation;
+    driver->rotCurr[1] = rotation;
+    driver->rotPrev[1] = rotation;
+    driver->botData.aiRot4[1] = rotation;
 
-    *((s32 *) (((s8 *) param_1) + 0x5B4)) = temp_mult;
+    driver->botData.botAccel = accelValue;
 
-    temp_rng = RngDeadCoed(&D_8008D668);
-    temp_rng = (temp_rng >> 8) & 0xFF;
-    *((u16 *) (((s8 *) param_1) + 0x624)) = temp_rng + 300;
+    randomValue = RngDeadCoed(&D_8008D668);
+    randomValue = (randomValue >> 8) & 0xFF;
+    driver->botData.weaponCooldown = randomValue + 300;
 }

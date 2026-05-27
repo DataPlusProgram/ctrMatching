@@ -13,8 +13,8 @@ extern M2C_UNK VehPhysProc_Driving_PhysLinear;
 extern M2C_UNK VehPhysProc_FreezeVShift_ReverseOneFrame;
 extern M2C_UNK VehPhysProc_FreezeVShift_Update;
 
-void VehPhysProc_FreezeVShift_Init(void *unused, Driver *driver) {
-    unused = unused;
+void VehPhysProc_FreezeVShift_Init(Thread *thread, Driver *driver) {
+   
 
     driver->kartState = 9;
     driver->funcPtrs[1] = &VehPhysProc_FreezeVShift_Update;
@@ -28,8 +28,9 @@ void VehPhysProc_FreezeVShift_Init(void *unused, Driver *driver) {
     driver->funcPtrs[9] = &VehPhysProc_FreezeVShift_ReverseOneFrame;
     driver->funcPtrs[10] = &VehPhysForce_TranslateMatrix;
     driver->funcPtrs[11] = &VehFrameProc_Driving;
+
+    driver->funcPtrs[12] = &VehEmitter_DriverMain;
     driver->turboMeterRoomLeft = 0;
     driver->funcPtrs[0] = 0;
-    driver->funcPtrs[12] = &VehEmitter_DriverMain;
     driver->actionsFlagSet &= 0xEFFFFFFF;
 }

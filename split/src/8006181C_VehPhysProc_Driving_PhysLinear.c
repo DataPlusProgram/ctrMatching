@@ -743,7 +743,7 @@ block_284:
             driver->fireSpeed = (s16)var_s3_3;
         }
         if (!(var_s2 & 0x800020)) {
-            temp_s0_9 = M2C_FIELD(driver->terrainMeta2, s32 *, 8);
+            temp_s0_9 = driver->terrainMeta2->unk0x8;
             if (temp_s0_9 != 0x100) {
                 var_s3_3 = (s32) (temp_s0_9 * var_s3_3) >> 8;
                 var_s7 = (s16) ((s32) (temp_s0_9 * var_s7) >> 8);

@@ -1,22 +1,25 @@
 #include "../../common.h"
 
-s32 VehPhysGeneral_JumpGetVelY(struct Vec16 *normalVec, Vec3 *speedXYZ) {
-    s32 tempA2;
-    s32 varV0;
-    s32 varV1;
+int VehPhysGeneral_JumpGetVelY(s16 *param_1, s32 *param_2)
+{
+    s32 velY;
+    s32 absVelY;
+    s32 result;
 
-    tempA2 = normalVec->y;
-    varV0 = tempA2;
+    velY = param_1[1];
+    absVelY = velY;
 
-    if (tempA2 < 0) {
-        varV0 = -varV0;
+    if (absVelY < 0)
+    {
+        absVelY = -absVelY;
     }
 
-    varV1 = 0;
+    result = 0;
 
-    if (varV0 >= 0x15) {
-        varV1 = ((speedXYZ->x * normalVec->x) + (speedXYZ->z * normalVec->z)) / tempA2;
+    if (absVelY >= 0x15)
+    {
+        result = ((param_2[0] * param_1[0]) + (param_2[2] * param_1[2])) / velY;
     }
 
-    return varV1;
+    return result;
 }

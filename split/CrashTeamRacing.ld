@@ -850,7 +850,7 @@ SECTIONS
         build/src/8006C3B0_MatrixRotate.c.o(.text);
         build/src/8006C430_TRIG_AngleSinCos_r16r17r18_duplicate.c.o(.text);
         build/src/8006C49C_TRIG_Unknown_8006C49C.c.o(.text);
-        build/src/8006C540_TRIG_Unknown_8006C540.c.o(.text);
+        build/src/8006C540_SetRotMatrixRegs.c.o(.text);
         build/src/8006C558_TRIG_Unknown_8006C558.c.o(.text);
         build/src/8006C600_TRIG_Unknown_8006C600.c.o(.text);
         build/src/8006C618_SquareRoot0_stub.c.o(.text);
@@ -2074,7 +2074,7 @@ SECTIONS
         build/src/8006C3B0_MatrixRotate.c.o(.data);
         build/src/8006C430_TRIG_AngleSinCos_r16r17r18_duplicate.c.o(.data);
         build/src/8006C49C_TRIG_Unknown_8006C49C.c.o(.data);
-        build/src/8006C540_TRIG_Unknown_8006C540.c.o(.data);
+        build/src/8006C540_SetRotMatrixRegs.c.o(.data);
         build/src/8006C558_TRIG_Unknown_8006C558.c.o(.data);
         build/src/8006C600_TRIG_Unknown_8006C600.c.o(.data);
         build/src/8006C618_SquareRoot0_stub.c.o(.data);
@@ -3300,7 +3300,7 @@ SECTIONS
         build/src/8006C3B0_MatrixRotate.c.o(.rodata);
         build/src/8006C430_TRIG_AngleSinCos_r16r17r18_duplicate.c.o(.rodata);
         build/src/8006C49C_TRIG_Unknown_8006C49C.c.o(.rodata);
-        build/src/8006C540_TRIG_Unknown_8006C540.c.o(.rodata);
+        build/src/8006C540_SetRotMatrixRegs.c.o(.rodata);
         build/src/8006C558_TRIG_Unknown_8006C558.c.o(.rodata);
         build/src/8006C600_TRIG_Unknown_8006C600.c.o(.rodata);
         build/src/8006C618_SquareRoot0_stub.c.o(.rodata);
@@ -4524,7 +4524,7 @@ SECTIONS
         build/src/8006C3B0_MatrixRotate.c.o(.bss);
         build/src/8006C430_TRIG_AngleSinCos_r16r17r18_duplicate.c.o(.bss);
         build/src/8006C49C_TRIG_Unknown_8006C49C.c.o(.bss);
-        build/src/8006C540_TRIG_Unknown_8006C540.c.o(.bss);
+        build/src/8006C540_SetRotMatrixRegs.c.o(.bss);
         build/src/8006C558_TRIG_Unknown_8006C558.c.o(.bss);
         build/src/8006C600_TRIG_Unknown_8006C600.c.o(.bss);
         build/src/8006C618_SquareRoot0_stub.c.o(.bss);

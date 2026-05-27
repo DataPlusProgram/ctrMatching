@@ -1,55 +1,46 @@
 #include "../../common.h"
 
-extern M2C_UNK VehPhysProc_FreezeVShift_Init();
-extern M2C_UNK VehPhysProc_PowerSlide_Init();
-extern s32 D_8008D2B0;
+extern void VehPhysProc_FreezeVShift_Init(Thread *thread, Driver *driver);
+extern void VehPhysProc_PowerSlide_Init(Thread *thread, Driver *driver);
+extern GamepadSystem *D_8008D2B0;
 
-void VehPhysProc_Driving_Update(Thread *thread, Driver *driver) {
-    s32 temp_a2;
-    Thread *temp_a3;
-    s32 temp_a0;
-    s32 temp_v0;
-    s32 temp_v1;
-    s32 tempSign;
+void VehPhysProc_Driving_Update(Thread *thread, Driver *driver)
+{
+    u32 actionsFlagSet;
+    s32 turnThreshold;
+    s32 absTurnInput;
+    int turnRate;
 
-    temp_a2 = driver->actionsFlagSet;
-    temp_a3 = thread;
+    actionsFlagSet = driver->actionsFlagSet;
 
-    if (temp_a2 & 2) {
-        temp_v0 = driver->turnConst;
-        temp_v0 = temp_v0 << 1;
-        tempSign = temp_v0 >> 0x1F;
-        temp_a0 = temp_v0 / 5;
-        temp_a0 = temp_a0 - tempSign;
+    if (actionsFlagSet & 2) {
+        turnThreshold = (driver->turnConst * 2) / 5;
+		absTurnInput = driver->simpTurnState;
+        turnRate = (u8)driver->constTurnRate;
+        
 
-        temp_v1 = driver->simpTurnState;
-        temp_v0 = driver->constTurnRate;
-
-        if (temp_v1 < 0) {
-            temp_v1 = -temp_v1;
+        if (absTurnInput < 0) {
+            absTurnInput = -absTurnInput;
         }
 
-        temp_v0 = (temp_v0 + temp_a0) >> 1;
+        turnThreshold = (turnThreshold + ((u8)turnRate)) >> 1;
 
-        if (temp_v0 < temp_v1) {
-            temp_a0 = driver->buttonUsedToStartDrift;
-
-            if (M2C_FIELD((s8 *)D_8008D2B0 + ((u8)driver->driverId * 0x50), s32 *, 0x10) & temp_a0) {
-                temp_v0 = temp_a2 & 8;
-
-                if (
-                    (temp_v0 == 0) &&
-                    (driver->speedApprox >= ((s32)((u16)driver->constSpeedClassStat << 0x10) >> 0x11))
-                ) {
-                    VehPhysProc_PowerSlide_Init(temp_a3);
-                    return;
+        if (turnThreshold < absTurnInput) {
+            if (D_8008D2B0->gamepad[driver->driverId].buttonsHeldCurrFrame &
+                driver->buttonUsedToStartDrift) {
+                if ((actionsFlagSet & 8) == 0) {
+                    if (driver->speedApprox >=
+                        (((u16)driver->constSpeedClassStat << 16) >> 17)) {
+                        VehPhysProc_PowerSlide_Init(thread, driver);
+                        return;
+                    }
                 }
             }
         }
     }
 
     if ((driver->startDriving0x60 == 0) && (driver->unknownTraction >= 5)) {
-        VehPhysProc_FreezeVShift_Init(temp_a3);
+        VehPhysProc_FreezeVShift_Init(thread, driver);
         return;
     }
 

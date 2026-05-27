@@ -3,7 +3,7 @@
 s32 LOAD_IsOpen_AdvHub();                           /* extern */
 extern M2C_UNK COLL_FIXED_PlayerSearch;
 extern M2C_UNK COLL_MOVED_PlayerSearch;
-extern void *D_8008D2AC;
+extern GameTracker *gT;
 extern M2C_UNK VehEmitter_DriverMain;
 extern M2C_UNK VehFrameProc_Driving;
 extern M2C_UNK VehPhysForce_CollideDrivers;
@@ -15,10 +15,15 @@ extern M2C_UNK VehPhysProc_Driving_Audio;
 extern M2C_UNK VehPhysProc_Driving_PhysLinear;
 extern M2C_UNK VehPhysProc_Driving_Update;
 
-void VehPhysProc_Driving_Init(M2C_UNK arg0, Driver *driver) {
-    if (((u32) (M2C_FIELD(D_8008D2AC, s32 *, 0x1A10) - 0x19) >= 5U) || (LOAD_IsOpen_AdvHub() != 0)) {
-        if (M2C_FIELD(D_8008D2AC, s32 *, 0) & 0x20) {
-            if ((u8)driver->kartState == 6) {
+void VehPhysProc_Driving_Init(Thread *thread, Driver *driver)
+{
+
+    if (((u32)(gT->levelID - 0x19) >= 5) || (LOAD_IsOpen_AdvHub() != 0))
+	{
+        if (gT->gameMode1 & 0x20)
+		{
+            if ((u8)driver->kartState == 6)
+			{
                 driver->invincibleTimer = 0xB40;
             }
         }

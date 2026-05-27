@@ -45,8 +45,8 @@ void VehPhysProc_SlamWall_Init(Thread *thread, Driver *driver) {
     driver->jumpSquishStretch = 0;
     driver->baseSpeed = 0;
     driver->fireSpeed = 0;
-    M2C_FIELD(inst, s16 *, 0x1E) = 0xCCC;
-    M2C_FIELD(inst, s16 *, 0x1C) = 0xCCC;
+    inst->scale[1] = 0xCCC;
+    inst->scale[0] = 0xCCC;
     driver->funcPtrs[1] = &VehPhysProc_SlamWall_Update;
     driver->funcPtrs[0] = 0;
     driver->funcPtrs[2] = &VehPhysProc_SlamWall_PhysLinear;

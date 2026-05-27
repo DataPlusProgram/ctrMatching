@@ -12,8 +12,8 @@ typedef struct {
     void *unk1C;
 } M2cSongPoolAdvHub1Arg0;
 
-extern s32 boolStereoEnabled;
-extern s32 howl_spuAddrs;
+s32 boolStereoEnabled;
+s32 howl_spuAddrs;
 
 void SongPool_AdvHub1(M2cSongPoolAdvHub1Arg0 *arg0, s32 arg1, s8 arg2, s32 arg3) {
     u16 tempV1;
