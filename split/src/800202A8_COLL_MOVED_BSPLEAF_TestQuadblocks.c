@@ -9,18 +9,21 @@ M2C_UNK COLL_MOVED_QUADBLK_TestTriangles(); /* extern */
 
 void COLL_MOVED_BSPLEAF_TestQuadblocks(void *arg0, void *arg1)
 {
+    void *temp_s2;
     s32 varS0;
     s32 temp;
     s32 *varPtr;
 
-    if (*(s32 *)arg0 & 2) {
+    temp_s2 = arg0;
+
+    if (*(s32 *)temp_s2 & 2) {
         temp = *(s32 *)((s8 *)arg1 + 0x1A4);
         temp |= 0x8000;
         *(s32 *)((s8 *)arg1 + 0x1A4) = temp;
     }
 
-    varS0 = *(s32 *)((s8 *)arg0 + 0x18);
-    varPtr = (s32 *)*(s32 *)((s8 *)arg0 + 0x1C);
+    varPtr = (s32 *)*(s32 *)((s8 *)temp_s2 + 0x1C);
+    varS0 = *(s32 *)((s8 *)temp_s2 + 0x18);
 
     do {
         COLL_MOVED_QUADBLK_TestTriangles(varPtr, arg1);
@@ -30,6 +33,6 @@ void COLL_MOVED_BSPLEAF_TestQuadblocks(void *arg0, void *arg1)
 
     temp = *(s16 *)((s8 *)arg1 + 0x22);
     if (temp & 1) {
-        COLL_FIXED_BSPLEAF_TestInstance(arg0, arg1);
+        COLL_FIXED_BSPLEAF_TestInstance(temp_s2, arg1);
     }
 }

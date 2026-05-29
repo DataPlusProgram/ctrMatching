@@ -1,3 +1,6 @@
 #include "../../common.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800718DC_SetTransMatrix/800718DC_SetTransMatrix.s")
+void SetTransMatrix(MatrixNd *m)
+{
+    gte_ldtr_matrix(m);
+}

@@ -4,6 +4,6 @@ typedef s32 M2C_UNK;
 
 M2C_UNK _SpuInit();                          /* extern */
 
-void SpuInit(void) {
+void SsUtReverbOff(void) {
     _SpuInit(0);
 }

@@ -9,7 +9,7 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
 
 M2C_UNK ExitCriticalSection();
-s32 GPU_Unknown_8007C880();
+s32 startIntrVSync();
 M2C_UNK HookEntryInt();
 M2C_UNK StopCallback_Unknown_800773B8();
 M2C_UNK StopCallback_Unknown_800777E8();
@@ -54,7 +54,7 @@ void *StopCallback_Unknown_800772E0(void) {
     HookEntryInt((s8 *)varS0 - 4);
 
     M2C_FIELD(varS0, s16 *, -0x3C) = 1;
-    M2C_FIELD(D_8008C020, s32 *, 0x14) = GPU_Unknown_8007C880();
+    M2C_FIELD(D_8008C020, s32 *, 0x14) = startIntrVSync();
     M2C_FIELD(D_8008C020, s32 *, 4) = startIntrDMA();
 
     _96_remove(D_8008C020);

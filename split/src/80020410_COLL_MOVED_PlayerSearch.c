@@ -63,6 +63,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
 {
     GameTracker *gGT;
     COLL_MOVED_PlayerSearchScratch *scratch;
+    void *colliderLocal;
     u16 collisionFlags;
     s16 startX;
     s16 startY;
@@ -82,6 +83,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
     LevModelMeta *levModelMeta;
     QuadBlock *quadBlock;
 
+    colliderLocal = collider;
     gGT = gT;
     scratch = (COLL_MOVED_PlayerSearchScratch *)0x1F800108;
 
@@ -92,11 +94,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
     scratch->collisionScale = 0x3000;
     scratch->unk28 = 0;
     scratch->collisionFlags = 1;
-    scratch->levelRootValue = 0;
-
-    if (gGT->level1 != NULL) {
-        scratch->levelRootValue = *(s32 *)gGT->level1;
-    }
+    scratch->levelRootValue = *(s32 *)gGT->level1;
 
     if ((u8)gGT->numPlyrCurrGame < 3) {
         scratch->collisionFlags = 3;
@@ -108,7 +106,6 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
     scratch->stepFlags = 0;
     COLL_Unknown_80020334(NULL, 0, scratch);
 
-    collisionFlags = scratch->collisionFlags;
     iterationCount = 0xF;
 
     while (iterationCount != 0) {
@@ -224,7 +221,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
                         hitModelId = M2C_FIELD(instanceData, s16 *, 0x3C);
                         levModelMeta = COLL_LevModelMeta(hitModelId);
                         if ((levModelMeta != NULL) && (levModelMeta->collisionFunc != NULL)) {
-                            collisionResult = levModelMeta->collisionFunc(instanceData, collider, scratch);
+                            collisionResult = levModelMeta->collisionFunc(instanceData, colliderLocal, scratch);
                         }
                     }
                 }
@@ -234,7 +231,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
                     hitModelId = M2C_FIELD(M2C_FIELD(instanceData, void **, 0x18), s16 *, 0x10);
                     levModelMeta = COLL_LevModelMeta(hitModelId);
                     if ((levModelMeta != NULL) && (levModelMeta->collisionFunc != NULL)) {
-                        collisionResult = levModelMeta->collisionFunc(instanceData, collider, scratch);
+                        collisionResult = levModelMeta->collisionFunc(instanceData, colliderLocal, scratch);
                     }
                 }
             }
@@ -248,7 +245,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
 
                 terrainType = VehAfterColl_GetSurface(M2C_FIELD(scratch->hitInstance, u8 *, 0x1));
                 if ((M2C_FIELD(scratch->hitInstance, u8 *, 0x1) == 4) ||
-                    ((collisionResult = COLL_MOVED_ScrubImpact(driver, collider, scratch, terrainType, &driver->velocity)) == 0)) {
+                    ((collisionResult = COLL_MOVED_ScrubImpact(driver, colliderLocal, scratch, terrainType, &driver->velocity)) == 0)) {
                     scratch->seenInstances[scratch->seenInstanceCount] = scratch->hitInstance;
                     scratch->seenInstanceCount += 1;
                 }
@@ -300,7 +297,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
             driver->spsNormalVec[1] = scratch->normalVec.y;
             driver->spsNormalVec[2] = scratch->normalVec.z;
 
-            collisionResult = COLL_MOVED_ScrubImpact(driver, collider, scratch, terrainType, &driver->velocity);
+            collisionResult = COLL_MOVED_ScrubImpact(driver, colliderLocal, scratch, terrainType, &driver->velocity);
             if (collisionResult == 2) {
                 return;
             }

@@ -8,6 +8,9 @@ void VehPhysForce_OnGravity(Driver*, void*);
 
 void VehPhysForce_OnApplyForces(void *thread, Driver *driver)
 {
+
+
+
   if (driver->speed >= 0x6401)
   {
     driver->speed = 0x6400;

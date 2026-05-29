@@ -10,7 +10,7 @@ extern s32 *D_8008C758;
 extern M2C_UNK GPU_Unknown_8007C8D8;
 extern M2C_UNK GPU_Unknown_8007C944;
 
-M2C_UNK *GPU_Unknown_8007C880(void) {
+M2C_UNK *startIntrVSync(void) {
     *D_8008C758 = 0x100;
     D_8008C754 = 0;
     GPU_Unknown_8007C970(&D_8008C734, 8);

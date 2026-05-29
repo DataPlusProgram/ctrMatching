@@ -12,7 +12,7 @@ void VehPhysProc_SpinFirst_PhysAngular(Thread *thread, Driver *driver) {
     u16 tempV1;
     volatile u16 *spinVel;
 
-    spinVel = (volatile u16 *)&driver->rotationSpinRate;
+    spinVel = &driver->rotationSpinRate;
 
     tempA0 = *spinVel;
     driver->numFramesSpentSteering = 0x2710;

@@ -15,7 +15,7 @@ typedef struct {
 void _Unknown_8007E9E4(M2cUnknown8007E9E4Arg0 *arg0) {
     s32 varA2;
     u8 tempV0;
-    u8 tempV1;
+    s32 tempV1;
     u8 *varA1;
 
     tempV1 = arg0->unk37;

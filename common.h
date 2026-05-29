@@ -880,6 +880,25 @@ struct GameTracker {
     :                                   \
     : "r"(v) )
 
+#define gte_ldtr(r0, r1, r2) __asm__ volatile ( \
+    "ctc2 %0, $5\n\t"                           \
+    "ctc2 %1, $6\n\t"                           \
+    "ctc2 %2, $7"                               \
+    :                                           \
+    : "r"(r0), "r"(r1), "r"(r2) )
+
+#define gte_ldtr_matrix(m) do {                 \
+    register s32 t0 __asm__("$8") = (m)->t[0];  \
+    register s32 t1 __asm__("$9") = (m)->t[1];  \
+    register s32 t2 __asm__("$10") = (m)->t[2]; \
+    __asm__ volatile(                           \
+        "ctc2 $8, $5\n\t"                       \
+        "ctc2 $9, $6\n\t"                       \
+        "ctc2 $10, $7"                          \
+        :                                       \
+        : "r"(t0), "r"(t1), "r"(t2));           \
+} while (0)
+
 #define gte_ldL11L12(v) __asm__ volatile ( \
     "ctc2 %0, $8"                          \
     :                                      \
@@ -924,6 +943,42 @@ struct GameTracker {
     :                                    \
     : "r"(v)                             \
     : "memory" )
+
+#define ASM_MATRIX_LOAD_T3_T6(srcReg) \
+"    lw    $t3, 0x0(" srcReg ")\n"    \
+"    lw    $t4, 0x4(" srcReg ")\n"    \
+"    lw    $t5, 0x8(" srcReg ")\n"    \
+"    lw    $t6, 0xc(" srcReg ")\n"
+
+#define ASM_MATRIX_LOAD_T7(srcReg) \
+"    lw    $t7, 0x10(" srcReg ")\n"
+
+#define ASM_MATRIX_STORE_T3_T7(dstReg) \
+"    sw    $t3, 0x0(" dstReg ")\n"     \
+"    sw    $t4, 0x4(" dstReg ")\n"     \
+"    sw    $t5, 0x8(" dstReg ")\n"     \
+"    sw    $t6, 0xc(" dstReg ")\n"     \
+"    sw    $t7, 0x10(" dstReg ")\n"
+
+#define MATRIX_LOAD_TREGS(src, t3Reg, t4Reg, t5Reg, t6Reg, t7Reg) do { \
+    (t3Reg) = ((u32 *)(src))[0];                                        \
+    (t4Reg) = ((u32 *)(src))[1];                                        \
+    (t5Reg) = ((u32 *)(src))[2];                                        \
+    (t6Reg) = ((u32 *)(src))[3];                                        \
+    (t7Reg) = ((u32 *)(src))[4];                                        \
+    __asm__ volatile(""                                                 \
+        : "+r"(t3Reg), "+r"(t4Reg), "+r"(t5Reg), "+r"(t6Reg), "+r"(t7Reg)); \
+} while (0)
+
+#define MATRIX_STORE_TREGS(dst, t3Reg, t4Reg, t5Reg, t6Reg, t7Reg) do { \
+    __asm__ volatile(""                                                  \
+        : "+r"(t3Reg), "+r"(t4Reg), "+r"(t5Reg), "+r"(t6Reg), "+r"(t7Reg));  \
+    ((u32 *)(dst))[0] = (t3Reg);                                         \
+    ((u32 *)(dst))[1] = (t4Reg);                                         \
+    ((u32 *)(dst))[2] = (t5Reg);                                         \
+    ((u32 *)(dst))[3] = (t6Reg);                                         \
+    ((u32 *)(dst))[4] = (t7Reg);                                         \
+} while (0)
 
 #define read_mt(x, y, z) do { \
     gte_stmac1(&(x));         \

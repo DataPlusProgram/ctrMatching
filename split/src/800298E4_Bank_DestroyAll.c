@@ -1,3 +1,15 @@
-#include "../../common.h"
+typedef unsigned char u8;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800298E4_Bank_DestroyAll/800298E4_Bank_DestroyAll.s")
+typedef s32 M2C_UNK;
+
+M2C_UNK Bank_DestroyLast();                         /* extern */
+u8 ptrLastBank;
+
+void Bank_DestroyAll(void)
+{
+  while (ptrLastBank != '\0') {
+    Bank_DestroyLast();
+  }
+  return;
+}

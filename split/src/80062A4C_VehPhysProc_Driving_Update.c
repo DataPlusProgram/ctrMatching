@@ -13,24 +13,27 @@ void VehPhysProc_Driving_Update(Thread *thread, Driver *driver)
 
     actionsFlagSet = driver->actionsFlagSet;
 
-    if (actionsFlagSet & 2) {
+    if (actionsFlagSet & 2) // is on ground
+    {
         turnThreshold = (driver->turnConst * 2) / 5;
-		absTurnInput = driver->simpTurnState;
+        absTurnInput = driver->simpTurnState;
         turnRate = (u8)driver->constTurnRate;
-        
 
-        if (absTurnInput < 0) {
+        if (absTurnInput < 0)
+        {
             absTurnInput = -absTurnInput;
         }
 
         turnThreshold = (turnThreshold + ((u8)turnRate)) >> 1;
 
-        if (turnThreshold < absTurnInput) {
-            if (D_8008D2B0->gamepad[driver->driverId].buttonsHeldCurrFrame &
-                driver->buttonUsedToStartDrift) {
-                if ((actionsFlagSet & 8) == 0) {
-                    if (driver->speedApprox >=
-                        (((u16)driver->constSpeedClassStat << 16) >> 17)) {
+        if (turnThreshold < absTurnInput) // can drift
+        {
+            if (D_8008D2B0->gamepad[driver->driverId].buttonsHeldCurrFrame & driver->buttonUsedToStartDrift)
+            {
+                if ((actionsFlagSet & 8) == 0)
+                {
+                    if (driver->speedApprox >=(((u16)driver->constSpeedClassStat << 16) >> 17))
+                    {
                         VehPhysProc_PowerSlide_Init(thread, driver);
                         return;
                     }
@@ -39,12 +42,14 @@ void VehPhysProc_Driving_Update(Thread *thread, Driver *driver)
         }
     }
 
-    if ((driver->startDriving0x60 == 0) && (driver->unknownTraction >= 5)) {
+    if ((driver->startDriving0x60 == 0) && (driver->unknownTraction >= 5))
+    {
         VehPhysProc_FreezeVShift_Init(thread, driver);
         return;
     }
 
-    if (driver->startRollback0x280 == 0) {
+    if (driver->startRollback0x280 == 0)
+    {
         driver->unknownTraction = 0;
     }
 }

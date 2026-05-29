@@ -1,40 +1,40 @@
 #include "../../common.h"
 
-extern void SetRotMatrixRegs(void);
-extern void TRIG_Unknown_8006C49C(void);
-
-void MatrixRotate(void *output, void *baseMatrix, void *rotationData)
-{
-    u32 *outputWords;
-    u32 *baseWords;
-    u32 *rotationWords;
-    register u32 t3Reg __asm__("t3");
-    register u32 t4Reg __asm__("t4");
-    register u32 t5Reg __asm__("t5");
-    register u32 t6Reg __asm__("t6");
-    register u32 t7Reg __asm__("t7");
-
-    outputWords = (u32 *)output;
-    baseWords = (u32 *)baseMatrix;
-    rotationWords = (u32 *)rotationData;
-
-    t3Reg = baseWords[0];
-    t4Reg = baseWords[1];
-    t5Reg = baseWords[2];
-    t6Reg = baseWords[3];
-    t7Reg = baseWords[4];
-    SetRotMatrixRegs();
-
-    t3Reg = rotationWords[0];
-    t4Reg = rotationWords[1];
-    t5Reg = rotationWords[2];
-    t6Reg = rotationWords[3];
-    t7Reg = rotationWords[4];
-    TRIG_Unknown_8006C49C();
-
-    outputWords[0] = t3Reg;
-    outputWords[1] = t4Reg;
-    outputWords[2] = t5Reg;
-    outputWords[3] = t6Reg;
-    outputWords[4] = t7Reg;
-}
+__asm__(
+".set noreorder\n"
+".globl MatrixRotate\n"
+"MatrixRotate:\n"
+"    lui   $at, 0x1f80\n"
+"    sw    $s0, 0x0($at)\n"
+"    sw    $s1, 0x4($at)\n"
+"    sw    $s2, 0x8($at)\n"
+"    sw    $s3, 0xc($at)\n"
+"    sw    $s4, 0x10($at)\n"
+"    sw    $ra, 0x2c($at)\n"
+"    lw    $t3, 0x0($a1)\n"
+"    lw    $t4, 0x4($a1)\n"
+"    lw    $t5, 0x8($a1)\n"
+"    lw    $t6, 0xc($a1)\n"
+"    jal   SetRotMatrixRegs\n"
+"     lw   $t7, 0x10($a1)\n"
+"    lw    $t3, 0x0($a2)\n"
+"    lw    $t4, 0x4($a2)\n"
+"    lw    $t5, 0x8($a2)\n"
+"    lw    $t6, 0xc($a2)\n"
+"    jal   TRIG_Unknown_8006C49C\n"
+"     lw   $t7, 0x10($a2)\n"
+"    sw    $t3, 0x0($a0)\n"
+"    sw    $t4, 0x4($a0)\n"
+"    sw    $t5, 0x8($a0)\n"
+"    sw    $t6, 0xc($a0)\n"
+"    sw    $t7, 0x10($a0)\n"
+"    lw    $ra, 0x2c($at)\n"
+"    lw    $s4, 0x10($at)\n"
+"    lw    $s3, 0xc($at)\n"
+"    lw    $s2, 0x8($at)\n"
+"    lw    $s1, 0x4($at)\n"
+"    lw    $s0, 0x0($at)\n"
+"    jr    $ra\n"
+"     nop\n"
+".set reorder\n"
+);

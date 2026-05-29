@@ -1,3 +1,8 @@
-#include "../../common.h"
+typedef short s16;
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/80043F1C_RaceFlag_IsFullyOnScreen/80043F1C_RaceFlag_IsFullyOnScreen.s")
+s16 RaceFlag_ElapsedTime;
+
+s32 RaceFlag_IsFullyOnScreen(void) {
+    return RaceFlag_ElapsedTime == 0;
+}
