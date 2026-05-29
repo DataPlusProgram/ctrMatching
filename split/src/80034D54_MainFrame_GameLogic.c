@@ -84,11 +84,8 @@ void MainFrame_GameLogic(GameTracker *gGT, GamepadSystem *gamepads)
     Driver *chaseDriver;
     VehicleFuncPtr vehicleFunc;
     MainFrameThreadBucket *threadBuckets;
-    GamepadSystem *savedGamepads;
 
     wasOutsideGameplay = true;
-    savedGamepads = gamepads;
-
     if ((gGT->gameMode1 & 0xf) == 0)
     {
         wasOutsideGameplay = false;
@@ -420,7 +417,7 @@ void MainFrame_GameLogic(GameTracker *gGT, GamepadSystem *gamepads)
                 if ((((numConnected != 0) &&
                     (MainFrame_HaveAllPads(s_OTMem->numPlyrNextGame) == 0) &&
                     ((gGT->gameMode1 & 0xf) == 0)) ||
-                    ((savedGamepads->gamepad[i].buttonsTapped & 0x1000) != 0)) &&
+                    ((gamepads->gamepad[i].buttonsTapped & 0x1000) != 0)) &&
                     (M2C_FIELD(s_OTMem, u8 *, 0x2541) != 0xff))
                 {
                     s_OTMem->gameModeEnd = (s_OTMem->gameMode1 & 0x3e0020) | 1;

@@ -1,21 +1,43 @@
-typedef unsigned int uint;
-typedef unsigned short ushort;
+#include "../../common.h"
 
-uint  INSTANCE_GetNumAnimFrames(int param_1, int param_2)
+u32 INSTANCE_GetNumAnimFrames(Instance *inst, s32 animIndex)
 {
-    int iVar1;
-    int *animArr;
-    int anim;
+    Model *model;
+    ModelHeader *header;
+    ModelAnim *anim;
 
-    iVar1 = *(int *)(param_1 + 0x18);
-    if (iVar1 == 0) return 0;
-    if (*(short *)(iVar1 + 0x12) <= 0) return 0;
-    iVar1 = *(int *)(iVar1 + 0x14);
-    if (iVar1 == 0) return 0;
-    if (param_2 >= *(int *)(iVar1 + 0x34)) return 0;
-    animArr = *(int **)(iVar1 + 0x38);
-    if (animArr == 0) return 0;
-    anim = animArr[param_2];
-    if (anim == 0) return 0;
-    return (uint)*(ushort *)(anim + 0x10) & 0x7FFF;
+    model = inst->model;
+    if (model == NULL)
+    {
+        return 0;
+    }
+
+    if (model->numHeaders <= 0)
+    {
+        return 0;
+    }
+
+    header = model->headers;
+    if (header == NULL)
+    {
+        return 0;
+    }
+
+    if (header->numAnimations <= animIndex)
+    {
+        return 0;
+    }
+
+    if (header->ptrAnimations == NULL)
+    {
+        return 0;
+    }
+
+    anim = header->ptrAnimations[animIndex];
+    if (anim == NULL)
+    {
+        return 0;
+    }
+
+    return anim->numFrames & 0x7FFF;
 }

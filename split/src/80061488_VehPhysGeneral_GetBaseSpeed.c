@@ -1,6 +1,6 @@
 #include "../../common.h"
 
-s32 func_80061488(struct Driver *driver)
+s32 VehPhysGeneral_GetBaseSpeed(struct Driver *driver)
 {
   struct Driver *d;
   s32 boost;

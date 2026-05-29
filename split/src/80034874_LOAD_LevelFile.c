@@ -15,7 +15,7 @@ void LOAD_LevelFile(s32 levelId)
 
     D_8008D104 = 0;
     gGT->hudFlags &= 0xFE;
-    M2C_FIELD(gGT, s32 *, 0x1EB4) = gGT->levelID;
+    gGT->prevLevelID = gGT->levelID;
     gGT->levelID = levelId;
     M2C_FIELD(gGT, s32 *, 0x256C) &= 0x1000;
 

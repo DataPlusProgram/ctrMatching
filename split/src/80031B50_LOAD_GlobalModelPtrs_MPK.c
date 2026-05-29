@@ -1,20 +1,12 @@
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
+#include "../../common.h"
 
-#define NULL 0
-typedef s32 M2C_UNK;
-
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
-
-M2C_UNK LibraryOfModels_Store(); /* extern */
-extern s32 AkuAkuHintState;
-extern s32 gGamepads;
+void LibraryOfModels_Store(GameTracker *gT, s32 modelCountOrMinusOne, void **modelList);
+extern void *AkuAkuHintState;
+extern GameTracker *gT;
 extern void *podiumModel_firstPlace;
 
 void LOAD_GlobalModelPtrs_MPK(void) {
     s32 count;
-    s32 gamepads;
     s32 minusOne;
     void **modelPtr;
     void *model;
@@ -23,7 +15,6 @@ void LOAD_GlobalModelPtrs_MPK(void) {
     count = 0;
     minusOne = -1;
     modelPtr = &podiumModel_firstPlace;
-    gamepads = gGamepads;
 
     do {
         model = *modelPtr;
@@ -31,7 +22,7 @@ void LOAD_GlobalModelPtrs_MPK(void) {
             modelIndex = M2C_FIELD(model, s16 *, 0x10);
             if (modelIndex != minusOne) {
                 modelIndex = modelIndex << 2;
-                M2C_FIELD(gamepads + modelIndex, void **, 0x2160) = model;
+                M2C_FIELD((s8 *)gT + modelIndex, void **, 0x2160) = model;
             }
         }
 
@@ -40,6 +31,6 @@ void LOAD_GlobalModelPtrs_MPK(void) {
     } while (count < 3);
 
     if (AkuAkuHintState != 0) {
-        LibraryOfModels_Store(gGamepads, -1, AkuAkuHintState);
+        LibraryOfModels_Store(gT, -1, (void **)AkuAkuHintState);
     }
 }

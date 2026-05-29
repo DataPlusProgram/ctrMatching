@@ -22,7 +22,7 @@ void VehPhysProc_Driving_Init(Thread *thread, Driver *driver)
 	{
         if (gT->gameMode1 & 0x20)
 		{
-            if ((u8)driver->kartState == 6)
+            if (driver->kartState == 6)
 			{
                 driver->invincibleTimer = 0xB40;
             }

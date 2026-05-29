@@ -1,54 +1,53 @@
-typedef int s32;
-typedef unsigned int u32;
-typedef unsigned char u8;
+#include "../../common.h"
 
-extern u8 D_8008D0B3;
+extern u8 D_8008D0B3[];
 
-s32 LOAD_GetBigfileIndex(u32 arg0, s32 arg1, s32 arg2) {
+s32 LOAD_GetBigfileIndex(LevelId levelId, s32 lodIndex, s32 bigfileIndexBase)
+{
     u32 tempA3;
     u32 tempV1;
     u32 tempV1_2;
     u32 tempV1_3;
 
-    tempA3 = arg0 - 0x12;
-    if (arg0 < 0x12U) {
-        return (arg0 * 8) + *(&D_8008D0B3 + arg1) + arg2;
+    tempA3 = levelId - 0x12;
+    if ((u32)levelId < 0x12U) {
+        return (levelId * 8) + D_8008D0B3[lodIndex] + bigfileIndexBase;
     }
 
-    tempV1_3 = arg0 - 0x1E;
+    tempV1_3 = levelId - 0x1E;
     if (tempA3 < 7U) {
-        return (tempA3 * 8) + *(&D_8008D0B3 + arg1) + arg2 + 0x90;
+        return (tempA3 * 8) + D_8008D0B3[lodIndex] + bigfileIndexBase + 0x90;
     }
 
     if (tempV1_3 < 9U) {
-        return (tempV1_3 * 3) + arg2 + 0x203;
+        return (tempV1_3 * 3) + bigfileIndexBase + 0x203;
     }
 
-    tempV1_2 = arg0 - 0x2A;
+    tempV1_2 = levelId - 0x2A;
     if (tempV1_2 < 2U) {
-        return (tempV1_2 * 2) + arg2 + 0x21E;
+        return (tempV1_2 * 2) + bigfileIndexBase + 0x21E;
     }
 
-    if (arg0 == 0x28) {
-        return arg2 + 0xD9;
+    if (levelId == ADVENTURE_GARAGE) {
+        return bigfileIndexBase + 0xD9;
     }
 
-    tempV1 = arg0 - 0x2C;
-    if (arg0 == 0x29) {
-        return arg2 + 0x201;
+    tempV1 = levelId - 0x2C;
+    if (levelId == NAUGHTY_DOG_CRATE) {
+        return bigfileIndexBase + 0x201;
     }
 
     if (tempV1 < 0x14U) {
-        return (tempV1 * 3) + arg2 + 0x222;
+        return (tempV1 * 3) + bigfileIndexBase + 0x222;
     }
 
-    if (arg0 == 0x27) {
-        return arg2 + 0xD7;
+    if (levelId == MAIN_MENU_LEVEL) {
+        return bigfileIndexBase + 0xD7;
     }
 
-    if (arg0 == 0x40) {
-        return arg2 + 0x25E;
+    if (levelId == SCRAPBOOK) {
+        return bigfileIndexBase + 0x25E;
     }
 
-    return ((arg0 - 0x19) * 3) + arg2 + 0xC8;
+    return ((levelId - 0x19) * 3) + bigfileIndexBase + 0xC8;
 }

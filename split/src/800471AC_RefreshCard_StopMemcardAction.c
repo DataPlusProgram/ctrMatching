@@ -1,3 +1,9 @@
-#include "../../common.h"
+typedef short s16;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/800471AC_RefreshCard_StopMemcardAction/800471AC_RefreshCard_StopMemcardAction.s")
+s16 D_8008D48C;
+s16 memcardAction;
+
+void RefreshCard_StopMemcardAction(void) {
+    memcardAction = 1;
+    D_8008D48C = 2;
+}

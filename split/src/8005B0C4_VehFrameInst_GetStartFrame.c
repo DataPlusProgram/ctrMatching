@@ -1,3 +1,18 @@
 #include "../../common.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8005B0C4_VehFrameInst_GetStartFrame/8005B0C4_VehFrameInst_GetStartFrame.s")
+s32 VehFrameInst_Unknown_8005B0EC(void);
+
+s32 VehFrameInst_GetStartFrame(s32 animIndex, s32 numFrames)
+{
+    if (animIndex == 0)
+    {
+        return numFrames >> 1;
+    }
+
+    if (animIndex != 4)
+    {
+        return VehFrameInst_Unknown_8005B0EC();
+    }
+
+    return numFrames - 1;
+}

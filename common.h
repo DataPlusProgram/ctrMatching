@@ -29,9 +29,80 @@ typedef struct MultitapPacket MultitapPacket;
 typedef struct RacingWheelData RacingWheelData;
 typedef struct GamepadBuffer GamepadBuffer;
 typedef struct GamepadSystem GamepadSystem;
+typedef struct Model Model;
+typedef struct ModelAnim ModelAnim;
+typedef struct ModelHeader ModelHeader;
 typedef struct Pvs Pvs;
 
 typedef s32 M2C_UNK;
+
+typedef enum LevelId {
+    DINGO_CANYON = 0,
+    DRAGON_MINES = 1,
+    BLIZZARD_BLUFF = 2,
+    CRASH_COVE = 3,
+    TIGER_TEMPLE = 4,
+    PAPU_PYRAMID = 5,
+    ROO_TUBES = 6,
+    HOT_AIR_SKYWAY = 7,
+    SEWER_SPEEDWAY = 8,
+    MYSTERY_CAVES = 9,
+    CORTEX_CASTLE = 10,
+    N_GIN_LABS = 11,
+    POLAR_PASS = 12,
+    OXIDE_STATION = 13,
+    COCO_PARK = 14,
+    TINY_ARENA = 15,
+    SLIDE_COLISEUM = 16,
+    TURBO_TRACK = 17,
+    NITRO_COURT = 18,
+    RAMPAGE_RUINS = 19,
+    PARKING_LOT = 20,
+    SKULL_ROCK = 21,
+    THE_NORTH_BOWL = 22,
+    ROCKY_ROAD = 23,
+    LAB_BASEMENT = 24,
+    GEM_STONE_VALLEY = 25,
+    N_SANITY_BEACH = 26,
+    THE_LOST_RUINS = 27,
+    GLACIER_PARK = 28,
+    CITADEL_CITY = 29,
+    INTRO_RACE_TODAY = 30,
+    INTRO_COCO = 31,
+    INTRO_TINY = 32,
+    INTRO_POLAR = 33,
+    INTRO_DINGODILE = 34,
+    INTRO_CORTEX = 35,
+    INTRO_SPACE = 36,
+    INTRO_CRASH = 37,
+    INTRO_OXIDE = 38,
+    MAIN_MENU_LEVEL = 39,
+    ADVENTURE_GARAGE = 40,
+    NAUGHTY_DOG_CRATE = 41,
+    OXIDE_ENDING = 42,
+    OXIDE_TRUE_ENDING = 43,
+    CREDITS_CRASH = 44,
+    CREDITS_CORTEX = 45,
+    CREDITS_TINY = 46,
+    CREDITS_COCO = 47,
+    CREDITS_N_GIN = 48,
+    CREDITS_DINGO = 49,
+    CREDITS_POLAR = 50,
+    CREDITS_PURA = 51,
+    CREDITS_PINSTRIPE = 52,
+    CREDITS_PAPU = 53,
+    CREDITS_ROO = 54,
+    CREDITS_JOE = 55,
+    CREDITS_TROPY = 56,
+    CREDITS_PENTA = 57,
+    CREDITS_FAKE_CRASH = 58,
+    CREDITS_OXIDE = 59,
+    CREDITS_AMI = 60,
+    CREDITS_ISABELLA = 61,
+    CREDITS_LIZ = 62,
+    CREDITS_MEGUMI = 63,
+    SCRAPBOOK = 64
+} LevelId;
 
 #ifndef NULL
 #define NULL 0
@@ -67,7 +138,7 @@ struct Instance {
     Instance *next;                     // 0x000
     Instance *prev;                     // 0x004
     char name[0x10];                    // 0x008
-    void *model;                        // 0x018
+    Model *model;                       // 0x018
     s16 scale[3];                       // 0x01C
     s16 alphaScale;                     // 0x022
     u32 colorRGBA;                      // 0x024
@@ -84,6 +155,23 @@ struct Instance {
     void *funcPtr[4];                   // 0x05C
     Thread *thread;                     // 0x06C
     s32 bitCompressed_NormalVector_AndDriverIndex; // 0x070
+};
+
+struct ModelAnim {
+    u8 pad0[0x10];                    // 0x000
+    u16 numFrames;                    // 0x010
+};
+
+struct ModelHeader {
+    u8 pad0[0x34];                    // 0x000
+    s32 numAnimations;                // 0x034
+    ModelAnim **ptrAnimations;        // 0x038
+};
+
+struct Model {
+    u8 pad0[0x12];                    // 0x000
+    s16 numHeaders;                   // 0x012
+    ModelHeader *headers;             // 0x014
 };
 
 struct InstDrawPerPlayer {
@@ -801,6 +889,20 @@ struct GameTracker {
     } currAdvProfile;
 
     s32 cupID;                        // 0x1E58
+    s32 unk1E5C[0x16];               // 0x1E5C
+    s32 prevLevelID;                 // 0x1EB4
+    s32 unk1EB8[2];                  // 0x1EB8
+    s32 unk1EC0;                     // 0x1EC0
+    s32 unk1EC4;                     // 0x1EC4
+    s32 unk1EC8;                     // 0x1EC8
+    void *trafficLightIconRedOff;    // 0x1ECC
+    void *trafficLightIconRedOn;     // 0x1ED0
+    void *trafficLightIconGreenOff;  // 0x1ED4
+    void *trafficLightIconGreenOn;   // 0x1ED8
+    s32 unk1EDC[0x35];               // 0x1EDC
+    void *unk1FB0;                   // 0x1FB0
+    s32 unk1FB4[0x10];               // 0x1FB4
+    void *unk1FF4;                   // 0x1FF4
 };
 
 #define gte_SetColorMatrix(r0) __asm__ volatile ( \

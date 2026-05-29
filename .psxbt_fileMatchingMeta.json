@@ -17,11 +17,11 @@
 	},
 	"80012440_BOTS_InitNavPath": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 57.9577464788732,
 		"maxScore": 7100.0,
 		"patchEnabled": false,
-		"score": 7100.0,
-		"scoreText": "0.00% | 7100 / 7100"
+		"score": 2985.0,
+		"scoreText": "57.96% | 2985 / 7100"
 	},
 	"80012560_BOTS_EmptyFunc": {
 		"gccVersion": "gcc2.8.1",
@@ -66,9 +66,9 @@
 	"800135D8_BOTS_LevInstColl": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 8500,
+		"maxScore": 8500.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 8500"
 	},
 	"8001372C_BOTS_ThTick_RevEngine": {
@@ -82,9 +82,9 @@
 	"80013838_BOTS_MaskGrab": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 14200,
+		"maxScore": 14200.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 14200"
 	},
 	"80013A70_BOTS_Killplane": {
@@ -114,17 +114,17 @@
 	"80016EC8_BOTS_CollideWithOtherAI": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 68.2247191011236,
-		"maxScore": 8900,
+		"maxScore": 8900.0,
 		"patchEnabled": false,
-		"score": 2828,
+		"score": 2828.0,
 		"scoreText": "68.22% | 2828 / 8900"
 	},
 	"8001702C_BOTS_GotoStartingLine": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 90.7692307692308,
-		"maxScore": 7800,
+		"maxScore": 7800.0,
 		"patchEnabled": false,
-		"score": 720,
+		"score": 720.0,
 		"scoreText": "90.77% | 720 / 7800"
 	},
 	"80017164_BOTS_Driver_Init": {
@@ -186,9 +186,9 @@
 	"80018B18_CAM_Path_GetNumPoints": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 3400,
+		"maxScore": 3400.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 3400"
 	},
 	"80018BA0_CAM_Path_Move": {
@@ -313,11 +313,11 @@
 	},
 	"8001C360_CDSYS_Init": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 38.8333333333333,
 		"maxScore": 4800.0,
 		"patchEnabled": false,
-		"score": 4800.0,
-		"scoreText": "0.00% | 4800 / 4800"
+		"score": 2936.0,
+		"scoreText": "38.83% | 2936 / 4800"
 	},
 	"8001C420_CDSYS_GetFilePosInt": {
 		"gccVersion": "gcc2.8.1",
@@ -514,9 +514,9 @@
 	"8001EBEC_COLL_SearchBSP_CallbackPARAM": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 12500,
+		"maxScore": 12500.0,
 		"patchEnabled": false,
-		"score": 12500,
+		"score": 12500.0,
 		"scoreText": "0.00% | 12500 / 12500"
 	},
 	"8001EDE4_COLL_FIXED_TRIANGL_Barycentrics": {
@@ -569,11 +569,11 @@
 	},
 	"8001F5F0_COLL_FIXED_BSPLEAF_TestQuadblocks": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 67.5142857142857,
+		"matchPercent": 78.6571428571429,
 		"maxScore": 3500.0,
 		"patchEnabled": false,
-		"score": 1137.0,
-		"scoreText": "67.51% | 1137 / 3500"
+		"score": 747.0,
+		"scoreText": "78.66% | 747 / 3500"
 	},
 	"8001F67C_COLL_FIXED_QUADBLK_GetNormVecs_LoLOD": {
 		"gccVersion": "gcc2.8.1",
@@ -610,25 +610,25 @@
 	"8001FC40_COLL_MOVED_TRIANGL_TestPoint": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 26500,
+		"maxScore": 26500.0,
 		"patchEnabled": false,
-		"score": 33684,
+		"score": 33684.0,
 		"scoreText": "0.00% | 33684 / 26500"
 	},
 	"80020064_COLL_MOVED_QUADBLK_TestTriangles": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 9.0,
-		"maxScore": 14500,
+		"maxScore": 14500.0,
 		"patchEnabled": false,
-		"score": 13195,
+		"score": 13195.0,
 		"scoreText": "9.00% | 13195 / 14500"
 	},
 	"800202A8_COLL_MOVED_BSPLEAF_TestQuadblocks": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 78.6571428571429,
-		"maxScore": 3500,
+		"maxScore": 3500.0,
 		"patchEnabled": false,
-		"score": 747,
+		"score": 747.0,
 		"scoreText": "78.66% | 747 / 3500"
 	},
 	"80020334_COLL_Unknown_80020334": {
@@ -642,17 +642,17 @@
 	"80020410_COLL_MOVED_PlayerSearch": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 72.4433962264151,
-		"maxScore": 53000,
+		"maxScore": 53000.0,
 		"patchEnabled": false,
-		"score": 14605,
+		"score": 14605.0,
 		"scoreText": "72.44% | 14605 / 53000"
 	},
 	"80020C58_COLL_MOVED_ScrubImpact": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 38.2111913357401,
-		"maxScore": 55400,
+		"maxScore": 55400.0,
 		"patchEnabled": false,
-		"score": 34231,
+		"score": 34231.0,
 		"scoreText": "38.21% | 34231 / 55400"
 	},
 	"80021500_CTR_Box_DrawWirePrims": {
@@ -809,19 +809,19 @@
 	},
 	"800222E0_DebugFont_Init": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 33.3846153846154,
+		"matchPercent": 90.6923076923077,
 		"maxScore": 1300.0,
 		"patchEnabled": false,
-		"score": 866.0,
-		"scoreText": "33.38% | 866 / 1300"
+		"score": 121.0,
+		"scoreText": "90.69% | 121 / 1300"
 	},
 	"80022318_DebugFont_DrawNumbers": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 46.0909090909091,
 		"maxScore": 5500.0,
 		"patchEnabled": false,
-		"score": 5500.0,
-		"scoreText": "0.00% | 5500 / 5500"
+		"score": 2965.0,
+		"scoreText": "46.09% | 2965 / 5500"
 	},
 	"800223F4_DecalFont_GetLineWidthStrlen": {
 		"gccVersion": "gcc2.8.1",
@@ -978,17 +978,17 @@
 	"80023A40_DISPLAY_Blur_SubFunc": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 19500,
+		"maxScore": 19500.0,
 		"patchEnabled": false,
-		"score": 19500,
+		"score": 19500.0,
 		"scoreText": "0.00% | 19500 / 19500"
 	},
 	"80023D4C_DISPLAY_Blur_Main": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 53.5406976744186,
-		"maxScore": 17200,
+		"maxScore": 17200.0,
 		"patchEnabled": false,
-		"score": 7991,
+		"score": 7991.0,
 		"scoreText": "53.54% | 7991 / 17200"
 	},
 	"80023FFC_DISPLAY_Swap": {
@@ -1049,11 +1049,11 @@
 	},
 	"8002481C_ElimBG_Activate": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 46.875,
+		"matchPercent": 71.25,
 		"maxScore": 800.0,
 		"patchEnabled": false,
-		"score": 425.0,
-		"scoreText": "46.88% | 425 / 800"
+		"score": 230.0,
+		"scoreText": "71.25% | 230 / 800"
 	},
 	"80024840_ElimBG_ToggleInstance": {
 		"gccVersion": "gcc2.8.1",
@@ -1450,9 +1450,9 @@
 	"80028BBC_SetReverbMode": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 4700,
+		"maxScore": 4700.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 4700"
 	},
 	"80028C78_CseqMusic_Start": {
@@ -1546,9 +1546,9 @@
 	"800293B8_Bank_AssignSpuAddrs": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 48.4153846153846,
-		"maxScore": 19500,
+		"maxScore": 19500.0,
 		"patchEnabled": false,
-		"score": 10059,
+		"score": 10059.0,
 		"scoreText": "48.42% | 10059 / 19500"
 	},
 	"800296C4_Bank_Destroy": {
@@ -1609,11 +1609,11 @@
 	},
 	"80029988_howl_InitGlobals": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 51.3,
 		"maxScore": 5000.0,
 		"patchEnabled": false,
-		"score": 5000.0,
-		"scoreText": "0.00% | 5000 / 5000"
+		"score": 2435.0,
+		"scoreText": "51.30% | 2435 / 5000"
 	},
 	"80029A50_howl_ParseHeader": {
 		"gccVersion": "gcc2.8.1",
@@ -1729,11 +1729,11 @@
 	},
 	"8002A28C_cseq_opcode05_noteon": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 64.2957746478873,
+		"matchPercent": 64.3661971830986,
 		"maxScore": 7100.0,
 		"patchEnabled": false,
-		"score": 2535.0,
-		"scoreText": "64.30% | 2535 / 7100"
+		"score": 2530.0,
+		"scoreText": "64.37% | 2530 / 7100"
 	},
 	"8002A3A8_cseq_opcode06": {
 		"gccVersion": "gcc2.8.1",
@@ -1802,9 +1802,9 @@
 	"8002A730_SongPool_Start": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 17000,
+		"maxScore": 17000.0,
 		"patchEnabled": false,
-		"score": 17000,
+		"score": 17000.0,
 		"scoreText": "0.00% | 17000 / 17000"
 	},
 	"8002A9D8_SongPool_Volume": {
@@ -1826,9 +1826,9 @@
 	"8002AA44_SongPool_AdvHub2": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 99.9056603773585,
-		"maxScore": 5300,
+		"maxScore": 5300.0,
 		"patchEnabled": false,
-		"score": 5,
+		"score": 5.0,
 		"scoreText": "99.91% | 5 / 5300"
 	},
 	"8002AB18_SongPool_StopCseq": {
@@ -2129,11 +2129,11 @@
 	},
 	"8002CB44_Voiceline_StopAll": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 35.5,
-		"maxScore": 2800.0,
+		"matchPercent": 88.7142857142857,
+		"maxScore": 2800,
 		"patchEnabled": false,
-		"score": 1806.0,
-		"scoreText": "35.50% | 1806 / 2800"
+		"score": 316,
+		"scoreText": "88.71% | 316 / 2800"
 	},
 	"8002CBB4_Voiceline_ToggleEnable": {
 		"gccVersion": "gcc2.8.1",
@@ -2154,9 +2154,9 @@
 	"8002CF28_Voiceline_StartPlay": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 11600.0,
+		"maxScore": 11600,
 		"patchEnabled": false,
-		"score": 11600.0,
+		"score": 11600,
 		"scoreText": "0.00% | 11600 / 11600"
 	},
 	"8002D0F8_Voiceline_Update": {
@@ -2410,9 +2410,9 @@
 	"8002E9C0_Level_SoundLoopSet": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 3300.0,
+		"maxScore": 3300,
 		"patchEnabled": false,
-		"score": 0.0,
+		"score": 0,
 		"scoreText": "100.00% | 0 / 3300"
 	},
 	"8002EA44_Level_SoundLoopFade": {
@@ -2513,19 +2513,19 @@
 	},
 	"800304B8_Garage_LerpFX": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 72.6890756302521,
-		"maxScore": 11900.0,
+		"matchPercent": 72.7310924369748,
+		"maxScore": 11900,
 		"patchEnabled": false,
-		"score": 3250.0,
-		"scoreText": "72.69% | 3250 / 11900"
+		"score": 3245,
+		"scoreText": "72.73% | 3245 / 11900"
 	},
 	"80030694_Garage_MoveLR": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 62.9555555555556,
-		"maxScore": 4500.0,
+		"matchPercent": 66.2444444444444,
+		"maxScore": 4500,
 		"patchEnabled": false,
-		"score": 1667.0,
-		"scoreText": "62.96% | 1667 / 4500"
+		"score": 1519,
+		"scoreText": "66.24% | 1519 / 4500"
 	},
 	"8003074C_Garage_Leave": {
 		"gccVersion": "gcc2.8.1",
@@ -2825,11 +2825,11 @@
 	},
 	"80031A64_LOAD_Callback_Podiums": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 82.0,
+		"matchPercent": 63.0,
 		"maxScore": 500.0,
 		"patchEnabled": false,
-		"score": 90.0,
-		"scoreText": "82.00% | 90 / 500"
+		"score": 185.0,
+		"scoreText": "63.00% | 185 / 500"
 	},
 	"80031A78_LOAD_Callback_LEV": {
 		"gccVersion": "gcc2.8.1",
@@ -2841,11 +2841,11 @@
 	},
 	"80031AA4_LOAD_Callback_PatchMem": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 95.0,
 		"maxScore": 2300.0,
 		"patchEnabled": false,
-		"score": 2300.0,
-		"scoreText": "0.00% | 2300 / 2300"
+		"score": 115.0,
+		"scoreText": "95.00% | 115 / 2300"
 	},
 	"80031B00_LOAD_Callback_DriverModels": {
 		"gccVersion": "gcc2.8.1",
@@ -2865,11 +2865,11 @@
 	},
 	"80031B50_LOAD_GlobalModelPtrs_MPK": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 94.0,
+		"matchPercent": 81.1142857142857,
 		"maxScore": 3500.0,
 		"patchEnabled": false,
-		"score": 210.0,
-		"scoreText": "94.00% | 210 / 3500"
+		"score": 661.0,
+		"scoreText": "81.11% | 661 / 3500"
 	},
 	"80031BDC_LOAD_HubSwapPtrs": {
 		"gccVersion": "gcc2.8.1",
@@ -2897,11 +2897,11 @@
 	},
 	"80031C78_LOAD_ReadDirectory": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
-		"maxScore": 4600,
+		"matchPercent": 97.2826086956522,
+		"maxScore": 4600.0,
 		"patchEnabled": false,
-		"score": 4600,
-		"scoreText": "0.00% | 4600 / 4600"
+		"score": 125.0,
+		"scoreText": "97.28% | 125 / 4600"
 	},
 	"80031D30_LOAD_DramFileCallback": {
 		"gccVersion": "gcc2.8.1",
@@ -2946,9 +2946,9 @@
 	"800321B4_LOAD_ReadFile": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 10000,
+		"maxScore": 10000.0,
 		"patchEnabled": false,
-		"score": 10000,
+		"score": 10000.0,
 		"scoreText": "0.00% | 10000 / 10000"
 	},
 	"80032344_LOAD_XnfFile": {
@@ -2961,11 +2961,11 @@
 	},
 	"80032438_LOAD_FindFile": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 100.0,
 		"maxScore": 2400.0,
 		"patchEnabled": false,
-		"score": 2400.0,
-		"scoreText": "0.00% | 2400 / 2400"
+		"score": 0.0,
+		"scoreText": "100.00% | 0 / 2400"
 	},
 	"80032498_LOAD_HowlHeaderSectors": {
 		"gccVersion": "gcc2.8.1",
@@ -3001,18 +3001,18 @@
 	},
 	"800326B4_LOAD_RunPtrMap": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 100.0,
 		"maxScore": 1800.0,
 		"patchEnabled": false,
-		"score": 1800.0,
-		"scoreText": "0.00% | 1800 / 1800"
+		"score": 0.0,
+		"scoreText": "100.00% | 0 / 1800"
 	},
 	"80032700_LOAD_Robots2P": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 5500,
+		"maxScore": 5500.0,
 		"patchEnabled": false,
-		"score": 5500,
+		"score": 5500.0,
 		"scoreText": "0.00% | 5500 / 5500"
 	},
 	"800327DC_LOAD_Robots1P": {
@@ -3025,11 +3025,11 @@
 	},
 	"8003282C_LOAD_DriverMPK": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 99.9751243781094,
+		"matchPercent": 70.6865671641791,
 		"maxScore": 20100.0,
 		"patchEnabled": false,
-		"score": 5.0,
-		"scoreText": "99.98% | 5 / 20100"
+		"score": 5892.0,
+		"scoreText": "70.69% | 5892 / 20100"
 	},
 	"80032B50_LOAD_LangFile": {
 		"gccVersion": "gcc2.8.1",
@@ -3041,19 +3041,19 @@
 	},
 	"80032C24_LOAD_GetBigfileIndex": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 100.0,
 		"maxScore": 6700.0,
 		"patchEnabled": false,
-		"score": 6700.0,
-		"scoreText": "0.00% | 6700 / 6700"
+		"score": 0.0,
+		"scoreText": "100.00% | 0 / 6700"
 	},
 	"80032D30_LOAD_AppendQueue": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 60.8636363636364,
 		"maxScore": 2200.0,
 		"patchEnabled": false,
-		"score": 2200.0,
-		"scoreText": "0.00% | 2200 / 2200"
+		"score": 861.0,
+		"scoreText": "60.86% | 861 / 2200"
 	},
 	"80032D8C_LOAD_CDRequestCallback": {
 		"gccVersion": "gcc2.8.1",
@@ -3129,11 +3129,11 @@
 	},
 	"80033610_LOAD_TenStages": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 52.0492957746479,
 		"maxScore": 113600.0,
 		"patchEnabled": false,
-		"score": 113600.0,
-		"scoreText": "0.00% | 113600 / 113600"
+		"score": 54472.0,
+		"scoreText": "52.05% | 54472 / 113600"
 	},
 	"800347D0_LOAD_TalkingMask": {
 		"gccVersion": "gcc2.8.1",
@@ -3145,11 +3145,11 @@
 	},
 	"80034874_LOAD_LevelFile": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 61.0,
+		"matchPercent": 0.0,
 		"maxScore": 2900.0,
 		"patchEnabled": false,
-		"score": 1131.0,
-		"scoreText": "61.00% | 1131 / 2900"
+		"score": 2900.0,
+		"scoreText": "0.00% | 2900 / 2900"
 	},
 	"800348E8_LOAD_IsOpen_RacingOrBattle": {
 		"gccVersion": "gcc2.8.1",
@@ -3241,11 +3241,11 @@
 	},
 	"80034D54_MainFrame_GameLogic": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 81.8758503401361,
-		"maxScore": 58800.0,
+		"matchPercent": 82.3520408163265,
+		"maxScore": 58800,
 		"patchEnabled": false,
-		"score": 10657.0,
-		"scoreText": "81.88% | 10657 / 58800"
+		"score": 10377,
+		"scoreText": "82.35% | 10377 / 58800"
 	},
 	"80035684_MainFrame_Unknown_80035684": {
 		"gccVersion": "gcc2.8.1",
@@ -3274,9 +3274,9 @@
 	"80035D70_MainFrame_HaveAllPads": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 90.3409090909091,
-		"maxScore": 4400,
+		"maxScore": 4400.0,
 		"patchEnabled": false,
-		"score": 425,
+		"score": 425.0,
 		"scoreText": "90.34% | 425 / 4400"
 	},
 	"80035E20_MainFrame_RequestMaskHint": {
@@ -3394,9 +3394,9 @@
 	"8003AEE8_MainGameStart_Initialize": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 95.3846153846154,
-		"maxScore": 3900,
+		"maxScore": 3900.0,
 		"patchEnabled": false,
-		"score": 180,
+		"score": 180.0,
 		"scoreText": "95.38% | 180 / 3900"
 	},
 	"8003AF84_MainInit_VisMem": {
@@ -3489,11 +3489,11 @@
 	},
 	"8003C41C_MainKillGame_StopCTR": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 95.8,
+		"matchPercent": 100.0,
 		"maxScore": 2500.0,
 		"patchEnabled": false,
-		"score": 105.0,
-		"scoreText": "95.80% | 105 / 2500"
+		"score": 0.0,
+		"scoreText": "100.00% | 0 / 2500"
 	},
 	"8003C480_MainKillGame_LaunchSpyro2": {
 		"gccVersion": "gcc2.8.1",
@@ -3817,11 +3817,11 @@
 	},
 	"8003E678_MEMCARD_FindNextGhost": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 59.4782608695652,
 		"maxScore": 2300.0,
 		"patchEnabled": false,
-		"score": 2300.0,
-		"scoreText": "0.00% | 2300 / 2300"
+		"score": 932.0,
+		"scoreText": "59.48% | 932 / 2300"
 	},
 	"8003E6D4_MEMCARD_EraseFile": {
 		"gccVersion": "gcc2.8.1",
@@ -4106,9 +4106,9 @@
 	"80041F58_PROC_CheckBloodlineForDead": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 3900,
+		"maxScore": 3900.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 3900"
 	},
 	"80041FF4_PROC_CheckAllForDead": {
@@ -4321,11 +4321,11 @@
 	},
 	"80043F44_RaceFlag_IsTransitioning": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 88.0555555555556,
+		"matchPercent": 100.0,
 		"maxScore": 1800.0,
 		"patchEnabled": false,
-		"score": 215.0,
-		"scoreText": "88.06% | 215 / 1800"
+		"score": 0.0,
+		"scoreText": "100.00% | 0 / 1800"
 	},
 	"80043F8C_RaceFlag_SetDrawOrder": {
 		"gccVersion": "gcc2.8.1",
@@ -4353,11 +4353,11 @@
 	},
 	"80044058_RaceFlag_SetFullyOffScreen": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 74.5833333333333,
 		"maxScore": 1200.0,
 		"patchEnabled": false,
-		"score": 1200.0,
-		"scoreText": "0.00% | 1200 / 1200"
+		"score": 305.0,
+		"scoreText": "74.58% | 305 / 1200"
 	},
 	"80044088_RaceFlag_SetCanDraw": {
 		"gccVersion": "gcc2.8.1",
@@ -4649,11 +4649,11 @@
 	},
 	"800471AC_RefreshCard_StopMemcardAction": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 58.0,
+		"matchPercent": 99.0,
 		"maxScore": 500.0,
 		"patchEnabled": false,
-		"score": 210.0,
-		"scoreText": "58.00% | 210 / 500"
+		"score": 5.0,
+		"scoreText": "99.00% | 5 / 500"
 	},
 	"800471C4_RefreshCard_SetScreenText": {
 		"gccVersion": "gcc2.8.1",
@@ -4833,11 +4833,11 @@
 	},
 	"80048F0C_SelectProfile_InputLogic": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 91.5909090909091,
 		"maxScore": 11000.0,
 		"patchEnabled": false,
-		"score": 11000.0,
-		"scoreText": "0.00% | 11000 / 11000"
+		"score": 925.0,
+		"scoreText": "91.59% | 925 / 11000"
 	},
 	"800490C4_SelectProfile_AllProfiles_MenuProc": {
 		"gccVersion": "gcc2.8.1",
@@ -5033,11 +5033,11 @@
 	},
 	"8004CA04_UI_ThTick_big1": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 77.8048780487805,
+		"matchPercent": 97.9268292682927,
 		"maxScore": 4100.0,
 		"patchEnabled": false,
-		"score": 910.0,
-		"scoreText": "77.80% | 910 / 4100"
+		"score": 85.0,
+		"scoreText": "97.93% | 85 / 4100"
 	},
 	"8004CAA8_UI_ConvertX_2": {
 		"gccVersion": "gcc2.8.1",
@@ -5082,9 +5082,9 @@
 	"8004D8B4_UI_Map_GetIconPos": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 19000,
+		"maxScore": 19000.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 19000"
 	},
 	"8004DBAC_UI_Map_DrawAdvPlayer": {
@@ -5337,11 +5337,11 @@
 	},
 	"80052250_UI_DrawSlideMeter": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 90.8726114649682,
 		"maxScore": 15700.0,
 		"patchEnabled": false,
-		"score": 15700.0,
-		"scoreText": "0.00% | 15700 / 15700"
+		"score": 1433.0,
+		"scoreText": "90.87% | 1433 / 15700"
 	},
 	"800524C4_UI_DrawRankedDrivers": {
 		"gccVersion": "gcc2.8.1",
@@ -5362,9 +5362,9 @@
 	"80054298_UI_RenderFrame_AdvHub": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 4900,
+		"maxScore": 4900.0,
 		"patchEnabled": false,
-		"score": 0,
+		"score": 0.0,
 		"scoreText": "100.00% | 0 / 4900"
 	},
 	"8005435C_UI_RenderFrame_CrystChall": {
@@ -5482,9 +5482,9 @@
 	"8005741C_Vector_SpecLightSpin3D": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 22.6586826347305,
-		"maxScore": 16700,
+		"maxScore": 16700.0,
 		"patchEnabled": false,
-		"score": 12916,
+		"score": 12916.0,
 		"scoreText": "22.66% | 12916 / 16700"
 	},
 	"800576B8_Vector_SpecLightNoSpin3D": {
@@ -5545,19 +5545,19 @@
 	},
 	"80058A60_VehBirth_SetConsts": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 58.8,
 		"maxScore": 8000.0,
 		"patchEnabled": false,
-		"score": 8000.0,
-		"scoreText": "0.00% | 8000 / 8000"
+		"score": 3296.0,
+		"scoreText": "58.80% | 3296 / 8000"
 	},
 	"80058BA4_VehBirth_EngineAudio_AllPlayers": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 91.0,
+		"matchPercent": 100.0,
 		"maxScore": 4000.0,
 		"patchEnabled": false,
-		"score": 360.0,
-		"scoreText": "91.00% | 360 / 4000"
+		"score": 0.0,
+		"scoreText": "100.00% | 0 / 4000"
 	},
 	"80058C44_VehBirth_NullThread": {
 		"gccVersion": "gcc2.8.1",
@@ -5666,9 +5666,9 @@
 	"8005AB24_VehFire_Audio": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 83.0555555555555,
-		"maxScore": 5400,
+		"maxScore": 5400.0,
 		"patchEnabled": false,
-		"score": 915,
+		"score": 915.0,
 		"scoreText": "83.06% | 915 / 5400"
 	},
 	"8005ABFC_VehFire_Increment": {
@@ -5681,35 +5681,35 @@
 	},
 	"8005B0C4_VehFrameInst_GetStartFrame": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 8.4,
+		"matchPercent": 0.0,
 		"maxScore": 1000.0,
 		"patchEnabled": false,
-		"score": 916.0,
-		"scoreText": "8.40% | 916 / 1000"
+		"score": 1276.0,
+		"scoreText": "0.00% | 1276 / 1000"
 	},
 	"8005B0EC_VehFrameInst_Unknown_8005B0EC": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 100.0,
+		"matchPercent": 0.0,
 		"maxScore": 100.0,
 		"patchEnabled": false,
-		"score": 0.0,
-		"scoreText": "100.00% | 0 / 100"
+		"score": 100.0,
+		"scoreText": "0.00% | 100 / 100"
 	},
 	"8005B0F4_VehFrameInst_GetNumAnimFrames": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 100.0,
 		"maxScore": 3300.0,
 		"patchEnabled": false,
-		"score": 3300.0,
-		"scoreText": "0.00% | 3300 / 3300"
+		"score": 0.0,
+		"scoreText": "100.00% | 0 / 3300"
 	},
 	"8005B178_VehFrameProc_Driving": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 31.104347826087,
+		"matchPercent": 72.5130434782609,
 		"maxScore": 23000.0,
 		"patchEnabled": false,
-		"score": 15846.0,
-		"scoreText": "31.10% | 15846 / 23000"
+		"score": 6322.0,
+		"scoreText": "72.51% | 6322 / 23000"
 	},
 	"8005B510_VehFrameProc_Spinning": {
 		"gccVersion": "gcc2.8.1",
@@ -5746,9 +5746,9 @@
 	"8005C120_VehGroundSkids_Subset1": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 86.5176470588235,
-		"maxScore": 8500,
+		"maxScore": 8500.0,
 		"patchEnabled": false,
-		"score": 1146,
+		"score": 1146.0,
 		"scoreText": "86.52% | 1146 / 8500"
 	},
 	"8005C278_VehGroundSkids_Subset2": {
@@ -5842,9 +5842,9 @@
 	"8005EBAC_VehPhysForce_CollideDrivers": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 61.7901234567901,
-		"maxScore": 16200,
+		"maxScore": 16200.0,
 		"patchEnabled": false,
-		"score": 6190,
+		"score": 6190.0,
 		"scoreText": "61.79% | 6190 / 16200"
 	},
 	"8005EE34_VehPhysForce_TranslateMatrix": {
@@ -5953,11 +5953,11 @@
 	},
 	"8006181C_VehPhysProc_Driving_PhysLinear": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 34.5354671280277,
+		"matchPercent": 63.3806228373702,
 		"maxScore": 115600.0,
 		"patchEnabled": false,
-		"score": 75677.0,
-		"scoreText": "34.54% | 75677 / 115600"
+		"score": 42332.0,
+		"scoreText": "63.38% | 42332 / 115600"
 	},
 	"80062A2C_VehPhysProc_Driving_Audio": {
 		"gccVersion": "gcc2.8.1",
@@ -6042,9 +6042,9 @@
 	"8006364C_VehPhysProc_PowerSlide_Update": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 95.3703703703704,
-		"maxScore": 16200,
+		"maxScore": 16200.0,
 		"patchEnabled": false,
-		"score": 750,
+		"score": 750.0,
 		"scoreText": "95.37% | 750 / 16200"
 	},
 	"800638D4_VehPhysProc_PowerSlide_PhysLinear": {
@@ -6354,9 +6354,9 @@
 	"800677D0_VehStuckProc_PlantEaten_Init": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 99.3181818181818,
-		"maxScore": 8800,
+		"maxScore": 8800.0,
 		"patchEnabled": false,
-		"score": 60,
+		"score": 60.0,
 		"scoreText": "99.32% | 60 / 8800"
 	},
 	"80067930_VehStuckProc_RIP_Init": {
@@ -6378,9 +6378,9 @@
 	"80067A74_VehStuckProc_RevEngine_PhysLinear": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 99.8484848484849,
-		"maxScore": 6600,
+		"maxScore": 6600.0,
 		"patchEnabled": false,
-		"score": 10,
+		"score": 10.0,
 		"scoreText": "99.85% | 10 / 6600"
 	},
 	"80067B7C_VehStuckProc_RevEngine_Animate": {
@@ -6563,7 +6563,7 @@
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
 		"maxScore": 3800.0,
-		"patchEnabled": true,
+		"patchEnabled": false,
 		"score": 3800.0,
 		"scoreText": "0.00% | 3800 / 3800"
 	},
@@ -7025,11 +7025,11 @@
 	},
 	"800702D4_RenderLists_PreInit": {
 		"gccVersion": "gcc2.7.2",
-		"matchPercent": 22.4166666666667,
+		"matchPercent": 43.3333333333333,
 		"maxScore": 1200.0,
 		"patchEnabled": false,
-		"score": 931.0,
-		"scoreText": "22.42% | 931 / 1200"
+		"score": 680.0,
+		"scoreText": "43.33% | 680 / 1200"
 	},
 	"80070308_RenderLists_Unknown_80070308": {
 		"gccVersion": "gcc2.8.1",
@@ -7266,9 +7266,9 @@
 	"80071C94_CdControlB": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 64.0843373493976,
-		"maxScore": 8300,
+		"maxScore": 8300.0,
 		"patchEnabled": false,
-		"score": 2981,
+		"score": 2981.0,
 		"scoreText": "64.08% | 2981 / 8300"
 	},
 	"80071DE0_CdGetSector": {
@@ -7481,11 +7481,11 @@
 	},
 	"80072EF8_DrawSyncCallback": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 37.6666666666667,
+		"matchPercent": 75.8333333333333,
 		"maxScore": 2400.0,
 		"patchEnabled": false,
-		"score": 1496.0,
-		"scoreText": "37.67% | 1496 / 2400"
+		"score": 580.0,
+		"scoreText": "75.83% | 580 / 2400"
 	},
 	"80072F58_SetDispMask": {
 		"gccVersion": "gcc2.8.1",
@@ -7522,17 +7522,17 @@
 	"800731D4_StoreImage": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 2400.0,
+		"maxScore": 2400,
 		"patchEnabled": false,
-		"score": 0.0,
+		"score": 0,
 		"scoreText": "100.00% | 0 / 2400"
 	},
 	"80073234_MoveImage": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 67.6086956521739,
-		"maxScore": 4600,
+		"maxScore": 4600.0,
 		"patchEnabled": false,
-		"score": 1490,
+		"score": 1490.0,
 		"scoreText": "67.61% | 1490 / 4600"
 	},
 	"800732EC_ClearOTagR": {
@@ -7554,9 +7554,9 @@
 	"80073408_PutDrawEnv": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 4800,
+		"maxScore": 4800.0,
 		"patchEnabled": false,
-		"score": 6755,
+		"score": 6755.0,
 		"scoreText": "0.00% | 6755 / 4800"
 	},
 	"800734C8_PutDispEnv": {
@@ -7922,9 +7922,9 @@
 	"80075CC0_strcpy": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 300.0,
+		"maxScore": 300,
 		"patchEnabled": false,
-		"score": 300.0,
+		"score": 300,
 		"scoreText": "0.00% | 300 / 300"
 	},
 	"80075CD0_SpuSetReverbModeParam": {
@@ -7993,11 +7993,11 @@
 	},
 	"80076560_SpuSetVoicePitch": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 0.0,
+		"matchPercent": 69.5,
 		"maxScore": 1000.0,
 		"patchEnabled": false,
-		"score": 1195.0,
-		"scoreText": "0.00% | 1195 / 1000"
+		"score": 305.0,
+		"scoreText": "69.50% | 305 / 1000"
 	},
 	"80076588_SpuSetVoicePitch_Unknown_80076588": {
 		"gccVersion": "gcc2.8.1",
@@ -8034,9 +8034,9 @@
 	"800767E0_SpuSetCommonMasterVolume": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 700.0,
+		"maxScore": 700,
 		"patchEnabled": false,
-		"score": 0.0,
+		"score": 0,
 		"scoreText": "100.00% | 0 / 700"
 	},
 	"80076800_SpuSetCommonCDReverb": {
@@ -8298,9 +8298,9 @@
 	"80077854_InitGeom": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 3100.0,
+		"maxScore": 3100,
 		"patchEnabled": false,
-		"score": 3100.0,
+		"score": 3100,
 		"scoreText": "0.00% | 3100 / 3100"
 	},
 	"800778DC_SetDrawMove": {
@@ -8370,17 +8370,17 @@
 	"80077C4C_StopRCnt": {
 		"gccVersion": "gcc2.7.2",
 		"matchPercent": 98.4615384615385,
-		"maxScore": 1300.0,
+		"maxScore": 1300,
 		"patchEnabled": false,
-		"score": 20.0,
+		"score": 20,
 		"scoreText": "98.46% | 20 / 1300"
 	},
 	"80077C80_ResetRCnt": {
 		"gccVersion": "gcc2.7.2",
 		"matchPercent": 100.0,
-		"maxScore": 1200.0,
+		"maxScore": 1200,
 		"patchEnabled": false,
-		"score": 0.0,
+		"score": 0,
 		"scoreText": "100.00% | 0 / 1200"
 	},
 	"80077CB8_memcpy": {
@@ -8578,9 +8578,9 @@
 	"80078068_TestEvent": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 300.0,
+		"maxScore": 300,
 		"patchEnabled": false,
-		"score": 300.0,
+		"score": 300,
 		"scoreText": "0.00% | 300 / 300"
 	},
 	"80078078_open": {
@@ -9186,9 +9186,9 @@
 	"8007CA48_GPU_Unknown_8007CA48": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 85.21,
-		"maxScore": 10000.0,
+		"maxScore": 10000,
 		"patchEnabled": false,
-		"score": 1479.0,
+		"score": 1479,
 		"scoreText": "85.21% | 1479 / 10000"
 	},
 	"8007CBD8_GPU_Unknown_8007CBD8": {
@@ -9250,9 +9250,9 @@
 	"8007D564__padSendAtLoadInfo": {
 		"gccVersion": "gcc2.7.2",
 		"matchPercent": 100.0,
-		"maxScore": 3200.0,
+		"maxScore": 3200,
 		"patchEnabled": false,
-		"score": 0.0,
+		"score": 0,
 		"scoreText": "100.00% | 0 / 3200"
 	},
 	"8007D5E8__padRecvAtLoadInfo": {
@@ -9266,9 +9266,9 @@
 	"8007D858__padGetActSize": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 1400.0,
+		"maxScore": 1400,
 		"patchEnabled": false,
-		"score": 0.0,
+		"score": 0,
 		"scoreText": "100.00% | 0 / 1400"
 	},
 	"8007D890__padLoadActInfo": {
@@ -9322,17 +9322,17 @@
 	"8007DE58__Unknown_8007DE58": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 800.0,
+		"maxScore": 800,
 		"patchEnabled": false,
-		"score": 0.0,
+		"score": 0,
 		"scoreText": "100.00% | 0 / 800"
 	},
 	"8007DE78__Unknown_8007DE78": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 100.0,
-		"maxScore": 800.0,
+		"maxScore": 800,
 		"patchEnabled": false,
-		"score": 0.0,
+		"score": 0,
 		"scoreText": "100.00% | 0 / 800"
 	},
 	"8007DE98__Unknown_8007DE98": {
@@ -9401,11 +9401,11 @@
 	},
 	"8007E740__Unknown_8007E740": {
 		"gccVersion": "gcc2.8.1",
-		"matchPercent": 32.0714285714286,
-		"maxScore": 7000.0,
+		"matchPercent": 34.7142857142857,
+		"maxScore": 7000,
 		"patchEnabled": false,
-		"score": 4755.0,
-		"scoreText": "32.07% | 4755 / 7000"
+		"score": 4570,
+		"scoreText": "34.71% | 4570 / 7000"
 	},
 	"8007E858__Unknown_8007E858": {
 		"gccVersion": "gcc2.7.2",
@@ -9458,17 +9458,17 @@
 	"8007EE24__Unknown_8007EE24": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 15500.0,
+		"maxScore": 15500,
 		"patchEnabled": false,
-		"score": 15500.0,
+		"score": 15500,
 		"scoreText": "0.00% | 15500 / 15500"
 	},
 	"8007F094__Unknown_8007F094": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 25000.0,
+		"maxScore": 25000,
 		"patchEnabled": false,
-		"score": 25000.0,
+		"score": 25000,
 		"scoreText": "0.00% | 25000 / 25000"
 	},
 	"8007F47C__mtapFailAuto": {
@@ -9490,9 +9490,9 @@
 	"8007F880_SysDeqIntRP": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 300.0,
+		"maxScore": 300,
 		"patchEnabled": false,
-		"score": 300.0,
+		"score": 300,
 		"scoreText": "0.00% | 300 / 300"
 	},
 	"8007F890_SysEnqIntRP": {
@@ -9538,9 +9538,9 @@
 	"80080260_setjmp": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 300.0,
+		"maxScore": 300,
 		"patchEnabled": false,
-		"score": 300.0,
+		"score": 300,
 		"scoreText": "0.00% | 300 / 300"
 	},
 	"80080270_HookEntryInt": {
@@ -9562,9 +9562,9 @@
 	"800802CC_startIntrDMA_Unknown_800802CC": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 9600.0,
+		"maxScore": 9600,
 		"patchEnabled": false,
-		"score": 9600.0,
+		"score": 9600,
 		"scoreText": "0.00% | 9600 / 9600"
 	},
 	"8008044C_startIntrDMA_Unknown_8008044C": {
@@ -9594,25 +9594,25 @@
 	"80080530_ResetEntryInt": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 300.0,
+		"maxScore": 300,
 		"patchEnabled": false,
-		"score": 300.0,
+		"score": 300,
 		"scoreText": "0.00% | 300 / 300"
 	},
 	"80080540__patch_gte": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 4200.0,
+		"maxScore": 4200,
 		"patchEnabled": false,
-		"score": 4200.0,
+		"score": 4200,
 		"scoreText": "0.00% | 4200 / 4200"
 	},
 	"800805EC__Unknown_800805EC": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 1200.0,
+		"maxScore": 1200,
 		"patchEnabled": false,
-		"score": 1200.0,
+		"score": 1200,
 		"scoreText": "0.00% | 1200 / 1200"
 	},
 	"80080620_InitHeap": {
@@ -9658,9 +9658,9 @@
 	"800806E8__patch_card": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 3600.0,
+		"maxScore": 3600,
 		"patchEnabled": false,
-		"score": 3600.0,
+		"score": 3600,
 		"scoreText": "0.00% | 3600 / 3600"
 	},
 	"8008077C__patch_card2": {
@@ -9770,9 +9770,9 @@
 	"80080990_FlushCache": {
 		"gccVersion": "gcc2.8.1",
 		"matchPercent": 0.0,
-		"maxScore": 300.0,
+		"maxScore": 300,
 		"patchEnabled": false,
-		"score": 300.0,
+		"score": 300,
 		"scoreText": "0.00% | 300 / 300"
 	}
 }

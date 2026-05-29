@@ -9,7 +9,7 @@ extern s8 D_80081088[];
 M2C_UNK *COLL_LevModelMeta(u32 arg0) {
 	s32 offset;
 
-	if (arg0 >= 0xE2U) {
+	if (arg0 >= 0xE2) {
 		return (M2C_UNK *)D_80081088;
 	}
 

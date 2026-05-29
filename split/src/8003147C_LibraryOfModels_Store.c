@@ -1,31 +1,34 @@
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
+#include "../../common.h"
 
-void LibraryOfModels_Store(s32 arg0, s32 arg1, void **arg2)
+void LibraryOfModels_Store(GameTracker *gT, s32 modelCountOrMinusOne, void **modelList)
 {
-    s32 invalid = -1;
+    s32 invalidModelId;
     void *model;
-    s16 id;
-    int newVar;
+    s16 modelId;
 
-    if (arg1 != 0) {
-        do {
-            model = *arg2;
-            newVar = 4;
+    invalidModelId = -1;
 
-            if (model == 0) {
+
+    if (modelCountOrMinusOne != 0)
+    {
+        do
+        {
+            model = *modelList;
+
+            if (model == NULL)
+            {
                 return;
             }
 
-            id = *((s16 *)(((s8 *)model) + 0x10));
+            modelId = M2C_FIELD(model, s16 *, 0x10);
 
-            if (id != invalid) {
-                *((void **)(((s8 *)(arg0 + (id * newVar))) + 0x2160)) = model;
+            if (modelId != invalidModelId)
+            {
+                M2C_FIELD((s8 *)gT + (modelId << 2), void **, 0x2160) = model;
             }
 
-            arg1--;
-            arg2++;
-        } while (arg1 != 0);
+            modelCountOrMinusOne--;
+            modelList++;
+        } while (modelCountOrMinusOne != 0);
     }
 }
