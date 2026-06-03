@@ -1,8 +1,6 @@
 #include "../../common.h"
 
-s16 VehCalc_InterpBySpeed();  /* extern */
 M2C_UNK VehPhysForce_RotAxisAngle(); /* extern */
-extern void *gGamepads;
 
 void VehPhysProc_SpinLast_PhysAngular(Thread *thread, Driver *driver)
 {
@@ -10,12 +8,12 @@ void VehPhysProc_SpinLast_PhysAngular(Thread *thread, Driver *driver)
     s16 rot;
     s32 tempLo;
     s32 temp;
-    u16 posRot;
-    u16 rotAxis;
+    s32 posRot;
+    s32 rotAxis;
     u16 spinRot;
 
-    rotAxis = driver->rotationSpinRate;
-    posRot = driver->unk3D4[0];
+    rotAxis = (u16)driver->rotationSpinRate;
+    posRot = (u16)driver->unk3D4[0];
     rotVel = driver->turnAngleCurr;
 
     driver->numFramesSpentSteering = 0x2710;
@@ -53,7 +51,7 @@ void VehPhysProc_SpinLast_PhysAngular(Thread *thread, Driver *driver)
             }
         }
 
-        rot = (((u16)driver->turnAngleCurr + (u16)driver->kartStates.spinning.driftSpinRate + 0x800) & 0xFFF) - 0x800;
+        rot = ((driver->turnAngleCurr + driver->kartStates.spinning.driftSpinRate + 0x800) & 0xFFF) - 0x800;
         driver->turnAngleCurr = rot;
 
         if ((driver->kartStates.spinning.driftSpinRate > 0) && ((rot << 0x10) > 0)) {
@@ -61,7 +59,7 @@ void VehPhysProc_SpinLast_PhysAngular(Thread *thread, Driver *driver)
         }
     }
 
-    tempLo = (s16)driver->ampTurnState * M2C_FIELD(gGamepads, s32 *, 0x1D04);
+    tempLo = (s16)driver->ampTurnState * gT->elapsedTimeMS;
     spinRot = (driver->angle + (tempLo >> 0xD)) & 0xFFF;
 
     driver->angle = spinRot;
@@ -69,9 +67,8 @@ void VehPhysProc_SpinLast_PhysAngular(Thread *thread, Driver *driver)
 
     driver->rotCurr[3] = VehCalc_InterpBySpeed(
         driver->rotCurr[3],
-        (s32)(M2C_FIELD(gGamepads, s32 *, 0x1D04) << 5) >> 5,
-        0,
-        tempLo
+        (s32)(gT->elapsedTimeMS << 5) >> 5,
+        0
     );
 
     VehPhysForce_RotAxisAngle(&driver->matrixMovingDir, &driver->axisAngle1NormalVec.x, driver->angle);

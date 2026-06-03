@@ -1,21 +1,19 @@
-typedef signed char s8;
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
+extern void LIST_AddFront(LinkedList *list, LinkedListNode *item);
+extern LinkedListNode *LIST_RemoveMember(LinkedList *list, LinkedListNode *item);
 
-M2C_UNK LIST_AddFront();     /* extern */
-M2C_UNK LIST_RemoveMember(); /* extern */
+LinkedListNode *JitPool_Add(JitPool *pool)
+{
+    LinkedListNode *item;
 
-s32 JitPool_Add(s32 *arg0) {
-	s32 tempS0;
+    item = pool->freeList.first;
 
-	tempS0 = *arg0;
+    if (item != 0) {
+        LIST_RemoveMember(&pool->freeList, item);
+        LIST_AddFront(&pool->usedList, item);
+        return item;
+    }
 
-	if (tempS0 != 0) {
-		LIST_RemoveMember(arg0, tempS0);
-		LIST_AddFront((s8 *)arg0 + 0xC, tempS0);
-		return tempS0;
-	}
-
-	return 0;
+    return 0;
 }

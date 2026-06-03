@@ -1,20 +1,19 @@
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
+extern void LIST_AddBack(LinkedList *list, LinkedListNode *item);
 
-M2C_UNK LIST_AddBack();                     /* extern */
+void LIST_Init(LinkedList *list, LinkedListNode *firstItem, s32 itemSize, s32 count)
+{
+    s32 i;
+    LinkedListNode *item;
 
-void LIST_Init(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 var_s0;
-    s32 var_s1;
-
-    var_s1 = arg1;
-    var_s0 = arg3 - 1;
-    if (arg3 != 0) {
+    item = firstItem;
+    i = count - 1;
+    if (count != 0) {
         do {
-            LIST_AddBack(arg0, var_s1);
-            var_s0 -= 1;
-            var_s1 += arg2;
-        } while (var_s0 != -1);
+            LIST_AddBack(list, item);
+            i--;
+            item = (LinkedListNode *)((u8 *)item + itemSize);
+        } while (i != -1);
     }
 }

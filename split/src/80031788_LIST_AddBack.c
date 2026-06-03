@@ -1,29 +1,21 @@
-typedef signed char s8;
-typedef int s32;
+#include "../../common.h"
 
-#define NULL 0
-typedef s32 M2C_UNK;
+void LIST_AddBack(LinkedList *list, LinkedListNode *item)
+{
+    LinkedListNode *lastItem;
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+    if (item != NULL) {
+        item->next = NULL;
+        lastItem = list->last;
+        item->prev = lastItem;
 
-typedef struct {
-	char pad0[0x8];
-	s32 unk8;
-} M2cLISTAddBackArg0;
-
-void LIST_AddBack(M2cLISTAddBackArg0 *arg0, M2C_UNK *arg1) {
-    M2C_UNK *temp_v0;
-
-    if (arg1 != NULL) {
-        M2C_FIELD(arg1, M2C_UNK **, 0) = NULL;
-        temp_v0 = M2C_FIELD(arg0, M2C_UNK **, 4);
-        M2C_FIELD(arg1, M2C_UNK **, 4) = temp_v0;
-        if (temp_v0 != NULL) {
-            *M2C_FIELD(arg0, M2C_UNK **, 4) = arg1;
+        if (lastItem != NULL) {
+            list->last->next = item;
         } else {
-            M2C_FIELD(arg0, M2C_UNK **, 0) = arg1;
+            list->first = item;
         }
-        M2C_FIELD(arg0, M2C_UNK **, 4) = arg1;
-        arg0->unk8 = (s32) (arg0->unk8 + 1);
+
+        list->last = item;
+        list->count++;
     }
 }

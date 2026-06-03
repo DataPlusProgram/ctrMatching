@@ -2,7 +2,6 @@
 
 void LibraryOfModels_Store(GameTracker *gT, s32 modelCountOrMinusOne, void **modelList);
 extern void *AkuAkuHintState;
-extern GameTracker *gT;
 extern void *podiumModel_firstPlace;
 
 void LOAD_GlobalModelPtrs_MPK(void) {

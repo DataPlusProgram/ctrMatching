@@ -1,7 +1,9 @@
 typedef unsigned int uint;
 typedef unsigned char byte;
 void func_8001D0C4(int, int *);
-void fun_8001d610(int param_1, int param_2)
+
+
+void COLL_FIXED_BSPLEAF_TestInstance(int param_1, int param_2)
 {
   int iVar1;
   int iVar2;

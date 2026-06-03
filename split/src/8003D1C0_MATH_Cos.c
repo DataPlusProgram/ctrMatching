@@ -1,26 +1,25 @@
-typedef short s16;
-typedef int s32;
-typedef unsigned int u32;
+#include "../../common.h"
 
 extern s32 D_800845A0[];
 
-s32 MATH_Cos(s32 arg0) {
-    s32 temp_v1;
-    s32 var_v1;
+s32 MATH_Cos(s32 angle)
+{
+    s32 cosineValue;
+    s32 tableValue;
 
-    temp_v1 = D_800845A0[arg0 & 0x3FF];
+    tableValue = D_800845A0[angle & 0x3FF];
 
-    if (arg0 & 0x400) {
-        var_v1 = (s16) temp_v1;
-        if (!(arg0 & 0x800)) {
-            var_v1 = -var_v1;
+    if (angle & 0x400) {
+        cosineValue = (s16)tableValue;
+        if (!(angle & 0x800)) {
+            cosineValue = -cosineValue;
         }
     } else {
-        var_v1 = temp_v1 >> 0x10;
-        if (arg0 & 0x800) {
-            var_v1 = -var_v1;
+        cosineValue = tableValue >> 0x10;
+        if (angle & 0x800) {
+            cosineValue = -cosineValue;
         }
     }
 
-    return var_v1;
+    return cosineValue;
 }

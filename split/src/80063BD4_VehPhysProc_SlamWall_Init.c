@@ -1,12 +1,8 @@
 #include "../../common.h"
 
-extern M2C_UNK COLL_FIXED_PlayerSearch;
 extern M2C_UNK COLL_MOVED_PlayerSearch;
 extern M2C_UNK VehEmitter_DriverMain;
 extern M2C_UNK VehPhysForce_CollideDrivers;
-extern M2C_UNK VehPhysForce_OnApplyForces;
-extern M2C_UNK VehPhysForce_TranslateMatrix;
-extern M2C_UNK VehPhysGeneral_JumpAndFriction;
 extern M2C_UNK VehPhysProc_Driving_Audio;
 extern M2C_UNK VehPhysProc_SlamWall_Animate;
 extern M2C_UNK VehPhysProc_SlamWall_PhysAngular;
@@ -47,8 +43,9 @@ void VehPhysProc_SlamWall_Init(Thread *thread, Driver *driver) {
     driver->fireSpeed = 0;
     inst->scale[1] = 0xCCC;
     inst->scale[0] = 0xCCC;
-    driver->funcPtrs[1] = &VehPhysProc_SlamWall_Update;
+    
     driver->funcPtrs[0] = 0;
+	driver->funcPtrs[1] = &VehPhysProc_SlamWall_Update;
     driver->funcPtrs[2] = &VehPhysProc_SlamWall_PhysLinear;
     driver->funcPtrs[3] = &VehPhysProc_Driving_Audio;
     driver->funcPtrs[4] = &VehPhysProc_SlamWall_PhysAngular;

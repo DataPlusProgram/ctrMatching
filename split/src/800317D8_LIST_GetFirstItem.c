@@ -1,5 +1,6 @@
 #include "../../common.h"
 
-s32 LIST_GetFirstItem(s32 *arg0) {
-    return *arg0;
+LinkedListNode *LIST_GetFirstItem(LinkedList *list)
+{
+    return list->first;
 }

@@ -24,7 +24,6 @@ SECTIONS
         build/src/80016EC8_BOTS_CollideWithOtherAI.c.o(.text);
         build/src/8001702C_BOTS_GotoStartingLine.c.o(.text);
         build/src/80017164_BOTS_Driver_Init.c.o(.text);
-        build/src/800171C4_BOTS_Unknown_800171C4.c.o(.text);
         build/src/80017318_BOTS_Driver_Convert.c.o(.text);
         build/src/800175CC_CAM_SkyboxGlow.c.o(.text);
         build/src/8001861C_CAM_ClearScreen.c.o(.text);
@@ -531,7 +530,6 @@ SECTIONS
         build/src/80042544_PROC_StartSearch_Self.c.o(.text);
         build/src/800425D4_PROC_CollideHitboxWithBucket.c.o(.text);
         build/src/800426F8_PushBuffer_Init.c.o(.text);
-        build/src/80042824_PushBuffer_Unknown_80042824.c.o(.text);
         build/src/80042910_PushBuffer_SetPsyqGeom.c.o(.text);
         build/src/80042974_PushBuffer_SetDrawEnv_DecalMP.c.o(.text);
         build/src/80042A8C_PushBuffer_SetDrawEnv_Normal.c.o(.text);
@@ -1248,7 +1246,6 @@ SECTIONS
         build/src/80016EC8_BOTS_CollideWithOtherAI.c.o(.data);
         build/src/8001702C_BOTS_GotoStartingLine.c.o(.data);
         build/src/80017164_BOTS_Driver_Init.c.o(.data);
-        build/src/800171C4_BOTS_Unknown_800171C4.c.o(.data);
         build/src/80017318_BOTS_Driver_Convert.c.o(.data);
         build/src/800175CC_CAM_SkyboxGlow.c.o(.data);
         build/src/8001861C_CAM_ClearScreen.c.o(.data);
@@ -1755,7 +1752,6 @@ SECTIONS
         build/src/80042544_PROC_StartSearch_Self.c.o(.data);
         build/src/800425D4_PROC_CollideHitboxWithBucket.c.o(.data);
         build/src/800426F8_PushBuffer_Init.c.o(.data);
-        build/src/80042824_PushBuffer_Unknown_80042824.c.o(.data);
         build/src/80042910_PushBuffer_SetPsyqGeom.c.o(.data);
         build/src/80042974_PushBuffer_SetDrawEnv_DecalMP.c.o(.data);
         build/src/80042A8C_PushBuffer_SetDrawEnv_Normal.c.o(.data);
@@ -2474,7 +2470,6 @@ SECTIONS
         build/src/80016EC8_BOTS_CollideWithOtherAI.c.o(.rodata);
         build/src/8001702C_BOTS_GotoStartingLine.c.o(.rodata);
         build/src/80017164_BOTS_Driver_Init.c.o(.rodata);
-        build/src/800171C4_BOTS_Unknown_800171C4.c.o(.rodata);
         build/src/80017318_BOTS_Driver_Convert.c.o(.rodata);
         build/src/800175CC_CAM_SkyboxGlow.c.o(.rodata);
         build/src/8001861C_CAM_ClearScreen.c.o(.rodata);
@@ -2981,7 +2976,6 @@ SECTIONS
         build/src/80042544_PROC_StartSearch_Self.c.o(.rodata);
         build/src/800425D4_PROC_CollideHitboxWithBucket.c.o(.rodata);
         build/src/800426F8_PushBuffer_Init.c.o(.rodata);
-        build/src/80042824_PushBuffer_Unknown_80042824.c.o(.rodata);
         build/src/80042910_PushBuffer_SetPsyqGeom.c.o(.rodata);
         build/src/80042974_PushBuffer_SetDrawEnv_DecalMP.c.o(.rodata);
         build/src/80042A8C_PushBuffer_SetDrawEnv_Normal.c.o(.rodata);
@@ -3698,7 +3692,6 @@ SECTIONS
         build/src/80016EC8_BOTS_CollideWithOtherAI.c.o(.bss);
         build/src/8001702C_BOTS_GotoStartingLine.c.o(.bss);
         build/src/80017164_BOTS_Driver_Init.c.o(.bss);
-        build/src/800171C4_BOTS_Unknown_800171C4.c.o(.bss);
         build/src/80017318_BOTS_Driver_Convert.c.o(.bss);
         build/src/800175CC_CAM_SkyboxGlow.c.o(.bss);
         build/src/8001861C_CAM_ClearScreen.c.o(.bss);
@@ -4205,7 +4198,6 @@ SECTIONS
         build/src/80042544_PROC_StartSearch_Self.c.o(.bss);
         build/src/800425D4_PROC_CollideHitboxWithBucket.c.o(.bss);
         build/src/800426F8_PushBuffer_Init.c.o(.bss);
-        build/src/80042824_PushBuffer_Unknown_80042824.c.o(.bss);
         build/src/80042910_PushBuffer_SetPsyqGeom.c.o(.bss);
         build/src/80042974_PushBuffer_SetDrawEnv_DecalMP.c.o(.bss);
         build/src/80042A8C_PushBuffer_SetDrawEnv_Normal.c.o(.bss);

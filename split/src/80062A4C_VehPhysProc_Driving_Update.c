@@ -9,13 +9,15 @@ void VehPhysProc_Driving_Update(Thread *thread, Driver *driver)
     u32 actionsFlagSet;
     s32 turnThreshold;
     s32 absTurnInput;
-    int turnRate;
+    short turnRate;
 
     actionsFlagSet = driver->actionsFlagSet;
 
-    if (actionsFlagSet & 2) // is on ground
+    if (actionsFlagSet & 2)
     {
-        turnThreshold = (driver->turnConst * 2) / 5;
+        absTurnInput = driver->turnConst;
+        turnThreshold = (absTurnInput * 2) / 5;
+
         absTurnInput = driver->simpTurnState;
         turnRate = (u8)driver->constTurnRate;
 
@@ -24,15 +26,13 @@ void VehPhysProc_Driving_Update(Thread *thread, Driver *driver)
             absTurnInput = -absTurnInput;
         }
 
-        turnThreshold = (turnThreshold + ((u8)turnRate)) >> 1;
-
-        if (turnThreshold < absTurnInput) // can drift
+        if (((turnThreshold + turnRate) >> 1) < absTurnInput)
         {
             if (D_8008D2B0->gamepad[driver->driverId].buttonsHeldCurrFrame & driver->buttonUsedToStartDrift)
             {
                 if ((actionsFlagSet & 8) == 0)
                 {
-                    if (driver->speedApprox >=(((u16)driver->constSpeedClassStat << 16) >> 17))
+                    if (driver->speedApprox >= (((u16)driver->constSpeedClassStat << 16) >> 17))
                     {
                         VehPhysProc_PowerSlide_Init(thread, driver);
                         return;

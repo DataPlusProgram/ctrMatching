@@ -1,27 +1,24 @@
-typedef signed char s8;
-typedef int s32;
-typedef unsigned int u32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
+extern void LIST_AddFront(LinkedList *list, LinkedListNode *item);
+extern void LIST_Clear(LinkedList *list);
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+void JitPool_Clear(JitPool *pool)
+{
+    LinkedListNode *item;
+    u32 i;
 
-M2C_UNK LIST_AddFront();                 /* extern */
-M2C_UNK LIST_Clear();                         /* extern */
+    item = pool->buffer;
+    i = 0;
 
-void JitPool_Clear(void *arg0) {
-    s32 var_s2;
-    u32 var_s0;
+    LIST_Clear(&pool->freeList);
+    LIST_Clear(&pool->usedList);
 
-    var_s2 = M2C_FIELD(arg0, s32 *, 0x24);
-    var_s0 = 0;
-    LIST_Clear();
-    LIST_Clear(arg0 + 0xC);
-    if (M2C_FIELD(arg0, u32 *, 0x18) != 0) {
+    if (pool->numItems != 0) {
         do {
-            LIST_AddFront(arg0, var_s2);
-            var_s0 += 1;
-            var_s2 += ((u32) M2C_FIELD(arg0, u32 *, 0x1C) >> 2) * 4;
-        } while (var_s0 < (u32) M2C_FIELD(arg0, u32 *, 0x18));
+            LIST_AddFront(&pool->freeList, item);
+            i++;
+            item = (LinkedListNode *)((u8 *)item + (((u32)pool->itemSize >> 2) << 2));
+        } while (i < pool->numItems);
     }
 }

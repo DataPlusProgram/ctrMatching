@@ -1,12 +1,5 @@
-typedef signed char s8;
-typedef short s16;
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
-
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
-
-s32 INSTANCE_Birth3D();
 void *PROC_BirthWithObject();
 extern s32 gGamepads;
 

@@ -14,7 +14,7 @@ typedef struct {
     s16 unk3D2;
 } M2cVehFrameProcLastSpinArg1;
 
-s16 VehCalc_InterpBySpeed();
+s32 VehCalc_InterpBySpeed();
 s32 VehFrameInst_GetNumAnimFrames();
 M2C_UNK VehFrameProc_Spinning();
 

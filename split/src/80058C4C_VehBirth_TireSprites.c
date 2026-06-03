@@ -1,6 +1,5 @@
 #include "../../common.h"
 
-extern GameTracker *gT;
 extern s16 D_80086E84[];
 
 Terrain *VehAfterColl_GetTerrain(s32 terrainId);

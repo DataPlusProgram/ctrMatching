@@ -1,24 +1,20 @@
-typedef signed char s8;
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
+extern void JitPool_Clear(JitPool *pool);
+extern s32 MEMPACK_AllocMem(s32 size, char *name);
+extern M2C_UNK memset();
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+void JitPool_Init(JitPool *pool, s32 numItems, s32 itemSize, char *name)
+{
+    s32 bufferSize;
 
-M2C_UNK JitPool_Clear();      /* extern */
-s32 MEMPACK_AllocMem();      /* extern */
-M2C_UNK memset();            /* extern */
+    memset(pool, 0, 0x28);
 
-void JitPool_Init(void *arg0, s32 arg1, s32 arg2, M2C_UNK arg3) {
-	s32 tempLo;
+    bufferSize = numItems * itemSize;
+    pool->numItems = numItems;
+    pool->itemSize = itemSize;
+    pool->bufferSize = bufferSize;
+    pool->buffer = (void *)MEMPACK_AllocMem(bufferSize, name);
 
-	memset(arg0, 0, 0x28);
-
-	tempLo = arg1 * arg2;
-	M2C_FIELD(arg0, s32 *, 0x18) = arg1;
-	M2C_FIELD(arg0, s32 *, 0x1C) = arg2;
-	M2C_FIELD(arg0, s32 *, 0x20) = tempLo;
-	M2C_FIELD(arg0, s32 *, 0x24) = MEMPACK_AllocMem(tempLo, arg3);
-
-	JitPool_Clear(arg0);
+    JitPool_Clear(pool);
 }

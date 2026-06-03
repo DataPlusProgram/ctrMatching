@@ -1,5 +1,6 @@
 #include "../../common.h"
 
-s32 LIST_GetNextItem(s32 *arg0) {
-    return *arg0;
+LinkedListNode *LIST_GetNextItem(LinkedListNode *item)
+{
+    return item->next;
 }

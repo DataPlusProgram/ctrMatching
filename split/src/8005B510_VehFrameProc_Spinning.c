@@ -12,7 +12,7 @@ typedef struct {
     s16 unk582;
 } M2cVehFrameProcSpinningArg1;
 
-s16 VehCalc_InterpBySpeed();
+s32 VehCalc_InterpBySpeed();
 s32 VehFrameInst_GetNumAnimFrames();
 s32 VehFrameInst_GetStartFrame();
 

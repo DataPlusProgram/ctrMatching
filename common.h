@@ -9,9 +9,11 @@ typedef unsigned char u8;
 typedef signed char s8;
 
 typedef struct Driver Driver;
+typedef struct NavFrame NavFrame;
 typedef struct ObjRef ObjRef;
 typedef struct Vec3 Vec3;
 typedef struct SVec3 SVec3;
+typedef struct BotsLevInstCollScratch BotsLevInstCollScratch;
 typedef struct MatrixNd MatrixNd;
 typedef struct GameTracker GameTracker;
 typedef struct Icon Icon;
@@ -29,12 +31,105 @@ typedef struct MultitapPacket MultitapPacket;
 typedef struct RacingWheelData RacingWheelData;
 typedef struct GamepadBuffer GamepadBuffer;
 typedef struct GamepadSystem GamepadSystem;
+typedef struct LevRenderList LevRenderList;
+typedef struct MainFrameThreadBucket MainFrameThreadBucket;
 typedef struct Model Model;
 typedef struct ModelAnim ModelAnim;
 typedef struct ModelHeader ModelHeader;
 typedef struct Pvs Pvs;
+typedef struct PushBuffer PushBuffer;
+typedef struct RainCloud RainCloud;
+typedef struct TrackerWeapon TrackerWeapon;
+typedef struct Shield Shield;
+typedef struct LinkedList LinkedList;
+typedef struct LinkedListNode LinkedListNode;
+typedef struct JitPool JitPool;
 
 typedef s32 M2C_UNK;
+
+typedef struct
+{
+    u8 pad00[8];
+    M2C_UNK (*collisionFunc)(s32, void *, M2C_UNK);
+} LevModelMetaView;
+
+struct LinkedListNode {
+    LinkedListNode *next;
+    LinkedListNode *prev;
+};
+
+struct LinkedList {
+    LinkedListNode *first;
+    LinkedListNode *last;
+    s32 count;
+};
+
+struct JitPool {
+    LinkedList freeList;
+    LinkedList usedList;
+    s32 numItems;
+    s32 itemSize;
+    s32 bufferSize;
+    void *buffer;
+};
+
+
+
+void COLL_FIXED_PlayerSearch(Thread *thread, Driver *driver); //0x8001D944
+Instance *INSTANCE_Birth3D(s32 modelId, M2C_UNK arg1, M2C_UNK arg2); //0x8003086C
+void JitPool_Clear(JitPool *pool); //0x80030FDC
+void JitPool_Init(JitPool *pool, s32 numItems, s32 itemSize, char *name); //0x8003105C
+LinkedListNode *JitPool_Add(JitPool *pool); //0x800310D4
+void JitPool_Remove(JitPool *pool, LinkedListNode *item); //0x8003112C
+void LIST_Clear(LinkedList *list); //0x80031734
+void LIST_AddFront(LinkedList *list, LinkedListNode *item); //0x80031744
+void LIST_AddBack(LinkedList *list, LinkedListNode *item); //0x80031788
+LinkedListNode *LIST_GetNextItem(LinkedListNode *item); //0x800317CC
+LinkedListNode *LIST_GetFirstItem(LinkedList *list); //0x800317D8
+LinkedListNode *LIST_RemoveMember(LinkedList *list, LinkedListNode *item); //0x800317E4
+LinkedListNode *LIST_RemoveFront(LinkedList *list); //0x8003186C
+LinkedListNode *LIST_RemoveBack(LinkedList *list); //0x800318EC
+void LIST_Init(LinkedList *list, LinkedListNode *firstItem, s32 itemSize, s32 count); //0x8003197C
+s32 MATH_Sin(s32 angle); //0x8003D184
+s32 MATH_Cos(s32 angle); //0x8003D1C0
+s32 VehCalc_InterpBySpeed(s32 currentValue, s32 step, s32 targetValue); //0x80058F54
+s32 VehCalc_MapToRange(s32 value, s32 inMin, s32 inMax, s32 outMin, s32 outMax); //0x80058F9C
+void VehFrameProc_Driving(Thread *thread, Driver *driver); //0x8005B178
+void VehPhysForce_OnApplyForces(Thread *thread, Driver *driver); //0x8005EA60
+void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver); //0x8005EE34
+void VehPhysForce_CounterSteer(Driver *driver); //0x8005FB4C
+void VehPhysGeneral_PhysAngular(Thread *thread, Driver *driver); //0x8005FC8C
+s32 VehPhysGeneral_LerpQuarterStrength(s32 value, s32 strength); //0x80060458
+s32 VehPhysGeneral_LerpToForwards(Driver *driver, s32 targetForward, s32 inputSpeed, s32 currentForward); //0x80060488
+s32 VehPhysGeneral_JumpGetVelY(s16 *normalVec, Vec3 *movement); //0x800605A0
+void VehPhysGeneral_JumpAndFriction(Thread *thread, Driver *driver); //0x80060630
+void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver); //0x8006181C
+void VehPhysProc_Driving_Update(Thread *thread, Driver *driver); //0x80062A4C
+void VehPhysProc_Driving_Init(Thread *thread, Driver *driver); //0x80062B74
+void VehPhysProc_FreezeEndEvent_Init(Thread *thread, Driver *driver); //0x80062D04
+void VehPhysProc_FreezeVShift_Init(Thread *thread, Driver *driver); //0x80062E94
+void VehPhysProc_PowerSlide_Update(Thread *thread, Driver *driver); //0x8006364C
+void VehPhysProc_PowerSlide_PhysLinear(Thread *thread, Driver *driver); //0x800638D4
+void VehPhysProc_PowerSlide_InitSetUpdate(Thread *arg0, Driver *driver); //0x80063920
+void VehPhysProc_PowerSlide_Init(Thread *thread, Driver *driver); //0x80063934
+void VehPhysProc_SlamWall_Init(Thread *thread, Driver *driver); //0x80063BD4
+void VehPhysProc_SpinFirst_PhysAngular(Thread *thread, Driver *driver); //0x80063DC8
+void VehPhysProc_SpinFirst_InitSetUpdate(Thread *unused, Driver *driver); //0x80063EAC
+void VehPhysProc_SpinFirst_Init(Thread *thread, Driver *driver); //0x80063EC0
+void VehPhysProc_SpinLast_PhysAngular(Thread *thread, Driver *driver); //0x800640A4
+void VehPhysProc_SpinStop_Init(Thread *thread, Driver *driver); //0x800644D0
+void VehStuckProc_MaskGrab_Update(Thread *thread, Driver *driver); //0x80066D4C
+void VehStuckProc_MaskGrab_PhysLinear(Thread *thread, Driver *driver); //0x80066E3C
+void VehStuckProc_MaskGrab_Animate(Thread *thread, Driver *driver); //0x80066E8C
+void VehStuckProc_MaskGrab_Init(Thread *thread, Driver *driver); //0x800671B0
+void VehStuckProc_PlantEaten_Update(Thread *thread, Driver *driver); //0x8006749C
+void VehStuckProc_PlantEaten_PhysLinear(Thread *thread, Driver *driver); //0x80067554
+void VehStuckProc_RevEngine_PhysLinear(Thread *thread, Driver *driver); //0x80067A74
+void VehStuckProc_Tumble_PhysAngular(Thread *thread, Driver *driver); //0x80068150
+
+
+
+
 
 typedef enum LevelId {
     DINGO_CANYON = 0,
@@ -110,6 +205,8 @@ typedef enum LevelId {
 
 #define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
 
+void PushBuffer_Init(PushBuffer *pushBuffer, s32 cameraId, s32 numPlayers);
+
 struct Vec3 {
     s32 x;
     s32 y;
@@ -126,6 +223,32 @@ struct SVec3 {
     s16 x;
     s16 y;
     s16 z;
+};
+
+struct NavFrame {
+    s16 pos[3];
+    u8 rot[4];
+    s16 unk[2];
+    s16 flags;
+    s16 pathChangeOpcode;
+    u8 goBackCount;
+    u8 specialBits;
+};
+
+struct BotsLevInstCollScratch {
+    u8 pad00[0x06];
+    s16 bboxRadius;
+    u8 pad08[0x0C - 0x08];
+    s16 unk0C;
+    u8 pad0E[0x22 - 0x0E];
+    u16 collisionFlags;
+    s32 unk24;
+    s32 unk28;
+    s32 levelRootValue;
+    u8 pad30[0x42 - 0x30];
+    u16 foundHitType;
+    u8 pad44[0x48 - 0x44];
+    void *hitInstance;
 };
 
 struct MatrixNd {
@@ -217,7 +340,7 @@ struct QuadBlock {
     u32 drawOrderHigh;             // 0x018
     void *ptrTextureMid[4];        // 0x01C
     u8 bbox[0x0C];                 // 0x02C
-    s8 terrainType;                // 0x038
+    u8 terrainType;                // 0x038
     s8 weatherIntensity;           // 0x039
     s8 weatherVanishRate;          // 0x03A
     s8 mulNormVecY;                // 0x03B
@@ -369,7 +492,7 @@ typedef struct DriverBattleHud {
 typedef struct DriverBotData {
     u8 item[8];
     s32 unk5A0;
-    void *botNavFrame;
+    NavFrame *botNavFrame;
     s32 unk5A8;
     s32 unk5AC;
     s32 botFlags;
@@ -394,7 +517,7 @@ typedef struct DriverBotData {
     s16 aiRotY608;
     s16 aiQuadblockCheckpointIndex;
     s16 estimatePos[3];
-    s8 estimateRotNav[3];
+    u8 estimateRotNav[3];
     s8 estimateRotCurrY;
     s16 distToNextNavXyz;
     s16 distToNextNavXz;
@@ -592,7 +715,7 @@ struct Driver {
     s16 jumpUnknown;                     // 0x3FA
     s16 jumpLandingBoost;                // 0x3FC
     s16 set0xF0OnWallRub;                // 0x3FE
-    s16 noInputTimer;                    // 0x400
+    u16 noInputTimer;                    // 0x400
     s16 burnTimer;                       // 0x402
     s16 squishTimer;                     // 0x404
     s16 startDriving0x60;                // 0x406
@@ -657,7 +780,7 @@ struct Driver {
     s16 unk466;                          // 0x466
     s16 constDriftingCameraSpinRate;     // 0x468
     s8 unk46A;                           // 0x46A
-    s8 unk46B;                           // 0x46B
+    u8 unk46B;                           // 0x46B
     s16 unk46C;                          // 0x46C
     s16 unk46E;                          // 0x46E
     s16 unk470;                          // 0x470
@@ -755,6 +878,93 @@ struct Driver {
     s16 unk636;                          // 0x636
 };
 
+enum TrackerWeaponFlags {
+    TRACKER_WEAPON_FLAG_WUMPA_10 = 1,
+    TRACKER_WEAPON_FLAG_DETONATE = 2,
+    TRACKER_WEAPON_FLAG_BOMB_BACKWARDS = 0x20
+};
+
+struct TrackerWeapon {
+    Driver *driverTarget;                // 0x000
+    Driver *driverParent;                // 0x004
+    Instance *instParent;                // 0x008
+    void *ptrParticle;                   // 0x00C
+    s16 vel[3];                          // 0x010
+    u16 flags;                           // 0x016
+};
+
+enum ShieldFlags {
+    SHIELD_FLAG_POPPED = 1,
+    SHIELD_FLAG_SHOOTING = 2,
+    SHIELD_FLAG_BLUE = 4
+};
+
+struct Shield {
+    s32 animFrame;                       // 0x000
+    s16 duration;                        // 0x004
+    s16 flags;                           // 0x006
+};
+
+struct RainCloud {
+    void *rainLocal;                     // 0x000
+    s16 timeMS;                          // 0x004
+    s16 boolScrollItem;                  // 0x006
+};
+
+struct PushBuffer {
+    s8 pad00[0x12];                  // 0x000
+    s16 fadeFromBlackCurrentValue;   // 0x012
+    s16 fadeFromBlackDesiredResult;  // 0x014
+    s16 fadeStep;                    // 0x016
+    s32 distanceToScreenPrev;        // 0x018
+    s16 rectX;                       // 0x01C
+    s16 rectY;                       // 0x01E
+    s16 rectW;                       // 0x020
+    s16 rectH;                       // 0x022
+    s16 unk24;                       // 0x024
+    s16 unk26;                       // 0x026
+    s8 pad28[0x60];                  // 0x028
+    s16 unk88;                       // 0x088
+    s16 unk8A;                       // 0x08A
+    s16 unk8C;                       // 0x08C
+    s16 unk8E;                       // 0x08E
+    s16 unk90;                       // 0x090
+    s16 unk92;                       // 0x092
+    s16 unk94;                       // 0x094
+    s16 unk96;                       // 0x096
+    s16 unk98;                       // 0x098
+    s32 unk9C;                       // 0x09C
+    s32 unkA0;                       // 0x0A0
+    s32 unkA4;                       // 0x0A4
+    s8 padA8[0x60];                  // 0x0A8
+    s8 cameraId;                     // 0x108
+    s8 pad109[3];                    // 0x109
+    s32 distanceToScreenCurr;        // 0x10C
+};
+
+struct LevRenderList {
+    s32 list0Base;                   // 0x00
+    s32 list0Count;                  // 0x04
+    s32 list1Base;                   // 0x08
+    s32 list1Count;                  // 0x0C
+    s32 list2Base;                   // 0x10
+    s32 list2Count;                  // 0x14
+    s32 list3Base;                   // 0x18
+    s32 list3Count;                  // 0x1C
+    s32 list4Base;                   // 0x20
+    s32 unk24;                       // 0x24
+    s32 unk28;                       // 0x28
+    s32 unk2C;                       // 0x2C
+};
+
+struct MainFrameThreadBucket {
+    Thread *thread;                  // 0x00
+    s32 unk4;                        // 0x04
+    s32 unk8;                        // 0x08
+    u32 flags;                       // 0x0C
+    s32 unk10;                       // 0x10
+};
+
 struct GameTracker {
     s32 gameMode1;                    // 0x000
     s32 gameMode1PrevFrame;           // 0x004
@@ -766,15 +976,15 @@ struct GameTracker {
     Level *level1;                    // 0x160
     Level *level2;                    // 0x164
 
-    u8 pushBuffer[4][0x110];          // 0x168
+    PushBuffer pushBuffer[4];         // 0x168
     u8 decalMp[12][0x128];            // 0x5A8
-    u8 pushBufferUi[0x110];           // 0x1388
+    PushBuffer pushBufferUi;          // 0x1388
     u8 cameraDC[4][0xDC];             // 0x1498
-    u8 levRenderLists[4][0x30];       // 0x1808
+    LevRenderList levRenderLists[4];  // 0x1808
     void *otSwapchainDB[2];           // 0x18C8
     u8 jitPools[0x140];               // 0x18D0
 
-    s32 levelID;                      // 0x1A10
+    u32 levelID;                      // 0x1A10
     char levelName[0x24];             // 0x1A14
     void *visMem1;                    // 0x1A38
     void *visMem2;                    // 0x1A3C
@@ -890,7 +1100,7 @@ struct GameTracker {
 
     s32 cupID;                        // 0x1E58
     s32 unk1E5C[0x16];               // 0x1E5C
-    s32 prevLevelID;                 // 0x1EB4
+    u32 prevLevelID;                 // 0x1EB4
     s32 unk1EB8[2];                  // 0x1EB8
     s32 unk1EC0;                     // 0x1EC0
     s32 unk1EC4;                     // 0x1EC4
@@ -903,6 +1113,12 @@ struct GameTracker {
     void *unk1FB0;                   // 0x1FB0
     s32 unk1FB4[0x10];               // 0x1FB4
     void *unk1FF4;                   // 0x1FF4
+    u8 unk1FF8[0x560];               // 0x1FF8
+    s32 confettiDriverIds[4];        // 0x2558
+    s32 numConfettiDrivers;          // 0x2568
+    u32 renderFlags;                 // 0x256C
+    u8 unk2570[9];                   // 0x2570
+    u8 unk2579;                      // 0x2579
 };
 
 #define gte_SetColorMatrix(r0) __asm__ volatile ( \
@@ -989,18 +1205,6 @@ struct GameTracker {
     :                                           \
     : "r"(r0), "r"(r1), "r"(r2) )
 
-#define gte_ldtr_matrix(m) do {                 \
-    register s32 t0 __asm__("$8") = (m)->t[0];  \
-    register s32 t1 __asm__("$9") = (m)->t[1];  \
-    register s32 t2 __asm__("$10") = (m)->t[2]; \
-    __asm__ volatile(                           \
-        "ctc2 $8, $5\n\t"                       \
-        "ctc2 $9, $6\n\t"                       \
-        "ctc2 $10, $7"                          \
-        :                                       \
-        : "r"(t0), "r"(t1), "r"(t2));           \
-} while (0)
-
 #define gte_ldL11L12(v) __asm__ volatile ( \
     "ctc2 %0, $8"                          \
     :                                      \
@@ -1046,47 +1250,63 @@ struct GameTracker {
     : "r"(v)                             \
     : "memory" )
 
-#define ASM_MATRIX_LOAD_T3_T6(srcReg) \
-"    lw    $t3, 0x0(" srcReg ")\n"    \
-"    lw    $t4, 0x4(" srcReg ")\n"    \
-"    lw    $t5, 0x8(" srcReg ")\n"    \
-"    lw    $t6, 0xc(" srcReg ")\n"
-
-#define ASM_MATRIX_LOAD_T7(srcReg) \
-"    lw    $t7, 0x10(" srcReg ")\n"
-
-#define ASM_MATRIX_STORE_T3_T7(dstReg) \
-"    sw    $t3, 0x0(" dstReg ")\n"     \
-"    sw    $t4, 0x4(" dstReg ")\n"     \
-"    sw    $t5, 0x8(" dstReg ")\n"     \
-"    sw    $t6, 0xc(" dstReg ")\n"     \
-"    sw    $t7, 0x10(" dstReg ")\n"
-
-#define MATRIX_LOAD_TREGS(src, t3Reg, t4Reg, t5Reg, t6Reg, t7Reg) do { \
-    (t3Reg) = ((u32 *)(src))[0];                                        \
-    (t4Reg) = ((u32 *)(src))[1];                                        \
-    (t5Reg) = ((u32 *)(src))[2];                                        \
-    (t6Reg) = ((u32 *)(src))[3];                                        \
-    (t7Reg) = ((u32 *)(src))[4];                                        \
-    __asm__ volatile(""                                                 \
-        : "+r"(t3Reg), "+r"(t4Reg), "+r"(t5Reg), "+r"(t6Reg), "+r"(t7Reg)); \
-} while (0)
-
-#define MATRIX_STORE_TREGS(dst, t3Reg, t4Reg, t5Reg, t6Reg, t7Reg) do { \
-    __asm__ volatile(""                                                  \
-        : "+r"(t3Reg), "+r"(t4Reg), "+r"(t5Reg), "+r"(t6Reg), "+r"(t7Reg));  \
-    ((u32 *)(dst))[0] = (t3Reg);                                         \
-    ((u32 *)(dst))[1] = (t4Reg);                                         \
-    ((u32 *)(dst))[2] = (t5Reg);                                         \
-    ((u32 *)(dst))[3] = (t6Reg);                                         \
-    ((u32 *)(dst))[4] = (t7Reg);                                         \
-} while (0)
-
 #define read_mt(x, y, z) do { \
-    gte_stmac1(&(x));         \
-    gte_stmac2(&(y));         \
-    gte_stmac3(&(z));         \
+    __asm__ volatile(         \
+        "mfc2 %0, $25\n\t"    \
+        "mfc2 %1, $26\n\t"    \
+        "mfc2 %2, $27\n\t"    \
+        "nop"                 \
+        : "=r"(x), "=r"(y), "=r"(z) \
+        :                     \
+        : "memory");          \
 }while (0)
+
+#define gte_ldlzc(r0) __asm__ volatile ( \
+    "mtc2\t%0, $30"                      \
+    :                                    \
+    : "r"(r0) )
+
+#define gte_ldopv1SV(vec) __asm__ volatile ( \
+    "lh\t$12, 0( %0 );"                     \
+    "lh\t$13, 2( %0 );"                     \
+    "ctc2\t$12, $0;"                        \
+    "lh\t$14, 4( %0 );"                     \
+    "ctc2\t$13, $2;"                        \
+    "ctc2\t$14, $4"                         \
+    :                                        \
+    : "r"(vec)                               \
+    : "$12", "$13", "$14" )
+
+#define gte_ldopv2SV(vec) __asm__ volatile ( \
+    "lh\t$12, 0( %0 );"                     \
+    "lh\t$13, 2( %0 );"                     \
+    "lh\t$14, 4( %0 );"                     \
+    "mtc2\t$12, $9;"                        \
+    "mtc2\t$13, $10;"                       \
+    "mtc2\t$14, $11"                        \
+    :                                        \
+    : "r"(vec)                               \
+    : "$12", "$13", "$14" )
+
+#define gte_op12() __asm__ volatile ( \
+    "nop;"                             \
+    "nop;"                             \
+    ".word 0x0000123f" )
+
+#define gte_stlzc(r0) __asm__ volatile ( \
+    "swc2\t$31, 0( %0 )"                \
+    :                                   \
+    : "r"(r0)                           \
+    : "memory" )
+
+#define gte_nop() __asm__ volatile ( \
+    "nop" )
+
+
+#define ND_GTE_OP12() __asm__ volatile ( \
+    "nop;"                                \
+    "nop;"                                \
+    ".word 0x4B78000C" )
 
 #define gte_ldR11R12_mem(v) __asm__ volatile ( \
     "ctc2 %0, $0"                              \
@@ -1114,6 +1334,83 @@ struct GameTracker {
     :                                        \
     : "memory" )
 
+#define gte_SetRotMatrix(r0) __asm__ volatile (      \
+    "lw     $12, 0(%0);"                             \
+    "lw     $13, 4(%0);"                             \
+    "ctc2   $12, $0;"                                \
+    "ctc2   $13, $1;"                                \
+    "lw     $12, 8(%0);"                             \
+    "lw     $13, 12(%0);"                            \
+    "lw     $14, 16(%0);"                            \
+    "ctc2   $12, $2;"                                \
+    "ctc2   $13, $3;"                                \
+    "ctc2   $14, $4"                                 \
+    :                                                \
+    : "r"(r0)                                        \
+    : "$12", "$13", "$14" )
+
+#define gte_SetLightMatrix(r0) __asm__ volatile (    \
+    "lw     $12, 0(%0);"                             \
+    "lw     $13, 4(%0);"                             \
+    "ctc2   $12, $8;"                                \
+    "ctc2   $13, $9;"                                \
+    "lw     $12, 8(%0);"                             \
+    "lw     $13, 12(%0);"                            \
+    "lw     $14, 16(%0);"                            \
+    "ctc2   $12, $10;"                               \
+    "ctc2   $13, $11;"                               \
+    "ctc2   $14, $12"                                \
+    :                                                \
+    : "r"(r0)                                        \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile (    \
+    "lw     $12, 20(%0);"                            \
+    "lw     $13, 24(%0);"                            \
+    "ctc2   $12, $5;"                                \
+    "lw     $14, 28(%0);"                            \
+    "ctc2   $13, $6;"                                \
+    "ctc2   $14, $7"                                 \
+    :                                                \
+    : "r"(r0)                                        \
+    : "$12", "$13", "$14" )
+
+#define gte_SetGeomOffset(ofx, ofy) __asm__ volatile ( \
+    "ctc2 %0, $24\n\t"                                 \
+    "ctc2 %1, $25"                                     \
+    :                                                  \
+    : "r"(ofx), "r"(ofy) )
+
+#define gte_ldH(h) __asm__ volatile ( \
+    "ctc2 %0, $26"                    \
+    :                                 \
+    : "r"(h) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile ( \
+    "lwc2 $0, 0(%0)\n\t"                       \
+    "lwc2 $1, 4(%0)\n\t"                       \
+    "lwc2 $2, 0(%1)\n\t"                       \
+    "lwc2 $3, 4(%1)\n\t"                       \
+    "lwc2 $4, 0(%2)\n\t"                       \
+    "lwc2 $5, 4(%2)"                           \
+    :                                          \
+    : "r"(r0), "r"(r1), "r"(r2)                \
+    : "memory" )
+
+#define gte_rtpt() __asm__ volatile ( \
+    ".word 0x4A280030"                \
+    :                                 \
+    :                                 \
+    : "memory" )
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0(%0)\n\t"                         \
+    "swc2 $13, 0(%1)\n\t"                         \
+    "swc2 $14, 0(%2)"                             \
+    :                                             \
+    : "r"(r0), "r"(r1), "r"(r2)                   \
+    : "memory" )
+
 extern s32 XA_State; //D_8008D708
 
 struct SDATA
@@ -1123,6 +1420,9 @@ struct SDATA
 };
 
 extern struct SDATA *sData;
+extern GameTracker *gT;
+
+u32 VehCalc_FastSqrt(u32 value, u32 shift);
 
 
 #endif

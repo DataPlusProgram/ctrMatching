@@ -3,28 +3,30 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef int s32;
 
-extern void *D_8009056C;
+typedef struct Channel {
+    struct Channel *next;
+    u8 pad4[7];
+    u8 active;
+    u8 padC[0xC];
+    u16 soundId;
+} Channel;
 
-s32 Channel_FindSound(u16 param_1) {
-    void *var_v1;
-    void *temp_a1;
-    s32 var_v0;
+extern Channel *channelTaken[];
 
-    var_v1 = D_8009056C;
-    var_v0 = 0;
+s32 Channel_FindSound(u16 soundId) {
+    Channel *channel;
+    Channel *nextChannel;
 
-    if (var_v1 != 0) {
+    channel = channelTaken[0];
+    if (channel != 0) {
         do {
-            temp_a1 = *((void **) var_v1);
-
-            if ((*((u8 *) ((s8 *) var_v1 + 0xB)) == 1) && (*((u16 *) ((s8 *) var_v1 + 0x18)) == param_1)) {
-                var_v0 = 1;
-                break;
+            nextChannel = channel->next;
+            if ((channel->active == 1) && (channel->soundId == soundId)) {
+                return 1;
             }
-
-            var_v1 = temp_a1;
-        } while (var_v1 != 0);
+            channel = nextChannel;
+        } while (channel != 0);
     }
 
-    return var_v0;
+    return 0;
 }

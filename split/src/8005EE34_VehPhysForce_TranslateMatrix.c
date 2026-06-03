@@ -29,13 +29,11 @@ extern s32 D_80087F00;
 extern s32 D_80087F10;
 extern s32 D_80087F20;
 extern MatrixAnimSet D_80087EF4[];
-extern GameTracker *gT;
 extern M2C_UNK emSet_Falling;
 
 extern void MatrixRotate(void *output, void *baseMatrix, void *rotationData);
 extern void OtherFX_Play_Echo(s32 soundId, s32 count, s32 flags);
 extern void *Particle_Init(s32 flags, s32 pool, void *emitterSet);
-extern s16 VehCalc_InterpBySpeed(s16 currentValue, s32 step, s32 targetValue);
 extern s32 VehCalc_MapToRange(s32 value, s32 inMin, s32 inMax, s32 outMin, s32 outMax);
 extern void VehPhysForce_RotAxisAngle(MatrixNd *matrix, s16 *axisAngleNormalVec, s16 angle);
 
@@ -58,11 +56,11 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
     s32 tableWord;
     s32 turnScale;
     s32 verticalPos;
-    s16 jumpHeightCurr;
+    s32 jumpHeightCurr;
     u8 matrixAnimFrame;
     u8 matrixAnimState;
     u32 actionFlags;
-    u32 angle;
+    s32 angle;
 
     inst = thread->inst;
 
@@ -101,12 +99,12 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
                     animSpeed = 0;
                 }
 
-                if (((driver->actionsFlagSet | driver->actionsFlagSetPrevFrame) & 2) == 0) {
-                    if (animSpeed < -0x320) {
-                        animSpeed = -0x320;
+                if (((driver->actionsFlagSet | driver->actionsFlagSetPrevFrame) & 2) != 0) {
+                    if (animSpeed < -0x640) {
+                        animSpeed = -0x640;
                     }
-                } else if (animSpeed < -0x640) {
-                    animSpeed = -0x640;
+                } else if (animSpeed < -0x320) {
+                    animSpeed = -0x320;
                 }
 
                 if (0x320 < animSpeed) {
@@ -150,7 +148,7 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
             if (driver->squishTimer == 0) {
                 if (inst->scale[1] == 0) {
                     if (driver->instSelf->thread->modelIndex == 0x18) {
-                        OtherFX_Play_Echo(0x5B, 1, driver->actionsFlagSet & 1);
+                        OtherFX_Play_Echo(0x5B, 1, M2C_FIELD(driver, u16 *, 0x2CA) & 1);
                     }
 
                     inst->scale[1] = driver->jumpSquishStretch + 0xCCC;
@@ -181,18 +179,79 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
 
     VehPhysForce_RotAxisAngle(&driver->matrixFacingDir, driver->axisAngle2NormalVec, driver->rotCurr[1]);
 
-    matrixAnimState = driver->matrixAnimState;
-    matrixAnimFrame = driver->matrixAnimFrame;
+    if ((driver->reserves != 0) && (driver->fireSpeed >= driver->constSpeedClassStat) && ((driver->actionsFlagSet & 0x80) == 0)) {
+        MatrixAnimSet *animSetBase;
+        s32 state;
 
-    if ((driver->reserves == 0) || (driver->fireSpeed < driver->constSpeedClassStat) || (driver->actionsFlagSet & 0x80)) {
+        state = driver->matrixAnimState;
+        matrixAnimState = state;
+
+        if (state == 1) {
+            goto boostState1;
+        }
+        if (state >= 2) {
+            goto boostStateGe2;
+        }
+        if (state == 0) {
+            goto boostState0;
+        }
+        goto boostStateDone;
+
+boostStateGe2:
+        if (state == 2) {
+            goto boostStateDone;
+        }
+        if (state == 3) {
+            goto boostState3;
+        }
+        goto boostStateDone;
+
+boostState0:
+        driver->matrixAnimState = 1;
+        goto boostStateDone;
+
+boostState1:
+        matrixAnimFrame = driver->matrixAnimFrame;
+        matrixAnimFrame++;
+        driver->matrixAnimFrame = matrixAnimFrame;
+
+        if (D_80087F00 <= matrixAnimFrame) {
+            driver->matrixAnimState = 2;
+            driver->matrixAnimFrame = 0;
+        }
+        goto boostStateDone;
+
+boostState3:
+        animSetBase = D_80087EF4;
+        frameDuration = animSetBase[3].frameCount - 1;
+        if (frameDuration != 0) {
+            animBlendValue = 0x100 - ((driver->matrixAnimFrame << 8) / frameDuration);
+            if (animBlendValue < 0) {
+                animBlendValue = 0;
+            }
+            if (0x100 < animBlendValue) {
+                animBlendValue = 0x100;
+            }
+
+            matrixAnimFrame = (u8)((animBlendValue * (animSetBase[1].frameCount - 1)) >> 8);
+            driver->matrixAnimState = 1;
+            driver->matrixAnimFrame = matrixAnimFrame;
+        }
+
+boostStateDone:;
+    } else {
+        matrixAnimState = driver->matrixAnimState;
+
         if (matrixAnimState != 0) {
             if (matrixAnimState == 2) {
                 matrixAnimState = 3;
                 matrixAnimFrame = 0;
+                driver->matrixAnimState = matrixAnimState;
+                driver->matrixAnimFrame = matrixAnimFrame;
             } else if (matrixAnimState == 1) {
                 frameDuration = D_80087F00 - 1;
                 if (frameDuration != 0) {
-                    animBlendValue = 0x100 - (((u32)matrixAnimFrame << 8) / frameDuration);
+                    animBlendValue = 0x100 - ((driver->matrixAnimFrame << 8) / frameDuration);
                     if (animBlendValue < 0) {
                         animBlendValue = 0;
                     }
@@ -202,75 +261,43 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
 
                     matrixAnimFrame = (u8)((animBlendValue * (D_80087F10 - 1)) >> 8);
                     matrixAnimState = 3;
+                    driver->matrixAnimState = matrixAnimState;
+                    driver->matrixAnimFrame = matrixAnimFrame;
                 }
-            } else if ((matrixAnimState == 3) && (D_80087F10 <= (u32)(matrixAnimFrame + 1))) {
-                matrixAnimState = 0;
-                matrixAnimFrame = 0;
-            }
-        }
-    } else {
-        if (matrixAnimState == 1) {
-            matrixAnimFrame++;
-            if (D_80087F00 <= matrixAnimFrame) {
-                matrixAnimState = 2;
-                matrixAnimFrame = 0;
-            }
-        } else if (2 < matrixAnimState) {
-            if (matrixAnimState == 3) {
-                frameDuration = D_80087F10 - 1;
-                if (frameDuration != 0) {
-                    animBlendValue = 0x100 - (((u32)matrixAnimFrame << 8) / frameDuration);
-                    if (animBlendValue < 0) {
-                        animBlendValue = 0;
-                    }
-                    if (0x100 < animBlendValue) {
-                        animBlendValue = 0x100;
-                    }
+            } else if (matrixAnimState == 3) {
+                matrixAnimFrame = driver->matrixAnimFrame + 1;
+                driver->matrixAnimFrame = matrixAnimFrame;
 
-                    matrixAnimFrame = (u8)((animBlendValue * (D_80087F00 - 1)) >> 8);
-                    matrixAnimState = 1;
+                if (D_80087F10 <= matrixAnimFrame) {
+                    driver->matrixAnimState = 0;
+                    driver->matrixAnimFrame = 0;
                 }
             }
-        } else if (matrixAnimState == 0) {
-            matrixAnimState = 1;
-            matrixAnimFrame = 0;
         }
     }
 
-    if ((matrixAnimState == 5) && (D_80087F20 <= (u32)(matrixAnimFrame + 1))) {
-        matrixAnimState = 0;
-        matrixAnimFrame = 0;
-    } else if (matrixAnimState == 5) {
-        matrixAnimFrame++;
+    if (driver->matrixAnimState == 5) {
+        matrixAnimFrame = driver->matrixAnimFrame + 1;
+        driver->matrixAnimFrame = matrixAnimFrame;
+
+        if (D_80087F20 <= matrixAnimFrame) {
+            driver->matrixAnimState = 0;
+            driver->matrixAnimFrame = 0;
+        }
     }
 
-    driver->matrixAnimState = matrixAnimState;
-    driver->matrixAnimFrame = matrixAnimFrame;
-
-    if (matrixAnimState == 0) {
-        inst->matrix.m[0][0] = driver->matrixFacingDir.m[0][0];
-        inst->matrix.m[0][1] = driver->matrixFacingDir.m[0][1];
-        inst->matrix.m[0][2] = driver->matrixFacingDir.m[0][2];
-        inst->matrix.m[1][0] = driver->matrixFacingDir.m[1][0];
-        inst->matrix.m[1][1] = driver->matrixFacingDir.m[1][1];
-        inst->matrix.m[1][2] = driver->matrixFacingDir.m[1][2];
-        inst->matrix.m[2][0] = driver->matrixFacingDir.m[2][0];
-        inst->matrix.m[2][1] = driver->matrixFacingDir.m[2][1];
-        inst->matrix.m[2][2] = driver->matrixFacingDir.m[2][2];
-        inst->matrix.extraShort = driver->matrixFacingDir.extraShort;
-        inst->matrix.t[0] = driver->posCurr.x >> 8;
-        inst->matrix.t[1] = (driver->posCurr.y >> 8) + ((driver->screenOffsetY * 3) >> 3);
-        offsetZ = driver->posCurr.z;
-    } else {
+    if (driver->matrixAnimState != 0) {
         MatrixAnimFrame *animFrameData;
         MatrixAnimSet *animSet;
         u32 *matrixWords;
 
+        matrixAnimState = driver->matrixAnimState;
+        matrixAnimFrame = driver->matrixAnimFrame;
+        matrixWords = (u32 *)&driver->matrixFacingDir;
         animSet = &D_80087EF4[matrixAnimState];
         animFrameData = (MatrixAnimFrame *)((s8 *)animSet->frames + ((u32)matrixAnimFrame << 5));
 
-        MatrixRotate(&inst->matrix, &driver->matrixFacingDir, animFrameData->rotData);
-        matrixWords = (u32 *)&driver->matrixFacingDir;
+        MatrixRotate(&inst->matrix, matrixWords, animFrameData->rotData);
         gte_ldR11R12(matrixWords[0]);
         gte_ldR13R21(matrixWords[1]);
         gte_ldR22R23(matrixWords[2]);
@@ -285,6 +312,15 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
         inst->matrix.t[0] = (driver->posCurr.x + offsetX) >> 8;
         inst->matrix.t[1] = ((driver->posCurr.y + offsetY) >> 8) + ((driver->screenOffsetY * 3) >> 3);
         offsetZ += driver->posCurr.z;
+    } else {
+        M2C_FIELD(inst, s32 *, 0x30) = M2C_FIELD(driver, s32 *, 0x330);
+        M2C_FIELD(inst, s32 *, 0x34) = M2C_FIELD(driver, s32 *, 0x334);
+        M2C_FIELD(inst, s32 *, 0x38) = M2C_FIELD(driver, s32 *, 0x338);
+        M2C_FIELD(inst, s32 *, 0x3C) = M2C_FIELD(driver, s32 *, 0x33C);
+        M2C_FIELD(inst, s16 *, 0x40) = M2C_FIELD(driver, s16 *, 0x340);
+        inst->matrix.t[0] = driver->posCurr.x >> 8;
+        inst->matrix.t[1] = (driver->posCurr.y >> 8) + ((driver->screenOffsetY * 3) >> 3);
+        offsetZ = driver->posCurr.z;
     }
 
     inst->matrix.t[2] = offsetZ >> 8;
@@ -296,7 +332,8 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
     }
 
     verticalPos = inst->matrix.t[1];
-    if ((verticalPos < 0) && (-0x4F <= verticalPos) && ((inst->flags & INSTANCE_FLAG_SPLIT_LINE) != 0)) {
+    if (verticalPos < 0) {
+        if ((-0x4F <= verticalPos) && ((inst->flags & INSTANCE_FLAG_SPLIT_LINE) != 0)) {
         wakeInst = driver->wakeInst;
         if (wakeInst == NULL) {
             return;
@@ -309,47 +346,44 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
         wakeInst->matrix.t[0] = inst->matrix.t[0];
         wakeInst->matrix.t[2] = inst->matrix.t[2];
 
-        angle = (u16)driver->angle;
+        angle = driver->angle;
         tableWord = D_800845A0[angle & 0x3FF];
-        splashRotY = (s16)tableWord;
-        splashRotX = tableWord >> 16;
 
-        if ((angle & 0x400) == 0) {
+        if ((angle & 0x400) != 0) {
+            splashRotY = tableWord >> 16;
+            splashRotX = (tableWord << 16) >> 16;
+
+            if ((angle & 0x800) == 0) {
+                splashRotX = -splashRotX;
+            } else {
+                splashRotY = -splashRotY;
+            }
+        } else {
+            splashRotX = tableWord >> 16;
+            splashRotY = (tableWord << 16) >> 16;
+
             if ((angle & 0x800) == 0) {
                 splashRotY = -splashRotY;
             } else {
                 splashRotX = -splashRotX;
             }
-        } else {
-            animBlendValue = splashRotY;
-            splashRotY = splashRotX;
-            if ((angle & 0x800) == 0) {
-                splashRotX = -animBlendValue;
-            } else {
-                splashRotX = animBlendValue;
-                splashRotY = -splashRotY;
-            }
         }
 
-        wakeInst->matrix.m[0][0] = (s16)splashRotX;
-        wakeInst->matrix.m[0][1] = 0;
-        wakeInst->matrix.m[0][2] = (s16)splashRotY;
-        wakeInst->matrix.m[1][0] = 0;
-        wakeInst->matrix.m[1][1] = 0x1000;
-        wakeInst->matrix.m[1][2] = 0;
-        wakeInst->matrix.m[2][0] = (s16)-splashRotY;
-        wakeInst->matrix.m[2][1] = 0;
+        M2C_FIELD(wakeInst, s32 *, 0x30) = splashRotX;
+        M2C_FIELD(wakeInst, s32 *, 0x34) = splashRotY;
+        M2C_FIELD(wakeInst, s32 *, 0x38) = 0x1000;
+        M2C_FIELD(wakeInst, s32 *, 0x3C) = -splashRotY;
         wakeInst->matrix.m[2][2] = (s16)splashRotX;
 
         if (driver->wakeScale == 0) {
             driver->wakeScale = 0x1000;
-            if (gT->numPlyrCurrGame < 2) {
+            if (M2C_FIELD(gT, u8 *, 0x1CA8) < 2) {
                 speedAbs = driver->speed;
                 if (speedAbs < 0) {
                     speedAbs = -speedAbs;
                 }
 
-                if ((0xC00 < speedAbs) && (-0x1FF < driver->posPrev.y)) {
+                if ((0xC00 < speedAbs) && (-0x200 < driver->posPrev.y)) {
                     FallingParticle *particle;
 
                     i = 10;
@@ -365,7 +399,7 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
                 }
             }
         } else {
-            if (gT->numPlyrCurrGame < 2) {
+            if (M2C_FIELD(gT, u8 *, 0x1CA8) < 2) {
                 speedAbs = driver->speed;
                 if (speedAbs < 0) {
                     speedAbs = -speedAbs;
@@ -384,12 +418,12 @@ void VehPhysForce_TranslateMatrix(Thread *thread, Driver *driver)
             }
         }
 
-        wakeInst->scale[0] = driver->wakeScale;
-        wakeInst->scale[2] = driver->wakeScale;
-        return;
+            wakeInst->scale[0] = driver->wakeScale;
+            wakeInst->scale[2] = driver->wakeScale;
+            return;
+        }
     }
 
-finishWake:
     if (0 < verticalPos) {
         inst->flags &= ~INSTANCE_FLAG_SPLIT_LINE;
     }

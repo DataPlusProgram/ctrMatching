@@ -4,57 +4,67 @@ extern s32 D_800845A0[];
 
 void VehPhysForce_ConvertSpeedToVec(Driver *driver, Vec3 *vec)
 {
-  s32 temp_a3;
-  s32 var_a2;
-  s32 temp_a0;
-  s32 temp_v1;
-  s32 var_v1;
-  temp_a3 = driver->axisRotationY;
-  temp_v1 = D_800845A0[temp_a3 & 0x3FF];
-  if (temp_a3 & 0x400)
-  {
-    var_a2 = (s16) temp_v1;
-    var_v1 = temp_v1 >> 0x10;
-    if (!(temp_a3 & 0x800))
+    s32 rotY;
+    s32 rotX;
+    s32 packedSinCos;
+    s32 sin;
+    s32 cos;
+    s32 horizontalSpeed;
+
+    rotY = driver->axisRotationY;
+    packedSinCos = D_800845A0[rotY & 0x3FF];
+
+    if (rotY & 0x400)
     {
-      var_a2 = -var_a2;
+        sin = (s16)packedSinCos;
+        cos = packedSinCos >> 0x10;
+
+        if (!(rotY & 0x800))
+        {
+            sin = -sin;
+        }
     }
-  }
-  else
-  {
-    var_a2 = temp_v1 >> 0x10;
-    temp_v1 = temp_v1 << 0x10;
-    var_v1 = temp_v1 >> 0x10;
-    if (temp_a3 & 0x800)
+    else
     {
-      var_a2 = -var_a2;
-      var_v1 = -var_v1;
+        sin = packedSinCos >> 0x10;
+        cos = (packedSinCos << 0x10) >> 0x10;
+
+        if (rotY & 0x800)
+        {
+            sin = -sin;
+            cos = -cos;
+        }
     }
-  }
-  vec->y = (driver->speed * var_v1) >> 0xC;
-  temp_a3 = driver->axisRotationX;
-  temp_v1 = D_800845A0[temp_a3 & 0x3FF];
-  temp_a0 = (driver->speed * var_a2) >> 0xC;
-  if (temp_a3 & 0x400)
-  {
-    var_a2 = (s16) temp_v1;
-    var_v1 = temp_v1 >> 0x10;
-    if (!(temp_a3 & 0x800))
+
+    vec->y = (driver->speed * cos) >> 0xC;
+
+    rotX = driver->axisRotationX;
+    horizontalSpeed = (driver->speed * sin) >> 0xC;
+
+    packedSinCos = D_800845A0[rotX & 0x3FF];
+
+    if (rotX & 0x400)
     {
-      var_a2 = -var_a2;
+        sin = (s16)packedSinCos;
+        cos = packedSinCos >> 0x10;
+
+        if (!(rotX & 0x800))
+        {
+            sin = -sin;
+        }
     }
-  }
-  else
-  {
-    var_a2 = temp_v1 >> 0x10;
-    temp_v1 = temp_v1 << 0x10;
-    var_v1 = temp_v1 >> 0x10;
-    if (temp_a3 & 0x800)
+    else
     {
-      var_a2 = -var_a2;
-      var_v1 = -var_v1;
+        sin = packedSinCos >> 0x10;
+        cos = (packedSinCos << 0x10) >> 0x10;
+
+        if (rotX & 0x800)
+        {
+            sin = -sin;
+            cos = -cos;
+        }
     }
-  }
-  vec->x = (temp_a0 * var_v1) >> 0xC;
-  vec->z = (temp_a0 * var_a2) >> 0xC;
+
+    vec->x = (horizontalSpeed * cos) >> 0xC;
+    vec->z = (horizontalSpeed * sin) >> 0xC;
 }

@@ -1,7 +1,6 @@
 #include "../../common.h"
 
 extern void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver);
-extern GameTracker *gT;
 
 void VehStuckProc_PlantEaten_PhysLinear(Thread *thread, Driver *driver)
 {

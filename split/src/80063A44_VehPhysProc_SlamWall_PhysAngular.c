@@ -7,7 +7,7 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
 
-s16 VehCalc_InterpBySpeed();  /* extern */
+s32 VehCalc_InterpBySpeed();  /* extern */
 M2C_UNK VehPhysForce_RotAxisAngle(); /* extern */
 extern void *gGamepads;
 

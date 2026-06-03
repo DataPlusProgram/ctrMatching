@@ -6,10 +6,8 @@ M2C_UNK GAMEPAD_ShockForce1();       /* extern */
 M2C_UNK GAMEPAD_ShockFreq();         /* extern */
 M2C_UNK OtherFX_Play();              /* extern */
 M2C_UNK OtherFX_Play_Echo();         /* extern */
-u32 VehCalc_FastSqrt();              /* extern */
-s16 VehCalc_MapToRange();            /* extern */
+s32 VehCalc_MapToRange();            /* extern */
 M2C_UNK VehPhysCrash_ConvertVecToSpeed(); /* extern */
-s32 VehPhysGeneral_JumpGetVelY();    /* extern */
 
 extern void *gGamepads;
 
@@ -31,17 +29,33 @@ void VehPhysGeneral_JumpAndFriction(Thread *thread, Driver *driver) {
     s16 jumpSpeed;
     s16 speedApprox;
     u32 speedLoss;
-    void *jumpNormalVec;
+    s16 *jumpNormalVec;
     u32 *matrixMovingDirWords;
 
     thread = thread;
 
     matrixMovingDirWords = (u32 *)&driver->matrixMovingDir;
-    gte_ldR11R12(matrixMovingDirWords[0]);
-    gte_ldR13R21(matrixMovingDirWords[1]);
-    gte_ldR22R23(matrixMovingDirWords[2]);
-    gte_ldR31R32(matrixMovingDirWords[3]);
-    gte_ldR33(matrixMovingDirWords[4]);
+    {
+        u32 mat0;
+        u32 mat1;
+        u32 mat2;
+        u32 mat3;
+        u32 mat4;
+
+        mat0 = matrixMovingDirWords[0];
+		
+        mat1 = matrixMovingDirWords[1];
+		gte_ldR11R12(mat0);
+		gte_ldR13R21(mat1);
+        mat2 = matrixMovingDirWords[2];
+        mat3 = matrixMovingDirWords[3];
+        mat4 = matrixMovingDirWords[4];
+
+
+        gte_ldR22R23(mat2);
+        gte_ldR31R32(mat3);
+        gte_ldR33(mat4);
+    }
 
     if ((driver->kartState != 2) && !(driver->actionsFlagSet & 0x800000) && (driver->reserves == 0)) {
         absAmpTurnState = driver->ampTurnState >> 8;
@@ -49,7 +63,7 @@ void VehPhysGeneral_JumpAndFriction(Thread *thread, Driver *driver) {
             absAmpTurnState = -absAmpTurnState;
         }
 
-        baseSpeedDelta = VehCalc_MapToRange(absAmpTurnState, 0, driver->constBackwardTurnRate, 0, (s32) driver->constTurnDecreaseRate);
+        baseSpeedDelta = VehCalc_MapToRange(absAmpTurnState, 0, (u8) driver->constBackwardTurnRate, 0, (s32) driver->constTurnDecreaseRate);
         baseSpeedMagnitude = driver->baseSpeed;
         absBaseSpeed = baseSpeedMagnitude;
 
@@ -69,7 +83,7 @@ void VehPhysGeneral_JumpAndFriction(Thread *thread, Driver *driver) {
     }
 
     if (driver->set0xF0OnWallRub != 0) {
-        if (driver->scrubMeta8 < driver->baseSpeed) {
+        if (driver->baseSpeed > driver->scrubMeta8) {
             driver->baseSpeed = driver->scrubMeta8;
         }
 
@@ -83,108 +97,105 @@ void VehPhysGeneral_JumpAndFriction(Thread *thread, Driver *driver) {
     movement.z = driver->velocity.z;
     speedLoss = 0;
 
-    if (!(driver->actionsFlagSet & 1)) {
-        goto checkForAnyJump;
-    }
+    if (driver->actionsFlagSet & 1) {
+        if (((driver->stepFlagSet & 3) == 0) || (driver->baseSpeed < 1)) {
+            if (driver->baseSpeed != 0) {
+                if ((((driver->terrainMeta1->flags & 4) == 0) || (driver->baseSpeed < 1)) || (-1 < driver->speedApprox)) {
+                    speedApprox = driver->speedApprox;
+                    absSpeedApprox = speedApprox;
 
-    if (((driver->stepFlagSet & 3) == 0) || (driver->baseSpeed < 1)) {
-        if (driver->baseSpeed != 0) {
-            if ((((driver->terrainMeta1->flags & 4) == 0) || (driver->baseSpeed < 1)) || (-1 < driver->speedApprox)) {
-                speedApprox = driver->speedApprox;
-                absSpeedApprox = speedApprox;
+                    if (absSpeedApprox < 0) {
+                        absSpeedApprox = -absSpeedApprox;
+                    }
 
-                if (absSpeedApprox < 0) {
-                    absSpeedApprox = -absSpeedApprox;
+                    if ((0x2FF < absSpeedApprox) && ((driver->baseSpeed < 1) || (speedApprox < 1)) && ((-1 < driver->baseSpeed) || (-1 < speedApprox))) {
+                        goto processAccel;
+                    }
                 }
 
-                if ((0x2FF < absSpeedApprox) && ((driver->baseSpeed < 1) || (speedApprox < 1)) && ((-1 < driver->baseSpeed) || (-1 < speedApprox))) {
-                    goto processAccel;
+                accelMagnitude = driver->constAccelClassStat + ((driver->accelConst << 5) / 5);
+
+                if ((driver->stepFlagSet & 3) == 0) {
+                    if ((driver->reserves != 0) && (0 < driver->baseSpeed)) {
+                        accelMagnitude = driver->constAccelReserves;
+                    }
+
+                    terrainSlowUntilSpeed = driver->terrainMeta1->slowUntilSpeed;
+                    if ((terrainSlowUntilSpeed != 0x100) && ((driver->actionsFlagSet & 0x800000) == 0)) {
+                        accelMagnitude = (terrainSlowUntilSpeed * accelMagnitude) >> 8;
+                    }
+                } else if (0 < driver->baseSpeed) {
+                    accelMagnitude = 0x1F40;
                 }
             }
-
-            accelMagnitude = driver->constAccelClassStat + ((driver->accelConst << 5) / 5);
-
-            if ((driver->stepFlagSet & 3) == 0) {
-                if ((driver->reserves != 0) && (0 < driver->baseSpeed)) {
-                    accelMagnitude = driver->constAccelReserves;
-                }
-
-                terrainSlowUntilSpeed = driver->terrainMeta1->slowUntilSpeed;
-                if ((terrainSlowUntilSpeed != 0x100) && ((driver->actionsFlagSet & 0x800000) == 0)) {
-                    accelMagnitude = (terrainSlowUntilSpeed * accelMagnitude) >> 8;
-                }
-            } else if (0 < driver->baseSpeed) {
-                goto setHighAccel;
-            }
-        }
-    } else {
-setHighAccel:
-        accelMagnitude = 0x1F40;
-    }
-
-processAccel:
-    speedScale = (accelMagnitude * M2C_FIELD(gGamepads, s32 *, 0x1D04)) >> 5;
-    gte_ldVXY0(0);
-    gte_ldVZ0(speedScale & 0xFFFF);
-    gte_rtv0();
-
-    {
-        s32 tempX;
-        s32 tempY;
-        s32 tempZ;
-
-        read_mt(tempX, tempY, tempZ);
-
-        if (driver->baseSpeed < 0) {
-            driver->unk3B2 = (s16) -speedScale;
-            movement.x -= tempX;
-            movement.y -= tempY;
-            movement.z -= tempZ;
-            driver->unkVectorX = (s16) -tempX;
-            driver->unkVectorY = (s16) -tempY;
-            driver->unkVectorZ = (s16) -tempZ;
         } else {
-            driver->unk3B2 = (s16) speedScale;
-            movement.x += tempX;
-            movement.y += tempY;
-            movement.z += tempZ;
-            driver->unkVectorX = (s16) tempX;
-            driver->unkVectorY = (s16) tempY;
-            driver->unkVectorZ = (s16) tempZ;
-        }
-    }
-
-    speedLoss = VehCalc_FastSqrt((movement.x * movement.x) + (movement.y * movement.y) + (movement.z * movement.z), 0x10) >> 8;
-    absBaseSpeed = driver->baseSpeed;
-
-    if (absBaseSpeed < 0) {
-        absBaseSpeed = -absBaseSpeed;
-    }
-
-    speedLoss -= absBaseSpeed;
-
-    if ((s32) speedLoss < 0) {
-        speedLoss = 0;
-    }
-
-    if ((s32) speedScale < (s32) speedLoss) {
-        speedLoss = speedScale;
-    }
-
-    if (((driver->actionsFlagSet & 1) != 0) && (driver->jumpForcedMs != 0)) {
-        if (driver->jumpUnknown != 0) {
-            driver->jumpUnknown = 0x180;
+            accelMagnitude = 0x1F40;
         }
 
-        if (driver->kartState == 6) {
-            GAMEPAD_ShockFreq(driver, 8, 0);
-            GAMEPAD_ShockForce1(driver, 8, 0x7F);
+    processAccel:
+        speedScale = (accelMagnitude * M2C_FIELD(gGamepads, s32 *, 0x1D04)) >> 5;
+        gte_ldVXY0(0);
+        gte_ldVZ0(speedScale & 0xFFFF);
+        gte_rtv0();
+
+        {
+            s32 tempX;
+            s32 tempY;
+            s32 tempZ;
+
+            read_mt(tempX, tempY, tempZ);
+
+            if (driver->baseSpeed < 0) {
+                driver->unk3B2 = (s16) -speedScale;
+                movement.x -= tempX;
+                movement.y -= tempY;
+                movement.z -= tempZ;
+                driver->unkVectorX = (s16) -tempX;
+                driver->unkVectorY = (s16) -tempY;
+                driver->unkVectorZ = (s16) -tempZ;
+            } else {
+                driver->unk3B2 = (s16) speedScale;
+                movement.x += tempX;
+                movement.y += tempY;
+                movement.z += tempZ;
+                driver->unkVectorX = (s16) tempX;
+                driver->unkVectorY = (s16) tempY;
+                driver->unkVectorZ = (s16) tempZ;
+            }
         }
 
-        goto applyJump;
+        speedLoss = VehCalc_FastSqrt((movement.x * movement.x) + (movement.y * movement.y) + (movement.z * movement.z), 0x10) >> 8;
+        absBaseSpeed = driver->baseSpeed;
+
+        if (absBaseSpeed < 0) {
+            absBaseSpeed = -absBaseSpeed;
+        }
+
+        speedLoss -= absBaseSpeed;
+
+        if ((s32) speedLoss < 0) {
+            speedLoss = 0;
+        }
+
+        if ((s32) speedScale < (s32) speedLoss) {
+            speedLoss = speedScale;
+        }
+
+        if (((driver->actionsFlagSet & 1) != 0) && (driver->jumpForcedMs != 0)) {
+            if (driver->jumpUnknown != 0) {
+                driver->jumpUnknown = 0x180;
+            }
+
+            if (driver->kartState == 6) {
+                GAMEPAD_ShockFreq(driver, 8, 0);
+                GAMEPAD_ShockForce1(driver, 8, 0x7F);
+            }
+
+            goto applyJump;
+        }
+
     }
 
-checkForAnyJump:
     if ((driver->actionsFlagSet & 0x8000) && (driver->heldItemId == 5)) {
         driver->actionsFlagSet &= 0xFFFF7FFF;
 
@@ -197,7 +208,7 @@ checkForAnyJump:
             }
 
             driver->jumpInitialVelY = (s16) (jumpPeakVelY >> 2);
-            OtherFX_Play_Echo(9, 1, driver->actionsFlagSet & 0x10000);
+            OtherFX_Play_Echo(9, 1, M2C_FIELD(driver, u16 *, 0x2CA) & 1);
             driver->jumpUnknown = 0x180;
             goto applyJump;
         }
@@ -205,46 +216,7 @@ checkForAnyJump:
         driver->noItemTimer = 0;
     }
 
-    if (driver->forcedJumpTrampoline == 0) {
-        if ((driver->jumpCoyoteTimerMs == 0) || (driver->jumpTenBuffer == 0) || (driver->jumpCooldownMs != 0)) {
-            if (driver->actionsFlagSet & 1) {
-                if (driver->underDriver != NULL) {
-                    quadMulNormVecY = driver->underDriver->mulNormVecY;
-
-                    if (quadMulNormVecY != 0) {
-                        absSpeedApprox = driver->speedApprox;
-
-                        if (absSpeedApprox < 0) {
-                            absSpeedApprox = -absSpeedApprox;
-                        }
-
-                        gte_ldVXY0((quadMulNormVecY * absSpeedApprox >> 8) << 0x10);
-                        gte_ldVZ0(0);
-                        gte_rtv0();
-
-                        {
-                            s32 tempX;
-                            s32 tempY;
-                            s32 tempZ;
-
-                            read_mt(tempX, tempY, tempZ);
-
-                            movement.x += tempX;
-                            movement.y += tempY;
-                            movement.z += tempZ;
-                        }
-                    }
-                }
-            }
-
-            goto finishMovement;
-        }
-
-        driver->jumpForcedMs = 0xA0;
-        driver->numberOfJumps = (u16) (driver->numberOfJumps + 1);
-        driver->jumpInitialVelY = driver->constJumpForce;
-        OtherFX_Play_Echo(8, 1, driver->actionsFlagSet & 0x10000);
-    } else {
+    if (driver->forcedJumpTrampoline != 0) {
         if ((driver->jumpForcedMs == 0) || (driver->jumpInitialVelY == driver->constJumpForce)) {
             OtherFX_Play(0x7E, 1);
         }
@@ -259,20 +231,46 @@ checkForAnyJump:
         }
 
         driver->forcedJumpTrampoline = 0;
+    } else {
+        if ((driver->jumpCoyoteTimerMs == 0) || (driver->jumpTenBuffer == 0) || (driver->jumpCooldownMs != 0)) {
+            goto finishMovement;
+        }
+
+        driver->jumpForcedMs = 0xA0;
+        driver->numberOfJumps = (u16) (driver->numberOfJumps + 1);
+        driver->jumpInitialVelY = driver->constJumpForce;
+        OtherFX_Play_Echo(8, 1, M2C_FIELD(driver, u16 *, 0x2CA) & 1);
     }
 
 applyJump:
+    jumpPeakVelY = 0;
     jumpMaxNormalVelY = 0;
+    terrainSlowUntilSpeed = 0x378;
     driver->jumpCooldownMs = 0x180;
     driver->jumpTenBuffer = 0;
     driver->actionsFlagSet |= 0x480;
 
-    jumpPeakVelY = VehPhysGeneral_JumpGetVelY((s8 *)driver + 0x378, &movement.x);
-    jumpMaxNormalVelY = jumpPeakVelY;
+    do {
+        absSpeedApprox = VehPhysGeneral_JumpGetVelY((s8 *)driver + terrainSlowUntilSpeed, &movement);
+        accelMagnitude = absSpeedApprox;
 
-    if (jumpMaxNormalVelY < 0) {
-        jumpMaxNormalVelY = -jumpMaxNormalVelY;
-    }
+        if (accelMagnitude < 0) {
+            accelMagnitude = -accelMagnitude;
+        }
+
+        speedScale = jumpPeakVelY;
+
+        if (speedScale < 0) {
+            speedScale = -speedScale;
+        }
+
+        if (speedScale < accelMagnitude) {
+            jumpPeakVelY = absSpeedApprox;
+        }
+
+        jumpMaxNormalVelY++;
+        terrainSlowUntilSpeed += 8;
+    } while (jumpMaxNormalVelY <= 0);
 
     jumpNormalVec = &driver->axisAngle1NormalVec;
 
@@ -280,7 +278,7 @@ applyJump:
         jumpNormalVec = &driver->axisAngle2NormalVec;
     }
 
-    accelMagnitude = VehPhysGeneral_JumpGetVelY(jumpNormalVec, &movement.x);
+    accelMagnitude = VehPhysGeneral_JumpGetVelY(jumpNormalVec, &movement);
     absSpeedApprox = accelMagnitude;
 
     if (absSpeedApprox < 0) {
@@ -317,6 +315,36 @@ applyJump:
     }
 
 finishMovement:
+    if (driver->actionsFlagSet & 1) {
+        if (driver->underDriver != NULL) {
+            quadMulNormVecY = driver->underDriver->mulNormVecY;
+
+            if (quadMulNormVecY != 0) {
+                absSpeedApprox = driver->speedApprox;
+
+                if (absSpeedApprox < 0) {
+                    absSpeedApprox = -absSpeedApprox;
+                }
+
+                gte_ldVXY0((quadMulNormVecY * absSpeedApprox >> 8) << 0x10);
+                gte_ldVZ0(0);
+                gte_rtv0();
+
+                {
+                    s32 tempX;
+                    s32 tempY;
+                    s32 tempZ;
+
+                    read_mt(tempX, tempY, tempZ);
+
+                    movement.x += tempX;
+                    movement.y += tempY;
+                    movement.z += tempZ;
+                }
+            }
+        }
+    }
+
     VehPhysCrash_ConvertVecToSpeed(driver, &movement.x, 0);
     interpSpeed = driver->speed - speedLoss;
     driver->speed = interpSpeed;

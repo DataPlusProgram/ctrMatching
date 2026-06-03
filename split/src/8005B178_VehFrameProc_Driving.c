@@ -13,7 +13,6 @@ extern M2C_UNK emSet_BurnSmoke;
 extern s16 D_80086E84[];
 
 extern void *Particle_Init(s32 flags, s32 pool, void *emitterSet);
-extern s16 VehCalc_InterpBySpeed(s16 currentValue, s32 step, s32 targetValue);
 extern s32 VehCalc_MapToRange(s32 value, s32 inMin, s32 inMax, s32 outMin, s32 outMax);
 extern s32 VehFrameInst_GetNumAnimFrames(Instance *inst, u8 animIndex);
 extern s32 VehFrameInst_GetStartFrame(u8 animIndex, s32 frameCount);

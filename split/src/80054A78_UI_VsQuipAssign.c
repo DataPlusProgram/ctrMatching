@@ -13,7 +13,6 @@ typedef struct {
 } M2cUIVsQuipAssignArg1;
 
 s32 MixRNG_Scramble();                           /* extern */
-extern GameTracker *gT;
 
 
 void UI_VsQuipAssign(Driver *driver, uint *param_2, int param_3, undefined4 param_4)

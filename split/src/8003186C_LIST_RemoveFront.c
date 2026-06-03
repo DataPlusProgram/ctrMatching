@@ -1,37 +1,31 @@
-typedef signed char s8;
-typedef int s32;
+#include "../../common.h"
 
-#define NULL 0
+LinkedListNode *LIST_RemoveFront(LinkedList *list)
+{
+    LinkedListNode *nextItemPrev;
+    LinkedListNode *nextItem;
+    LinkedListNode *item;
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
-
-typedef struct {
-	char pad0[0x8];
-	s32 unk8;
-} M2cLISTRemoveFrontArg0;
-
-void *LIST_RemoveFront(M2cLISTRemoveFrontArg0 *arg0) {
-    void **temp_a1;
-    void *temp_a1_2;
-    void *temp_v1;
-
-    temp_v1 = M2C_FIELD(arg0, void **, 0);
-    if (temp_v1 != NULL) {
-        temp_a1 = M2C_FIELD(temp_v1, void ***, 4);
-        if (temp_a1 != NULL) {
-            *temp_a1 = M2C_FIELD(temp_v1, void **, 0);
+    item = list->first;
+    if (item != NULL) {
+        nextItemPrev = item->prev;
+        if (nextItemPrev != NULL) {
+            nextItemPrev->next = item->next;
         } else {
-            M2C_FIELD(arg0, void **, 0) = (void *) M2C_FIELD(temp_v1, void **, 0);
+            list->first = item->next;
         }
-        temp_a1_2 = M2C_FIELD(temp_v1, void **, 0);
-        if (temp_a1_2 != NULL) {
-            M2C_FIELD(temp_a1_2, void ***, 4) = (void **) M2C_FIELD(temp_v1, void ***, 4);
+
+        nextItem = item->next;
+        if (nextItem != NULL) {
+            nextItem->prev = item->prev;
         } else {
-            M2C_FIELD(arg0, void ***, 4) = (void **) M2C_FIELD(temp_v1, void ***, 4);
+            list->last = item->prev;
         }
-        arg0->unk8 = (s32) (arg0->unk8 - 1);
-        M2C_FIELD(temp_v1, void **, 0) = NULL;
-        M2C_FIELD(temp_v1, void ***, 4) = NULL;
+
+        list->count--;
+        item->next = NULL;
+        item->prev = NULL;
     }
-    return temp_v1;
+
+    return item;
 }

@@ -42,7 +42,7 @@ void MEMPACK_NewPack(s32 addr, s32 size);
 s32 MEMPACK_GetFreeBytes(void);
 void *MEMPACK_AllocHighMem(s32 size, char *name);
 s32 LOAD_GetAdvPackIndex(void);
-s32 LOAD_GetBigfileIndex(LevelId levelId, s32 lodIndex, s32 bigfileIndexBase);
+s32 LOAD_GetBigfileIndex(u32 levelId, s32 lodIndex, s32 bigfileIndexBase);
 void LOAD_AppendQueue(BigFile *bigfilePtr, s32 loadType, s32 bigfileIndex, void *destination, void *callback);
 void *LOAD_DriverMPK(BigFile *bigfilePtr, s32 lodLevel, void *callback);
 void LOAD_Callback_DriverModels(void);
@@ -151,7 +151,7 @@ s32 LOAD_TenStages(GameTracker *gT, s32 loadingStage, BigFile *bigfilePtr)
             }
 
             gT->hudFlags &= 0xFE;
-            M2C_FIELD(gT, u32 *, 0x256C) &= 0x1000;
+            gT->renderFlags &= 0x1000;
             gT->hudFlags &= 0xF7;
             gT->level1 = NULL;
             gT->level2 = NULL;
@@ -442,20 +442,20 @@ s32 LOAD_TenStages(GameTracker *gT, s32 loadingStage, BigFile *bigfilePtr)
             }
 
             M2C_FIELD(&levBigLodIndex, s32 *, 4) = 1;
-            levelId = LOAD_GetBigfileIndex((LevelId)gT->levelID, (s16)DAT_8008D83C, 0);
+            levelId = LOAD_GetBigfileIndex(gT->levelID, (s16)DAT_8008D83C, 0);
             LOAD_AppendQueue(bigfilePtr, 3, levelId, NULL, NULL);
 
             levelId = gT->levelID;
             if (((u32)(levelId - 0x19) < 0xE) || ((u32)(levelId - 0x2C) < 0x14))
             {
-                hubPackSize1 = LOAD_GetBigfileIndex((LevelId)levelId, (s16)DAT_8008D83C, 1);
+                hubPackSize1 = LOAD_GetBigfileIndex(levelId, (s16)DAT_8008D83C, 1);
                 LOAD_AppendQueue(bigfilePtr, 2, hubPackSize1, NULL, LOAD_Callback_LEV);
-                hubPackSize2 = LOAD_GetBigfileIndex((LevelId)gT->levelID, (s16)DAT_8008D83C, 2);
+                hubPackSize2 = LOAD_GetBigfileIndex(gT->levelID, (s16)DAT_8008D83C, 2);
                 LOAD_AppendQueue(bigfilePtr, 1, hubPackSize2, PatchMem_Ptr, LOAD_Callback_PatchMem);
             }
             else
             {
-                hubPackSize1 = LOAD_GetBigfileIndex((LevelId)levelId, (s16)DAT_8008D83C, 1);
+                hubPackSize1 = LOAD_GetBigfileIndex(levelId, (s16)DAT_8008D83C, 1);
                 LOAD_AppendQueue(bigfilePtr, 2, hubPackSize1, NULL, LOAD_Callback_LEV);
             }
             break;
@@ -614,16 +614,16 @@ s32 LOAD_TenStages(GameTracker *gT, s32 loadingStage, BigFile *bigfilePtr)
                 {
                     if ((gT->gameMode2 & 0x80) == 0)
                     {
-                        M2C_FIELD(gT, u32 *, 0x256C) |= 0xFFFFEFFF;
+                        gT->renderFlags |= 0xFFFFEFFF;
                     }
                     else
                     {
-                        M2C_FIELD(gT, u32 *, 0x256C) = (M2C_FIELD(gT, u32 *, 0x256C) & 0x1000) | 0x20;
+                        gT->renderFlags = (gT->renderFlags & 0x1000) | 0x20;
                     }
                 }
                 else
                 {
-                    M2C_FIELD(gT, u32 *, 0x256C) = (M2C_FIELD(gT, u32 *, 0x256C) & 0x1000) | 0x20;
+                    gT->renderFlags = (gT->renderFlags & 0x1000) | 0x20;
                     if (RaceFlag_IsFullyOffScreen() == 1)
                     {
                         RaceFlag_BeginTransition(1);

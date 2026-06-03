@@ -1,14 +1,8 @@
 #include "../../common.h"
 
-extern void COLL_FIXED_PlayerSearch(void);
 extern void COLL_MOVED_PlayerSearch(void);
 extern void VehEmitter_DriverMain(void);
-extern void VehFrameProc_Driving(void);
 extern void VehPhysForce_CollideDrivers(void);
-extern void VehPhysForce_OnApplyForces(void);
-extern void VehPhysForce_TranslateMatrix(void);
-extern void VehPhysGeneral_JumpAndFriction(void);
-extern void VehPhysGeneral_PhysAngular(void);
 extern void VehPhysProc_Driving_Audio(void);
 extern void VehPhysProc_FreezeEndEvent_PhysLinear(void);
 

@@ -1,6 +1,5 @@
 #include "../../common.h"
 
-extern GameTracker *gT;
 extern void DecalFont_DrawLine(char *str, s16 posX, s16 posY, s16 fontType, u32 flags);
 
 typedef struct DecalFontGamepads {

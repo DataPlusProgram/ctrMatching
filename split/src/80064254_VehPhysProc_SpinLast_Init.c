@@ -1,35 +1,26 @@
-typedef signed char s8;
-typedef int s32;
+#include "../../common.h"
 
-typedef s32 M2C_UNK;
+extern void COLL_MOVED_PlayerSearch(void);
+extern void VehEmitter_DriverMain(void);
+extern void VehFrameProc_LastSpin(void);
+extern void VehPhysForce_CollideDrivers(void);
+extern void VehPhysProc_Driving_Audio(void);
+extern void VehPhysProc_SpinLast_PhysLinear(void);
+extern void VehPhysProc_SpinLast_Update(void);
 
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
-
-extern M2C_UNK COLL_FIXED_PlayerSearch;
-extern M2C_UNK COLL_MOVED_PlayerSearch;
-extern M2C_UNK VehEmitter_DriverMain;
-extern M2C_UNK VehFrameProc_LastSpin;
-extern M2C_UNK VehPhysForce_CollideDrivers;
-extern M2C_UNK VehPhysForce_OnApplyForces;
-extern M2C_UNK VehPhysForce_TranslateMatrix;
-extern M2C_UNK VehPhysGeneral_JumpAndFriction;
-extern M2C_UNK VehPhysProc_Driving_Audio;
-extern M2C_UNK VehPhysProc_SpinLast_PhysAngular;
-extern M2C_UNK VehPhysProc_SpinLast_PhysLinear;
-extern M2C_UNK VehPhysProc_SpinLast_Update;
-
-void VehPhysProc_SpinLast_Init(void *unused, void *arg1) {
-    M2C_FIELD(arg1, M2C_UNK **, 0x58) = &VehPhysProc_SpinLast_Update;
-    M2C_FIELD(arg1, M2C_UNK **, 0x5C) = &VehPhysProc_SpinLast_PhysLinear;
-    M2C_FIELD(arg1, M2C_UNK **, 0x60) = &VehPhysProc_Driving_Audio;
-    M2C_FIELD(arg1, M2C_UNK **, 0x64) = &VehPhysProc_SpinLast_PhysAngular;
-    M2C_FIELD(arg1, M2C_UNK **, 0x68) = &VehPhysForce_OnApplyForces;
-    M2C_FIELD(arg1, M2C_UNK **, 0x6C) = &COLL_MOVED_PlayerSearch;
-    M2C_FIELD(arg1, M2C_UNK **, 0x70) = &VehPhysForce_CollideDrivers;
-    M2C_FIELD(arg1, M2C_UNK **, 0x74) = &COLL_FIXED_PlayerSearch;
-    M2C_FIELD(arg1, M2C_UNK **, 0x78) = &VehPhysGeneral_JumpAndFriction;
-    M2C_FIELD(arg1, M2C_UNK **, 0x7C) = &VehPhysForce_TranslateMatrix;
-    M2C_FIELD(arg1, M2C_UNK **, 0x80) = &VehFrameProc_LastSpin;
-    M2C_FIELD(arg1, s32 *, 0x54) = 0;
-    M2C_FIELD(arg1, M2C_UNK **, 0x84) = &VehEmitter_DriverMain;
+void VehPhysProc_SpinLast_Init(Thread *unused, Driver *driver)
+{
+    driver->funcPtrs[0] = 0;
+    driver->funcPtrs[1] = &VehPhysProc_SpinLast_Update;
+    driver->funcPtrs[2] = &VehPhysProc_SpinLast_PhysLinear;
+    driver->funcPtrs[3] = &VehPhysProc_Driving_Audio;
+    driver->funcPtrs[4] = &VehPhysProc_SpinLast_PhysAngular;
+    driver->funcPtrs[5] = &VehPhysForce_OnApplyForces;
+    driver->funcPtrs[6] = &COLL_MOVED_PlayerSearch;
+    driver->funcPtrs[7] = &VehPhysForce_CollideDrivers;
+    driver->funcPtrs[8] = &COLL_FIXED_PlayerSearch;
+    driver->funcPtrs[9] = &VehPhysGeneral_JumpAndFriction;
+    driver->funcPtrs[10] = &VehPhysForce_TranslateMatrix;
+    driver->funcPtrs[11] = &VehFrameProc_LastSpin;
+    driver->funcPtrs[12] = &VehEmitter_DriverMain;
 }

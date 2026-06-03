@@ -8,10 +8,9 @@ typedef struct LevModelMeta {
 extern LevModelMeta *COLL_LevModelMeta(s32 levelId);
 extern s32 COLL_MOVED_ScrubImpact(Driver *driver, void *collider, void *scratch, s32 surfaceType, Vec3 *velocity);
 extern void COLL_SearchBSP_CallbackPARAM(void *bspRoot, void *bbox, void *callback, void *scratch);
-extern void COLL_Unknown_80020334(void *hit, s32 hitType, void *scratch);
+extern void COLL_MOVED_FindScrub(void *hit, s32 hitType, void *scratch);
 extern s32 VehAfterColl_GetSurface(s32 terrainType);
 extern void COLL_MOVED_BSPLEAF_TestQuadblocks(void);
-extern GameTracker *gT;
 
 typedef struct COLL_MOVED_PlayerSearchScratch {
     s16 endX;
@@ -63,7 +62,6 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
 {
     GameTracker *gGT;
     COLL_MOVED_PlayerSearchScratch *scratch;
-    void *colliderLocal;
     u16 collisionFlags;
     s16 startX;
     s16 startY;
@@ -71,19 +69,17 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
     s16 endY;
     s16 hitModelId;
     s32 hitType;
-    s32 moveX;
-    s32 moveY;
-    s32 moveZ;
+    s32 move[3];
     s32 motionScale;
     s32 terrainType;
     s32 collisionResult;
     s32 iterationCount;
+    s32 hitTypeFour;
     void *bspRoot;
     void *instanceData;
     LevModelMeta *levModelMeta;
     QuadBlock *quadBlock;
 
-    colliderLocal = collider;
     gGT = gT;
     scratch = (COLL_MOVED_PlayerSearchScratch *)0x1F800108;
 
@@ -91,10 +87,11 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
     scratch->bboxHeight = 0x271;
     scratch->startRadius = 0x19;
     scratch->startHeight = 0x271;
-    scratch->collisionScale = 0x3000;
-    scratch->unk28 = 0;
+	scratch->levelRootValue = *(s32 *)gGT->level1;
+	scratch->collisionScale = 0x3000;
+	scratch->unk28 = 0;
     scratch->collisionFlags = 1;
-    scratch->levelRootValue = *(s32 *)gGT->level1;
+   
 
     if ((u8)gGT->numPlyrCurrGame < 3) {
         scratch->collisionFlags = 3;
@@ -104,14 +101,17 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
     scratch->seenInstanceCount = 0;
     scratch->scrubMeta = 0x18;
     scratch->stepFlags = 0;
-    COLL_Unknown_80020334(NULL, 0, scratch);
+    COLL_MOVED_FindScrub(NULL, 0, scratch);
 
     iterationCount = 0xF;
+    hitTypeFour = 4;
 
     while (iterationCount != 0) {
-        moveX = ((driver->velocity.x * gGT->elapsedTimeMS) >> 5) * motionScale >> 12;
-        moveY = ((driver->velocity.y * gGT->elapsedTimeMS) >> 5) * motionScale >> 12;
-        moveZ = ((driver->velocity.z * gGT->elapsedTimeMS) >> 5) * motionScale >> 12;
+        gGT = gT;
+
+        move[0] = ((driver->velocity.x * gGT->elapsedTimeMS) >> 5) * motionScale >> 12;
+        move[1] = ((driver->velocity.y * gGT->elapsedTimeMS) >> 5) * motionScale >> 12;
+        move[2] = ((driver->velocity.z * gGT->elapsedTimeMS) >> 5) * motionScale >> 12;
 
         scratch->touchedWall = 0;
         scratch->foundQuadblock = 0;
@@ -127,12 +127,12 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
         scratch->startY = startY;
         scratch->startZ = driver->originToCenter.z + (driver->posCurr.z >> 8);
 
-        endX = driver->originToCenter.x + ((driver->posCurr.x + moveX) >> 8);
-        endY = driver->originToCenter.y + ((driver->posCurr.y + moveY) >> 8);
+        endX = driver->originToCenter.x + ((driver->posCurr.x + move[0]) >> 8);
+        endY = driver->originToCenter.y + ((driver->posCurr.y + move[1]) >> 8);
 
         scratch->endX = endX;
         scratch->endY = endY;
-        scratch->endZ = driver->originToCenter.z + ((driver->posCurr.z + moveZ) >> 8);
+        scratch->endZ = driver->originToCenter.z + ((driver->posCurr.z + move[2]) >> 8);
 
         if ((scratch->endX == scratch->startX) &&
             (scratch->endY == scratch->startY) &&
@@ -201,9 +201,9 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
         }
 
         if (scratch->collisionLerp > 0) {
-            driver->posCurr.x += (moveX * scratch->collisionLerp) >> 12;
-            driver->posCurr.y += (moveY * scratch->collisionLerp) >> 12;
-            driver->posCurr.z += (moveZ * scratch->collisionLerp) >> 12;
+            driver->posCurr.x += (move[0] * scratch->collisionLerp) >> 12;
+            driver->posCurr.y += (move[1] * scratch->collisionLerp) >> 12;
+            driver->posCurr.z += (move[2] * scratch->collisionLerp) >> 12;
         }
 
         if (scratch->foundHitType != 0) {
@@ -221,7 +221,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
                         hitModelId = M2C_FIELD(instanceData, s16 *, 0x3C);
                         levModelMeta = COLL_LevModelMeta(hitModelId);
                         if ((levModelMeta != NULL) && (levModelMeta->collisionFunc != NULL)) {
-                            collisionResult = levModelMeta->collisionFunc(instanceData, colliderLocal, scratch);
+                            collisionResult = levModelMeta->collisionFunc(instanceData, collider, scratch);
                         }
                     }
                 }
@@ -231,21 +231,21 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
                     hitModelId = M2C_FIELD(M2C_FIELD(instanceData, void **, 0x18), s16 *, 0x10);
                     levModelMeta = COLL_LevModelMeta(hitModelId);
                     if ((levModelMeta != NULL) && (levModelMeta->collisionFunc != NULL)) {
-                        collisionResult = levModelMeta->collisionFunc(instanceData, colliderLocal, scratch);
+                        collisionResult = levModelMeta->collisionFunc(instanceData, collider, scratch);
                     }
                 }
             }
 
-            if ((collisionResult == 2) || (M2C_FIELD(scratch->hitInstance, u8 *, 0x1) == 4)) {
+            if ((collisionResult == 2) || (M2C_FIELD(scratch->hitInstance, u8 *, 0x1) == hitTypeFour)) {
                 scratch->seenInstances[scratch->seenInstanceCount] = scratch->hitInstance;
                 scratch->seenInstanceCount += 1;
             } else {
-                COLL_Unknown_80020334(scratch->hitInstance, 0, scratch);
+                COLL_MOVED_FindScrub(scratch->hitInstance, 0, scratch);
                 scratch->terrainFlagMask += 0x200;
 
                 terrainType = VehAfterColl_GetSurface(M2C_FIELD(scratch->hitInstance, u8 *, 0x1));
-                if ((M2C_FIELD(scratch->hitInstance, u8 *, 0x1) == 4) ||
-                    ((collisionResult = COLL_MOVED_ScrubImpact(driver, colliderLocal, scratch, terrainType, &driver->velocity)) == 0)) {
+                if ((M2C_FIELD(scratch->hitInstance, u8 *, 0x1) == hitTypeFour) ||
+                    ((collisionResult = COLL_MOVED_ScrubImpact(driver, collider, scratch, terrainType, &driver->velocity)) == 0)) {
                     scratch->seenInstances[scratch->seenInstanceCount] = scratch->hitInstance;
                     scratch->seenInstanceCount += 1;
                 }
@@ -264,7 +264,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
                 M2C_FIELD(driver, u16 *, 0xAA) |= 1;
             }
 
-            COLL_Unknown_80020334(quadBlock, scratch->quadblockHitType, scratch);
+            COLL_MOVED_FindScrub(quadBlock, scratch->quadblockHitType, scratch);
 
             if ((quadBlock->quadFlags & 0x1000) == 0) {
                 terrainType = 0;
@@ -297,7 +297,7 @@ void COLL_MOVED_PlayerSearch(void *collider, Driver *driver)
             driver->spsNormalVec[1] = scratch->normalVec.y;
             driver->spsNormalVec[2] = scratch->normalVec.z;
 
-            collisionResult = COLL_MOVED_ScrubImpact(driver, colliderLocal, scratch, terrainType, &driver->velocity);
+            collisionResult = COLL_MOVED_ScrubImpact(driver, collider, scratch, terrainType, &driver->velocity);
             if (collisionResult == 2) {
                 return;
             }

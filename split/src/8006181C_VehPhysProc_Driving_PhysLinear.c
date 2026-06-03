@@ -1,3 +1,4 @@
+
 #include "../../common.h"
 
 typedef unsigned char byte;
@@ -10,39 +11,44 @@ typedef unsigned int uint;
 
 M2C_UNK GAMEPAD_ShockForce1(); /* extern */
 M2C_UNK OtherFX_Play();             /* extern */
-s16 VehCalc_InterpBySpeed();        /* extern */
+s32 VehCalc_InterpBySpeed();        /* extern */
 s32 VehCalc_MapToRange(); /* extern */
 M2C_UNK VehFire_Increment(); /* extern */
-s16 VehPhysGeneral_GetBaseSpeed();            /* extern */
+s32 VehPhysGeneral_GetBaseSpeed();            /* extern */
 M2C_UNK VehPhysGeneral_SetHeldItem();         /* extern */
-s8 VehPhysJoystick_GetStrengthAbsolute(); /* extern */
+s32 VehPhysJoystick_GetStrengthAbsolute(); /* extern */
 s32 VehPhysJoystick_ReturnToRest(); /* extern */
 extern M2C_UNK D_800845A0;
 extern GamepadSystem *D_8008D2B0;
-extern GameTracker *gT;
 
 
-void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
+void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driverParam)
 {
-  byte driverId;
-  char kartState;
+  int kartState;
   char heldItemId;
+  int heldItemCount;
   short timerValue;
-  int hasTenWumpa;
   ushort updatedHazardTimer;
   ushort hazardTimerMagnitude;
+  ushort clockReceiveRaw;
+  int hazardTimerAbs;
   undefined2 newWheelRotation;
   int iVar11;
+  uint mask40000;
   uint uVar12;
   int iVar13;
-  short rankItemValue;
+  int absSpeedApprox;
+  int rankItemValue;
   int iVar16;
+  int turnStrength;
+  int turnSpeed;
   uint uVar17;
   int iVar18;
   undefined4 sfxId;
   int iVar20;
   uint uVar21;
   int iVar22;
+  int stickRest;
   uint actionFlags;
   int targetSpeed;
   uint accelButtonHeld;
@@ -63,11 +69,15 @@ void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
   int superEngineTimer;
   int jumpTenBufferTimer;
   GamepadBuffer *gamepad;
-  RacingWheelData *wheelData;
   Thread *childThread;
-  void *heldObj;
+  TrackerWeapon *bomb;
+  Shield *shield;
+  undefined2 *normalVecDst;
+  Driver *driver;
 
-  if ((driver->actionsFlagSet & 0x40000) == 0)
+  driver = driverParam;
+  mask40000 = 0x40000;
+  if ((driver->actionsFlagSet & mask40000) == 0)
   {
     driver->timeElapsedInRace = gT->elapsedEventTime;
   }
@@ -75,7 +85,7 @@ void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
   iVar16 = gT->elapsedTimeMS;
   iVar11 = -iVar16;
 
-  if ((gT->elapsedEventTime < 0x8ca00) && ((driver->actionsFlagSet & 0x40000) == 0))
+  if ((0x8ca00 > gT->elapsedEventTime) && ((driver->actionsFlagSet & mask40000) == 0))
   {
     driver->distanceDriven = driver->distanceDriven + ((driver->speedApprox * iVar16) >> 8);
   }
@@ -96,10 +106,10 @@ void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
   superEngineTimer = driver->superEngineTimer;
   jumpTenBufferTimer = driver->jumpTenBuffer;
 
-  if (0 < reservesTimer)
+  if (reservesTimer > 0)
   {
     reservesTimer = reservesTimer + iVar11;
-    if (reservesTimer < 0)
+    if (0 > reservesTimer)
     {
       reservesTimer = 0;
     }
@@ -107,30 +117,30 @@ void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
     driver->timeSpentUsingReserves -= iVar11;
   }
 
-  if (0 < turboOutsideTimer)
+  if (turboOutsideTimer > 0)
   {
     turboOutsideTimer = turboOutsideTimer + iVar11;
-    if (turboOutsideTimer < 0)
+    if (0 > turboOutsideTimer)
     {
       turboOutsideTimer = 0;
     }
     driver->turboOutsideTimer = (short)turboOutsideTimer;
   }
 
-  if (0 < vehFireAudioCooldown)
+  if (vehFireAudioCooldown > 0)
   {
     vehFireAudioCooldown = vehFireAudioCooldown + iVar11;
-    if (vehFireAudioCooldown < 0)
+    if (0 > vehFireAudioCooldown)
     {
       vehFireAudioCooldown = 0;
     }
     driver->vehFireAudioCooldown = (short)vehFireAudioCooldown;
   }
 
-  if (0 < wallRubTimer)
+  if (wallRubTimer > 0)
   {
     wallRubTimer = wallRubTimer + iVar11;
-    if (wallRubTimer < 0)
+    if (0 > wallRubTimer)
     {
       wallRubTimer = 0;
     }
@@ -138,40 +148,40 @@ void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
     driver->timeSpentAgainstWall -= iVar11;
   }
 
-  if (0 < jumpForcedTimer)
+  if (jumpForcedTimer > 0)
   {
     jumpForcedTimer = jumpForcedTimer + iVar11;
-    if (jumpForcedTimer < 0)
+    if (0 > jumpForcedTimer)
     {
       jumpForcedTimer = 0;
     }
     driver->jumpForcedMs = (short)jumpForcedTimer;
   }
 
-  if (0 < jumpCooldownTimer)
+  if (jumpCooldownTimer > 0)
   {
     jumpCooldownTimer = jumpCooldownTimer + iVar11;
-    if (jumpCooldownTimer < 0)
+    if (0 > jumpCooldownTimer)
     {
       jumpCooldownTimer = 0;
     }
     driver->jumpCooldownMs = (short)jumpCooldownTimer;
   }
 
-  if (0 < jumpUnknownTimer)
+  if (jumpUnknownTimer > 0)
   {
     jumpUnknownTimer = jumpUnknownTimer + iVar11;
-    if (jumpUnknownTimer < 0)
+    if (0 > jumpUnknownTimer)
     {
       jumpUnknownTimer = 0;
     }
     driver->jumpUnknown = (short)jumpUnknownTimer;
   }
 
-  if (0 < burnTimer)
+  if (burnTimer > 0)
   {
     burnTimer = burnTimer + iVar11;
-    if (burnTimer < 0)
+    if (0 > burnTimer)
     {
       burnTimer = 0;
     }
@@ -179,10 +189,10 @@ void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
     driver->timeSpentBurnt -= iVar11;
   }
 
-  if (0 < squishTimer)
+  if (squishTimer > 0)
   {
     squishTimer = squishTimer + iVar11;
-    if (squishTimer < 0)
+    if (0 > squishTimer)
     {
       squishTimer = 0;
     }
@@ -190,62 +200,62 @@ void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
     driver->timeSpentSquished -= iVar11;
   }
 
-  if (0 < startDrivingTimer)
+  if (startDrivingTimer > 0)
   {
     startDrivingTimer = startDrivingTimer + iVar11;
-    if (startDrivingTimer < 0)
+    if (0 > startDrivingTimer)
     {
       startDrivingTimer = 0;
     }
     driver->startDriving0x60 = (short)startDrivingTimer;
   }
 
-  if (0 < startRollbackTimer)
+  if (startRollbackTimer > 0)
   {
     startRollbackTimer = startRollbackTimer + iVar11;
-    if (startRollbackTimer < 0)
+    if (0 > startRollbackTimer)
     {
       startRollbackTimer = 0;
     }
     driver->startRollback0x280 = (short)startRollbackTimer;
   }
 
-  if (((gT->gameMode2 & 0x10000) == 0) && (0 < superEngineTimer))
+  if (((gT->gameMode2 & 0x10000) == 0) && (superEngineTimer > 0))
   {
     superEngineTimer = superEngineTimer + iVar11;
-    if (superEngineTimer < 0)
+    if (0 > superEngineTimer)
     {
       superEngineTimer = 0;
     }
     driver->superEngineTimer = (short)superEngineTimer;
   }
 
-  if (0 < clockTimer)
+  if (clockTimer > 0)
   {
     clockTimer = clockTimer + iVar11;
-    if (clockTimer < 0)
+    if (0 > clockTimer)
     {
       clockTimer = 0;
     }
     driver->clockReceive = (short)clockTimer;
   }
 
-  if (0 < mashingTimer)
+  if (mashingTimer > 0)
   {
     mashingTimer = mashingTimer + iVar11;
-    if (mashingTimer < 0)
+    if (0 > mashingTimer)
     {
       mashingTimer = 0;
     }
     driver->mashingXMakesItBig = (short)mashingTimer;
   }
 
-  if (0 < jumpTenBufferTimer)
+  if (jumpTenBufferTimer > 0)
   {
     driver->jumpTenBuffer = jumpTenBufferTimer + -1;
   }
 
-  if (9 < driver->numWumpas)
+  if (driver->numWumpas > 9)
   {
     driver->timeSpentInTenWumpa -= iVar11;
   }
@@ -258,7 +268,7 @@ void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
   rankItemValue = driver->driverRank;
   if (((((rankItemValue == 7) && (gT->numPlyrCurrGame == 1)) ||
        ((rankItemValue == 5 && (gT->numPlyrCurrGame == 2)))) ||
-      ((rankItemValue == 3 && (2 < (byte)gT->numPlyrCurrGame)))) &&
+      ((rankItemValue == 3 && ((byte)gT->numPlyrCurrGame > 2)))) &&
      ((driver->actionsFlagSet & 0x40000) == 0))
      {
     driver->timeSpentInLastPlace -= iVar11;
@@ -267,92 +277,104 @@ void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver)
 
   if (driver->thCloud != 0)
   {
-    rankItemValue = M2C_FIELD(driver->thCloud->object, s16 *, 6);
+    rankItemValue = ((RainCloud *)driver->thCloud->object)->boolScrollItem;
   }
   iVar13 = (int)driver->speedApprox;
   actionFlags = driver->actionsFlagSet;
   iVar20 = (int)driver->clockReceive;
   driver->driverRankItemValue = rankItemValue;
-  if (iVar13 < 0)
+  absSpeedApprox = abs(iVar13);
+  iVar13 = absSpeedApprox;
+  if (iVar20 == 0)
   {
-    iVar13 = -iVar13;
+    iVar20 = (int)driver->squishTimer;
+    if (iVar20 == 0)
+    {
+      if (rankItemValue == 0)
+      {
+        iVar20 = gT->elapsedEventTime;
+      }
+    }
   }
-  if (((iVar20 == 0) && (iVar20 = (int)driver->squishTimer, iVar20 == 0)) &&
-     ((rankItemValue != 0 || (iVar20 = gT->elapsedEventTime, iVar20 == 0))))
-     {
+
+  if ((rankItemValue != 0) || (iVar20 == 0))
+  {
     iVar20 = (int)driver->hazardTimer;
-    iVar20 = iVar20 + iVar11;
+    iVar22 = -2;
     if (iVar13 < 0x101)
     {
-      iVar20 = -2;
+      iVar20 = iVar22;
     }
     else
     {
-      iVar20 = iVar20 & -2;
-      if (-1 < iVar20)
+      iVar20 = iVar20 + iVar11;
+      iVar20 = iVar20 & iVar22;
+      if (iVar20 > -1)
       {
-        iVar20 = -2;
+        iVar20 = iVar22;
       }
     }
     driver->hazardTimer = (short)iVar20;
   }
-  else
+  else if (iVar13 < 0x101)
   {
-    if ((actionFlags & 1) != 0)
-    {
-      if (iVar13 < 0x101) goto LAB_80061cf8;
-      if (iVar20 < 0)
-      {
-        iVar20 = -iVar20;
-      }
-      iVar11 = (uint)(ushort)driver->clockReceive << 0x10;
-      iVar18 = iVar11 >> 0x16;
-      if (0x40 < iVar18)
-      {
-        iVar18 = 0x40;
-      }
-      uVar21 = (iVar11 >> 0x10) << 4;
-      iVar11 = (&D_800845A0)[uVar21 & 0x3ff];
-      if ((uVar21 & 0x400) == 0)
-      {
-        iVar11 = iVar11 << 0x10;
-      }
-      iVar11 = iVar11 >> 0x10;
-      if ((uVar21 & 0x800) != 0)
-      {
-        iVar11 = -iVar11;
-      }
-      iVar22 = iVar13 >> 8;
-      if (0x20 < iVar22)
-      {
-        iVar22 = 0x20;
-      }
-      GAMEPAD_ShockForce1(driver,4,iVar18 + (iVar11 >> 5) + iVar22 + 0x18);
-      updatedHazardTimer = (ushort)iVar20 | 1;
-    }
-    else
-    {
-      if (iVar13 < 0x101) goto LAB_80061cf8;
-      if (iVar20 < 0)
-      {
-        iVar20 = -iVar20;
-      }
-      updatedHazardTimer = -(ushort)iVar20 | 1;
-    }
-    goto LAB_80061d44;
-
-LAB_80061cf8:
     hazardTimerMagnitude = (ushort)driver->hazardTimer;
     updatedHazardTimer = hazardTimerMagnitude | 1;
-    if (0 < (short)hazardTimerMagnitude)
+    if ((short)hazardTimerMagnitude > 0)
     {
       updatedHazardTimer = -hazardTimerMagnitude | 1;
     }
-
-LAB_80061d44:
     driver->hazardTimer = (s16)updatedHazardTimer;
   }
-  if (driver->heldItemId == 0x10)
+  else if ((actionFlags & 1) != 0)
+  {
+    clockReceiveRaw = (ushort)driver->clockReceive;
+    hazardTimerAbs = iVar20;
+    if (0 > hazardTimerAbs)
+    {
+      hazardTimerAbs = -hazardTimerAbs;
+    }
+    iVar11 = (int)(short)clockReceiveRaw;
+    iVar18 = iVar11 >> 6;
+    if (iVar18 > 0x40)
+    {
+      iVar18 = 0x40;
+    }
+    uVar21 = (uint)iVar11 << 4;
+    iVar11 = uVar21 & 0x3ff;
+    iVar11 = (&D_800845A0)[iVar11];
+    if ((uVar21 & 0x400) == 0)
+    {
+      iVar11 = iVar11 << 0x10;
+    }
+    iVar11 = iVar11 >> 0x10;
+    if ((uVar21 & 0x800) != 0)
+    {
+      iVar11 = -iVar11;
+    }
+    iVar22 = iVar13 >> 8;
+    if (iVar22 > 0x20)
+    {
+      iVar22 = 0x20;
+    }
+    iVar18 = iVar18 + (iVar11 >> 5);
+    iVar18 = iVar18 + iVar22;
+    GAMEPAD_ShockForce1(driver,4,iVar18 + 0x18);
+    updatedHazardTimer = (ushort)hazardTimerAbs | 1;
+    driver->hazardTimer = (s16)updatedHazardTimer;
+  }
+  else
+  {
+    hazardTimerAbs = iVar20;
+    if (0 > hazardTimerAbs)
+    {
+      hazardTimerAbs = -hazardTimerAbs;
+    }
+    updatedHazardTimer = -(ushort)hazardTimerAbs | 1;
+    driver->hazardTimer = (s16)updatedHazardTimer;
+  }
+
+  if ((u8)driver->heldItemId == 0x10)
   {
     if (driver->itemRollTimer != 0)
     {
@@ -361,23 +383,24 @@ LAB_80061d44:
     else
     {
       VehPhysGeneral_SetHeldItem(driver);
-      hasTenWumpa = 9 < driver->numWumpas;
-      sfxId = 0x5e;
-      if (hasTenWumpa)
+      if (driver->numWumpas > 9)
       {
-        sfxId = 0x41;
+        OtherFX_Play(0x41,1);
       }
-      OtherFX_Play(sfxId,hasTenWumpa);
+      else
+      {
+        OtherFX_Play(0x5e,0);
+      }
     }
   }
   timerValue = driver->noItemTimer;
   if (timerValue != 0)
   {
-    if ((timerValue == 1) && (driver->numHeldItems == 0))
+    if ((timerValue == 1) && ((u8)driver->numHeldItems == 0))
     {
-      if ((2 < (byte)gT->numPlyrCurrGame) &&
-         (((gT->gameMode1 & 0x20) == 0 && (driver->heldItemId == 0xb)) &&
-          (0 < gT->unk1EC4)))
+      if (((byte)gT->numPlyrCurrGame > 2) &&
+         (((gT->gameMode1 & 0x20) == 0 && ((u8)driver->heldItemId == 0xb)) &&
+          (gT->unk1EC4 > 0)))
           {
         gT->unk1EC4 = gT->unk1EC4 + -1;
       }
@@ -387,7 +410,7 @@ LAB_80061d44:
   }
   if ((driver->invincibleTimer != 0) &&
      (iVar11 = driver->invincibleTimer - gT->elapsedTimeMS,
-     driver->invincibleTimer = iVar11, iVar11 < 0))
+     driver->invincibleTimer = iVar11, 0 > iVar11))
      {
     driver->invincibleTimer = 0;
   }
@@ -395,7 +418,7 @@ LAB_80061d44:
   {
     iVar11 = driver->invisibleTimer - gT->elapsedTimeMS;
     driver->invisibleTimer = iVar11;
-    if (iVar11 < 0)
+    if (0 > iVar11)
     {
       driver->invisibleTimer = 0;
     }
@@ -406,58 +429,61 @@ LAB_80061d44:
       OtherFX_Play(0x62,1);
     }
   }
-  driver->rotPrev[3] = driver->rotCurr[3];
+ 
+  *(uint *)&driver->rotPrev[0] = *(uint *)&driver->rotCurr[0];
   driver->actionsFlagSetPrevFrame = actionFlags;
   driver->posPrev.x = driver->posCurr.x;
   driver->posPrev.y = driver->posCurr.y;
+  driver->posPrev.z = driver->posCurr.z;
+  driver->rotPrev[2] = driver->rotCurr[2];
   driver->jumpHeightPrev = driver->jumpHeightCurr;
   driver->turnAnglePrev = driver->turnAngleCurr;
-  driver->rotPrev[0] = driver->rotCurr[0];
-  driver->posPrev.z = driver->posCurr.z;
-  driver->rotPrev[1] = driver->rotCurr[1];
-  driver->rotPrev[2] = driver->rotCurr[2];
   uVar21 = actionFlags & 0x7f1f83d5;
 
-  if ((gT->gameMode2 & 0x4004) != 0) goto LAB_800629f8;
+  
+
+  if ((gT->gameMode2 & 0x4004) != 0)
+  {
+    driver->actionsFlagSet = uVar21;
+    return;
+  }
 
   iVar20 = (uint)(byte)driver->normalVecId + 1;
-  if (0 < iVar20)
+  if (iVar20 > 0)
   {
     iVar20 = 0;
   }
 
-  if ((actionFlags & 1) == 0)
+  normalVecDst = (undefined2 *)((s8 *)&driver->axisAngle4NormalVec[0] + (iVar20 * 8));
+
+  if ((actionFlags & 1) != 0)
   {
-    *(uint *)&driver->axisAngle4NormalVec[0] = *(uint *)&driver->axisAngle2NormalVec[0];
-    driver->axisAngle4NormalVec[2] = driver->axisAngle2NormalVec[2];
+    *(uint *)&normalVecDst[0] = *(uint *)&driver->axisAngle1NormalVec.x;
+    normalVecDst[2] = driver->axisAngle1NormalVec.z;
   }
   else
   {
-    *(uint *)&driver->axisAngle4NormalVec[0] = *(uint *)&driver->axisAngle1NormalVec.x;
-    driver->axisAngle4NormalVec[2] = driver->axisAngle1NormalVec.z;
+    *(uint *)&normalVecDst[0] = *(uint *)&driver->axisAngle2NormalVec[0];
+    normalVecDst[2] = driver->axisAngle2NormalVec[2];
   }
 
+  childThread = thread->childThread;
   driver->normalVecId = (char)iVar20;
 
   actionFlags = uVar21;
-  childThread = thread->childThread;
   while (childThread != 0)
   {
     iVar20 = childThread->modelIndex;
     if (iVar20 == 0x3a) goto LAB_80061fc8_childFound;
-    if (iVar20 != 0x39)
-    {
-      childThread = childThread->siblingThread;
-      continue;
-    }
+    if (iVar20 != 0x39) goto LAB_80061fc0_childNext;
 LAB_80061fc8_childFound:
-    actionFlags = uVar21 | 0x800000;
+    actionFlags = actionFlags | 0x800000;
     break;
+LAB_80061fc0_childNext:
+    childThread = childThread->siblingThread;
   }
 
-  driverId = driver->driverId;
-  gamepad = &D_8008D2B0->gamepad[(uint)driverId];
-  wheelData = gamepad->rwd;
+  gamepad = &D_8008D2B0->gamepad[(uint)(u8)driver->driverId];
   uVar21 = 0;
 
   if ((gT->gameMode1 & 0x200000) == 0)
@@ -475,91 +501,69 @@ LAB_80061fc8_childFound:
   brakeButtonHeld = uVar21 & 0x20;
   kartState = driver->kartState;
 
-  if ((((uVar17 & 0x40) != 0) && (((kartState == 0 || (kartState == 2)) || (kartState == 9)))) && (driver->instTntRecv == 0))
-     {
-    if (driver->instBombThrow != 0)
+  if ((uVar17 & 0x40) != 0)
+  {
+    if (((kartState == 0) || (kartState == 2) || (kartState == 9)) && (driver->instTntRecv == 0))
     {
-      heldObj = driver->instBombThrow->thread->object;
-      M2C_FIELD(heldObj, u16 *, 0x16) = M2C_FIELD(heldObj, u16 *, 0x16) | 2;
-      driver->instBombThrow = 0;
-    }
-    else if (driver->instBubbleHold != 0)
-    {
-      heldObj = driver->instBubbleHold->thread->object;
-      M2C_FIELD(heldObj, u16 *, 6) = M2C_FIELD(heldObj, u16 *, 6) | 2;
-      driver->instBubbleHold = 0;
-    }
-    else
-    {
-      timerValue = driver->itemRollTimer;
-      if (timerValue == 0)
+      if (driver->instBombThrow != 0)
+      {
+        bomb = driver->instBombThrow->thread->object;
+        bomb->flags |= TRACKER_WEAPON_FLAG_DETONATE;
+        driver->instBombThrow = 0;
+      }
+      else if (driver->instBubbleHold != 0)
+      {
+        shield = driver->instBubbleHold->thread->object;
+        shield->flags |= SHIELD_FLAG_SHOOTING;
+        driver->instBubbleHold = 0;
+      }
+      else
       {
         heldItemId = driver->heldItemId;
-        if (((heldItemId != 0xf) && (heldItemId != 0x10)) &&
-           ((driver->noItemTimer == 0 &&
-            ((rankItemValue != 1 && (driver->clockReceive == 0))))))
-            {
-          actionFlags = actionFlags | 0x8000;
-          if (driver->numHeldItems == 0)
+        if ((driver->itemRollTimer != 0) || (heldItemId == 0xf) || (heldItemId == 0x10) ||
+            (driver->noItemTimer != 0) || (rankItemValue == 1) || (driver->clockReceive != 0))
+        {
+          if (driver->itemRollTimer < 0x46)
           {
-            driver->noItemTimer = 0x1e;
+            driver->itemRollTimer = 0;
+          }
+        }
+        else
+        {
+          heldItemCount = (u8)driver->numHeldItems;
+          actionFlags = actionFlags | 0x8000;
+          if (heldItemCount != 0)
+          {
+            if ((heldItemId != 5) || (driver->jumpCoyoteTimerMs != 0))
+            {
+              if (heldItemId == 5)
+              {
+                uVar12 = driver->jumpCooldownMs;
+              }
+              else
+              {
+                uVar12 = gT->gameMode2 & 0x400c00;
+              }
+
+              if (uVar12 == 0)
+              {
+                driver->numHeldItems = heldItemCount - 1;
+              }
+            }
+
+            driver->noItemTimer = 5;
           }
           else
           {
-            if (heldItemId == 5)
-            {
-              if (driver->jumpCoyoteTimerMs != 0)
-              {
-                uVar12 = (uint)driver->jumpCooldownMs;
-                if (uVar12 == 0)
-                {
-                  driver->numHeldItems = driver->numHeldItems + -1;
-                }
-              }
-            }
-            else
-            {
-              uVar12 = gT->gameMode2 & 0x400c00;
-              if (uVar12 == 0)
-              {
-                driver->numHeldItems = driver->numHeldItems + -1;
-              }
-            }
-            driver->noItemTimer = 5;
+            driver->noItemTimer = 0x1e;
           }
         }
-        else if (timerValue < 0x46)
-        {
-          driver->itemRollTimer = 0;
-        }
-      }
-      else if (timerValue < 0x46)
-      {
-        driver->itemRollTimer = 0;
       }
     }
   }
   uVar17 = uVar17 & 0xc00;
-  if ((uVar17 == 0) || (driver->kartState == 2))
-  {
-    if (((uVar21 & 0xc00) != 0) && (rankItemValue != 3))
-    {
-      if ((actionFlags & 4) == 0)
-      {
-        driver->jumpTenBuffer = 10;
-      }
-      actionFlags = actionFlags | 4;
-    }
-    else
-    {
-      actionFlags = actionFlags & 0xfffffffb;
-      if (0 < driver->jumpTenBuffer)
-      {
-        driver->jumpTenBuffer = 0;
-      }
-    }
-  }
-  else
+
+  if ((uVar17 != 0) && (driver->kartState != 2))
   {
     if (uVar17 == 0xc00)
     {
@@ -575,6 +579,26 @@ LAB_80061fc8_childFound:
       actionFlags = actionFlags | 4;
     }
   }
+  else
+  {
+    if (((uVar21 & 0xc00) != 0) && (rankItemValue != 3))
+    {
+      if ((actionFlags & 4) == 0)
+      {
+        driver->jumpTenBuffer = 10;
+      }
+      actionFlags = actionFlags | 4;
+    }
+    else
+    {
+      actionFlags = actionFlags & 0xfffffffb;
+      if (driver->jumpTenBuffer > 0)
+      {
+        driver->jumpTenBuffer = 0;
+      }
+    }
+  }
+
   if ((brakeButtonHeld != 0) && ((driver->stepFlagSet & 3) == 0))
   {
     driver->reserves = 0;
@@ -586,11 +610,11 @@ LAB_80061fc8_childFound:
   }
   if ((driver->reserves != 0) || (rankItemValue == 6))
   {
-    if ((accelButtonHeld == 0) && (iVar20 = VehPhysJoystick_ReturnToRest(iVar11,0x80,0), -iVar20 < 1))
+    if ((accelButtonHeld == 0) && (iVar20 = VehPhysJoystick_ReturnToRest(iVar11,0x80,0), 1 > -iVar20))
     {
       actionFlags = actionFlags | 0x400000;
     }
-    if ((brakeButtonHeld != 0) && (0x300 < iVar13))
+    if ((brakeButtonHeld != 0) && (iVar13 > 0x300))
     {
       actionFlags = actionFlags | 0x800;
     }
@@ -605,166 +629,172 @@ LAB_80061fc8_childFound:
   {
     iVar20 = (int)gamepad->stickLY;
   }
-  if ((driver->simpTurnState < 0) ||
-     (actionFlags = actionFlags & 0xdfffffff, driver->simpTurnState < 1))
+  if ((0 > driver->simpTurnState) ||
+     (actionFlags = actionFlags & 0xdfffffff, 1 > driver->simpTurnState))
      {
     actionFlags = actionFlags & 0xbfffffff;
   }
-  iVar18 = (int)driver->speedApprox;
-  if (iVar18 < 0)
+  absSpeedApprox = (int)driver->speedApprox;
+  if (absSpeedApprox < 0)
   {
-    iVar18 = -iVar18;
+    absSpeedApprox = -absSpeedApprox;
   }
-  if (iVar18 < 0x300)
+  if (absSpeedApprox < 0x300)
   {
     actionFlags = actionFlags & 0x9fffffff;
   }
   iVar18 = 0;
   iVar22 = VehPhysGeneral_GetBaseSpeed(driver);
-  if (brakeButtonHeld == 0)
+
+  do
   {
-    targetSpeed = iVar22;
+    if (brakeButtonHeld != 0)
+    {
+      iVar20 = VehPhysJoystick_ReturnToRest(iVar20,0x80,0);
+      if ((iVar20 >= 100) || ((iVar20 > 0) && ((actionFlags & 0x20000) != 0)))
+      {
+        iVar11 = -(int)driver->constBackwardSpeed;
+        iVar11 = iVar11 + iVar11 + iVar11;
+        targetSpeed = iVar11 >> 2;
+        if (iVar11 < 0)
+        {
+          targetSpeed = (iVar11 + 3) >> 2;
+        }
+        actionFlags = actionFlags | 0x20020;
+        uVar21 = actionFlags & 0x9fffffff;
+        iVar18 = targetSpeed;
+        break;
+      }
+
+      if (accelButtonHeld != 0)
+      {
+        iVar18 = iVar22 / 2;
+        actionFlags = actionFlags | 0x20;
+        actionFlags = actionFlags & 0xfffdffff;
+        uVar21 = actionFlags & 0x9fffffff;
+        break;
+      }
+
+      iVar11 = VehPhysJoystick_ReturnToRest(iVar11,0x80,0);
+      iVar11 = -iVar11;
+      if (iVar11 > 0)
+      {
+        iVar18 = iVar22 * iVar11;
+        if (0 > iVar18)
+        {
+          iVar18 = iVar18 + 0xff;
+        }
+        iVar18 = iVar18 >> 8;
+        actionFlags = actionFlags | 0x20;
+        uVar21 = actionFlags & 0x9fffffff;
+        break;
+      }
+      if (0 > iVar11)
+      {
+        iVar11 = driver->constBackwardSpeed * iVar11;
+        targetSpeed = iVar11 >> 8;
+        if (0 > iVar11)
+        {
+          targetSpeed = (iVar11 + 0xff) >> 8;
+        }
+        actionFlags = actionFlags | 0x20020;
+        uVar21 = actionFlags & 0x9fffffff;
+        iVar18 = targetSpeed;
+        break;
+      }
+      targetSpeed = iVar18;
+      actionFlags = actionFlags | 8;
+      actionFlags = actionFlags & 0xfffdffff;
+      uVar21 = actionFlags & 0x9fffffff;
+      iVar18 = targetSpeed;
+      break;
+    }
+
     if (accelButtonHeld != 0)
     {
-LAB_8006253c:
+      targetSpeed = iVar22;
       actionFlags = actionFlags & 0xfffdffff;
-      goto LAB_80062548;
+      uVar21 = actionFlags & 0x9fffffff;
+      iVar18 = targetSpeed;
+      break;
     }
     iVar11 = VehPhysJoystick_ReturnToRest(iVar11,0x80,0);
     iVar11 = -iVar11;
-    if (-1 < iVar11)
+    if (iVar11 > -1)
     {
-      if ((iVar11 == 0) &&
-         ((iVar20 = VehPhysJoystick_ReturnToRest(iVar20,0x80,0), 99 < iVar20 ||
-          ((0 < iVar20 && ((actionFlags & 0x20000) != 0))))))
-          {
-        actionFlags = actionFlags | 0x20000;
-        targetSpeed = -(int)driver->constBackwardSpeed;
-        goto LAB_80062548;
+      if (iVar11 == 0)
+      {
+        stickRest = VehPhysJoystick_ReturnToRest(iVar20,0x80,0);
+        if ((stickRest > 99) || ((stickRest > 0) && ((actionFlags & 0x20000) != 0)))
+        {
+          targetSpeed = -(int)driver->constBackwardSpeed;
+          actionFlags = actionFlags | 0x20000;
+          uVar21 = actionFlags & 0x9fffffff;
+        iVar18 = targetSpeed;
+        break;
+        }
       }
       iVar11 = iVar22 * iVar11;
-      targetSpeed = iVar11 >> 7;
-      if (iVar11 < 0)
-      {
-        targetSpeed = (iVar11 + 0x7f) >> 7;
-      }
-      goto LAB_8006253c;
-    }
-    if ((driver->speedApprox < 0x301) && ((actionFlags & 0x60000000) == 0))
-    {
-      iVar11 = driver->constBackwardSpeed * iVar11;
-      if (iVar11 < 0)
-      {
-        iVar11 = iVar11 + 0x7f;
-      }
       iVar18 = iVar11 >> 7;
-      uVar17 = 0x20000;
-LAB_800625c4:
-      uVar21 = actionFlags | uVar17;
-    }
-    else
-    {
-      uVar21 = actionFlags | 8;
-      if (0 < driver->simpTurnState)
+      if (0 > iVar11)
       {
-        uVar21 = actionFlags | 0x40000008;
+        iVar18 = (iVar11 + 0x7f) >> 7;
       }
-      if (driver->simpTurnState < 0)
-      {
-        uVar17 = 0x20000000;
-        actionFlags = uVar21;
-        goto LAB_800625c4;
-      }
+      actionFlags = actionFlags & 0xfffdffff;
+      uVar21 = actionFlags & 0x9fffffff;
+      break;
     }
-  }
-  else
-  {
-    iVar20 = VehPhysJoystick_ReturnToRest(iVar20,0x80,0);
-    if ((iVar20 < 100) && ((iVar20 < 1 || ((actionFlags & 0x20000) == 0))))
+    if (driver->speedApprox < 0x301)
     {
-      if (accelButtonHeld == 0)
+      if ((actionFlags & 0x60000000) == 0)
       {
-        iVar11 = VehPhysJoystick_ReturnToRest(iVar11,0x80,0);
-        iVar11 = -iVar11;
-        targetSpeed = iVar22 * iVar11;
-        if (0 < iVar11)
+        iVar11 = driver->constBackwardSpeed * iVar11;
+        if (0 > iVar11)
         {
-          if (targetSpeed < 0)
-          {
-            targetSpeed = targetSpeed + 0xff;
-          }
-          targetSpeed = targetSpeed >> 8;
-          actionFlags = actionFlags | 0x20;
-          goto LAB_80062548;
+          iVar11 = iVar11 + 0x7f;
         }
-        if (iVar11 < 0)
-        {
-          iVar11 = driver->constBackwardSpeed * iVar11;
-          targetSpeed = iVar11 >> 8;
-          if (iVar11 < 0)
-          {
-            targetSpeed = (iVar11 + 0xff) >> 8;
-          }
-          goto LAB_8006248c;
-        }
-        actionFlags = actionFlags | 8;
-        targetSpeed = iVar18;
+        iVar18 = iVar11 >> 7;
+        uVar21 = actionFlags | 0x20000;
+        break;
       }
-      else
-      {
-        actionFlags = actionFlags | 0x20;
-        targetSpeed = iVar22 / 2;
-      }
-      goto LAB_8006253c;
     }
-    iVar11 = driver->constBackwardSpeed * -3;
-    targetSpeed = iVar11 >> 2;
-    if (iVar11 < 0)
+
+    uVar21 = actionFlags | 8;
+    if (driver->simpTurnState > 0)
     {
-      targetSpeed = (iVar11 + 3) >> 2;
+      uVar21 = uVar21 | 0x40000000;
     }
-LAB_8006248c:
-    actionFlags = actionFlags | 0x20020;
-LAB_80062548:
-    uVar21 = actionFlags & 0x9fffffff;
-    iVar18 = targetSpeed;
-  }
-  if ((uVar21 & 0x20000) == 0)
-  {
-    actionFlags = uVar21 & 8;
-    if (driver->superEngineTimer != 0)
+    if (0 > driver->simpTurnState)
     {
-      if (0 < iVar18)
-      {
-        actionFlags = uVar21 & 8;
-        if ((uVar21 & 0x400020) != 0) goto LAB_80062648;
-        sfxId = 0x80;
-        driver->actionsFlagSet = uVar21;
-        if (9 < driver->numWumpas)
-        {
-          sfxId = 0x100;
-        }
-        VehFire_Increment(driver,0x78,0x14,sfxId);
-        uVar21 = driver->actionsFlagSet;
-      }
-      goto code_r0x80062644;
+      uVar21 = uVar21 | 0x20000000;
     }
-  }
-  else
+    break;
+  } while (0);
+
+  if ((uVar21 & 0x20000) != 0)
   {
     driver->timeSpentReversing -= iVar11;
-code_r0x80062644:
-    actionFlags = uVar21 & 8;
   }
-LAB_80062648:
-  if (actionFlags != 0)
+  else if ((driver->superEngineTimer != 0) && (iVar18 > 0) && ((uVar21 & 0x400020) == 0))
+  {
+    sfxId = 0x80;
+    driver->actionsFlagSet = uVar21;
+    if (driver->numWumpas > 9)
+    {
+      sfxId = 0x100;
+    }
+    VehFire_Increment(driver,0x78,0x14,sfxId);
+    uVar21 = driver->actionsFlagSet;
+  }
+
+  if ((uVar21 & 8) != 0)
   {
     iVar11 = (int)driver->speedApprox;
-    if (iVar11 < 0)
+    if (0 > iVar11)
     {
       iVar11 = -iVar11;
     }
-    if (0x300 < iVar11)
+    if (iVar11 > 0x300)
     {
       driver->timeSpentWithHighSpeed -= iVar11;
     }
@@ -775,8 +805,8 @@ LAB_80062648:
     driver->mashXUnknown = 0;
   }
 
-  if (((driver->fireSpeed < 1) && (0 < iVar18)) ||
-     ((0 < driver->fireSpeed) && (iVar18 < 1)))
+  if (((1 > driver->fireSpeed) && (iVar18 > 0)) ||
+     ((driver->fireSpeed > 0) && (1 > iVar18)))
   {
     if (driver->mashingXMakesItBig != 0)
     {
@@ -804,102 +834,108 @@ LAB_80062648:
   {
     iVar11 = (int)gamepad->stickLX;
   }
-  iVar16 = (uint)(byte)driver->constTurnRate + ((int)driver->turnConst << 1) / 5;
-  if (driver->mashXUnknown < 7 || (0x25ff < iVar13))
+  turnStrength = (uint)(byte)driver->constTurnRate + ((int)driver->turnConst << 1) / 5;
+  if ((7 <= driver->mashXUnknown) && (0x2600 > iVar13))
   {
-    if (driver->set0xF0OnWallRub == 0)
+    turnStrength = VehPhysJoystick_GetStrengthAbsolute(iVar11,0x5a,gamepad->rwd);
+  }
+  else
+  {
+    if (driver->set0xF0OnWallRub != 0)
     {
-      if ((uVar21 & 0x28) == 0)
-      {
-      }
-      else if (accelButtonHeld == 0)
-      {
-        iVar16 = 0x40;
-      }
-      else
-      {
-        iVar20 = (int)driver->speed;
-        if (iVar20 < 0)
-        {
-          iVar20 = -iVar20;
-        }
-        iVar16 = VehCalc_MapToRange(iVar20,0x300,(int)((uint)(u16)driver->constSpeedClassStat << 0x10) >> 0x11,0x40,iVar16);
-      }
+      turnStrength = VehPhysJoystick_GetStrengthAbsolute(iVar11,0x30,gamepad->rwd);
     }
     else
     {
-      iVar16 = 0x30;
+      if ((uVar21 & 0x28) != 0)
+      {
+        if (accelButtonHeld != 0)
+        {
+          turnSpeed = (int)driver->speed;
+          if (0 > turnSpeed)
+          {
+            turnSpeed = -turnSpeed;
+          }
+          turnStrength = VehCalc_MapToRange(turnSpeed,0x300,(int)((uint)(u16)driver->constSpeedClassStat << 0x10) >> 0x11,0x40,turnStrength);
+          turnStrength = VehPhysJoystick_GetStrengthAbsolute(iVar11,turnStrength,gamepad->rwd);
+        }
+        else
+        {
+          turnStrength = VehPhysJoystick_GetStrengthAbsolute(iVar11,0x40,gamepad->rwd);
+        }
+      }
+      else
+      {
+        turnStrength = VehPhysJoystick_GetStrengthAbsolute(iVar11,turnStrength,gamepad->rwd);
+      }
     }
   }
 
-  else
-  {
-    iVar16 = 0x5a;
-  }
+  turnStrength = -turnStrength;
 
-  iVar16 = VehPhysJoystick_GetStrengthAbsolute(iVar11,iVar16,wheelData);
-  iVar16 = -iVar16;
-
-  if (iVar16 == 0)
+  if (turnStrength == 0)
   {
     driver->numFramesSpentSteering = 10000;
   }
   else
   {
-    if ((iVar16 < 0) && (-1 < driver->simpTurnState))
+    if ((0 > turnStrength) && (driver->simpTurnState > -1))
     {
       uVar21 = uVar21 & 0xffffffef;
+      driver->numFramesSpentSteering = 0;
     }
     else
     {
-      if ((iVar16 < 1) || (0 < driver->simpTurnState)) goto LAB_800628b0;
-      uVar21 = uVar21 | 0x10;
+      if ((turnStrength > 0) && (1 > driver->simpTurnState))
+      {
+        uVar21 = uVar21 | 0x10;
+        driver->numFramesSpentSteering = 0;
+      }
     }
-    driver->numFramesSpentSteering = 0;
   }
 
-LAB_800628b0:
-  driver->simpTurnState = (char)iVar16;
-  iVar11 = VehPhysJoystick_GetStrengthAbsolute(iVar11,0x40,wheelData);
+  driver->simpTurnState = (char)turnStrength;
+  iVar11 = VehPhysJoystick_GetStrengthAbsolute(iVar11,0x40,gamepad->rwd);
   newWheelRotation = VehCalc_InterpBySpeed(driver->wheelRotation,0x18,-iVar11);
   iVar11 = (int)driver->fireSpeed;
   driver->wheelRotation = newWheelRotation;
-  if (iVar11 < 0)
+  uVar12 = driver->actionsFlagSetPrevFrame;
+  if (0 > iVar11)
   {
     iVar11 = -iVar11;
   }
-  if (((driver->actionsFlagSetPrevFrame & 1) == 0) || (kartState == 2))
-  {
-    iVar11 = iVar11 + 0xf00;
-  }
-  else
+  if (((uVar12 & 1) != 0) && (kartState != 2))
   {
     iVar11 = (iVar11 + iVar13) >> 1;
   }
-  rankItemValue = (short)((iVar11 * 0x89 + driver->unkSpeedValue2 * 0x177) * 8 >> 0xc);
+  else
+  {
+    iVar11 = iVar11 + 0xf00;
+  }
+  iVar11 = iVar11 * 0x89;
+  rankItemValue = (short)((iVar11 + driver->unkSpeedValue2 * 0x177) * 8 >> 0xc);
   driver->unkSpeedValue2 = rankItemValue;
   if ((driver->actionsFlagSetPrevFrame & 8) == 0)
   {
-    if (iVar18 < 0)
+    if (0 > iVar18)
     {
       iVar18 = -iVar18;
     }
-    if ((0x200 < iVar18) || (0x200 < iVar13))
+    if ((iVar18 > 0x200) || (iVar13 > 0x200))
     {
       driver->unkSpeedValue1 = driver->unkSpeedValue1 - rankItemValue;
     }
   }
-  if (((driver->unkSpeedValue1 < 1) && ((driver->tireColor & 1) == 0)) &&
-     (kartState != 4))
-     {
-    driver->unkSpeedValue1 = 0x1e00;
-    driver->tireColor = 0x2e606061;
-  }
-  else
+  if ((driver->unkSpeedValue1 > 0) || ((driver->tireColor & 1) != 0) || (kartState == 4))
   {
     driver->tireColor = 0x2e808080;
   }
-LAB_800629f8:
+  else
+  {
+    driver->unkSpeedValue1 = 0x1e00;
+    driver->tireColor = 0x2e606061;
+  }
+
   driver->actionsFlagSet = uVar21;
   return;
 }

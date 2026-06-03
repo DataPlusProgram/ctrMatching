@@ -1,6 +1,5 @@
 #include "../../common.h"
 
-extern GameTracker *gT;
 extern void VehPhysProc_Driving_PhysLinear(Thread *thread, Driver *driver);
 
 void VehPhysProc_PowerSlide_PhysLinear(Thread *thread, Driver *driver)

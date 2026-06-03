@@ -6,10 +6,10 @@ typedef unsigned int u32;
 #define NULL 0
 
 typedef struct {
-    s32 count0;
-    void *items0;
-    s32 count1;
-    void **items1;
+    s32 list0Count;
+    void *list0Base;
+    s32 list1Count;
+    void **list1Base;
 } DecalGlobalHeader;
 
 void DecalGlobal_Store(s32 arg0, DecalGlobalHeader *arg1) {
@@ -21,8 +21,8 @@ void DecalGlobal_Store(s32 arg0, DecalGlobalHeader *arg1) {
     u16 tempV1_2;
 
     if (arg1 != NULL) {
-        varA2 = arg1->items0;
-        endA3 = (s8 *)varA2 + (arg1->count0 << 5);
+        varA2 = arg1->list0Base;
+        endA3 = (s8 *)varA2 + (arg1->list0Count << 5);
 
         if (varA2 < endA3) {
             do {
@@ -35,8 +35,8 @@ void DecalGlobal_Store(s32 arg0, DecalGlobalHeader *arg1) {
             } while (varA2 < endA3);
         }
 
-        varA1 = arg1->items1;
-        endA3 = varA1 + arg1->count1;
+        varA1 = arg1->list1Base;
+        endA3 = varA1 + arg1->list1Count;
 
         if (varA1 < endA3) {
             do {

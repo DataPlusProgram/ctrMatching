@@ -1,47 +1,53 @@
-typedef unsigned int uint;
-typedef unsigned short ushort;
-typedef unsigned char byte;
-typedef char undefined;
-typedef short undefined2;
-typedef int undefined4;
+#include "../../common.h"
 
-extern int VehCalc_FastSqrt(int, int);
 extern int ratan2(int, int);
 
-void VehPhysCrash_ConvertVecToSpeed(int param_1, int *param_2)
+void VehPhysCrash_ConvertVecToSpeed(Driver *driver, Vec3 *vec)
 {
-  int extraout_var_00;
-  int extraout_var_01;
-  int x;
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  iVar4 = VehCalc_FastSqrt(((*param_2) * (*param_2)) + (param_2[2] * param_2[2]), 0x10);
-  x = iVar4;
-  *((undefined2 *) (param_1 + 0x38c)) = ((uint) VehCalc_FastSqrt((((*param_2) * (*param_2)) + (param_2[1] * param_2[1])) + (param_2[2] * param_2[2]), 0x10)) >> 8;
-  x = ratan2(param_2[1] << 8, x);
-  *((undefined2 *) (param_1 + 0x394)) = (short) x;
-  x = ratan2(*param_2, param_2[2]);
-  *((undefined2 *) (param_1 + 0x396)) = (short) x;
-  iVar4 = ((((*param_2) * ((int) (*((short *) (param_1 + 0x312))))) + (param_2[1] * ((int) (*((short *) (param_1 + 0x318)))))) + (param_2[2] * ((int) (*((short *) (param_1 + 0x31e)))))) >> 0xc;
-  iVar1 = (((int) (*((short *) (param_1 + 0x312)))) * iVar4) >> 0xc;
-  iVar2 = (((int) (*((short *) (param_1 + 0x318)))) * iVar4) >> 0xc;
-  iVar3 = (((int) (*((short *) (param_1 + 0x31e)))) * iVar4) >> 0xc;
-  extraout_var_00 = ((uint) VehCalc_FastSqrt(((iVar1 * iVar1) + (iVar2 * iVar2)) + (iVar3 * iVar3), 0x10)) >> 8;
-  *((short *) (param_1 + 0x390)) = extraout_var_00;
-  if (iVar4 < 0)
-  {
-    *((short *) (param_1 + 0x390)) = -extraout_var_00;
-  }
-  iVar1 = (*param_2) - iVar1;
-  iVar2 = param_2[1] - iVar2;
-  iVar3 = param_2[2] - iVar3;
-  extraout_var_01 = ((uint) VehCalc_FastSqrt(((iVar1 * iVar1) + (iVar2 * iVar2)) + (iVar3 * iVar3), 0x10)) >> 8;
-  *((short *) (param_1 + 0x38e)) = extraout_var_01;
-  if ((((iVar1 * (*((short *) (param_1 + 0x314)))) + (iVar2 * (*((short *) (param_1 + 0x31a))))) + (iVar3 * (*((short *) (param_1 + 0x320))))) < 0)
-  {
-    *((short *) (param_1 + 0x38e)) = -extraout_var_01;
-  }
-  return;
+    int extraoutVar00;
+    int extraoutVar01;
+    int x;
+    int projX;
+    int projY;
+    int projZ;
+    int projOnMovingDirAxis;
+
+    projOnMovingDirAxis = VehCalc_FastSqrt((vec->x * vec->x) + (vec->z * vec->z), 16);
+    
+	x = projOnMovingDirAxis;
+    driver->speed = (u32)VehCalc_FastSqrt(((vec->x * vec->x) + (vec->y * vec->y)) + (vec->z * vec->z), 0x10) >> 8;
+    
+	x = ratan2(vec->y << 8, x);
+    driver->axisRotationY = x;
+   
+	x = ratan2(vec->x, vec->z);
+    driver->axisRotationX = x;
+    
+	projOnMovingDirAxis = (((vec->x * driver->matrixMovingDir.m[0][1]) + (vec->y * driver->matrixMovingDir.m[1][1])) + (vec->z * driver->matrixMovingDir.m[2][1])) >> 0xC;
+    
+	projX = (driver->matrixMovingDir.m[0][1] * projOnMovingDirAxis) >> 0xC;
+    projY = (driver->matrixMovingDir.m[1][1] * projOnMovingDirAxis) >> 0xC;
+    projZ = (driver->matrixMovingDir.m[2][1] * projOnMovingDirAxis) >> 0xC;
+    
+	extraoutVar00 = (u32)VehCalc_FastSqrt(((projX * projX) + (projY * projY)) + (projZ * projZ), 0x10) >> 8;
+    
+	driver->jumpHeightCurr = extraoutVar00;
+    
+	if (projOnMovingDirAxis < 0)
+    {
+        driver->jumpHeightCurr = -extraoutVar00;
+    }
+	
+    projX = vec->x - projX;
+    projY = vec->y - projY;
+    projZ = vec->z - projZ;
+    
+	extraoutVar01 = (u32)VehCalc_FastSqrt(((projX * projX) + (projY * projY)) + (projZ * projZ), 0x10) >> 8;
+    
+	driver->speedApprox = extraoutVar01;
+	
+    if ((((projX * driver->matrixMovingDir.m[0][2]) + (projY * driver->matrixMovingDir.m[1][2])) + (projZ * driver->matrixMovingDir.m[2][2])) < 0)
+    {
+        driver->speedApprox = -extraoutVar01;
+    }
 }

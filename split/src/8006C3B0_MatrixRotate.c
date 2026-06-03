@@ -1,40 +1,26 @@
-#include "../../common.h"
+typedef signed char s8;
+typedef int s32;
 
-__asm__(
-".set noreorder\n"
-".globl MatrixRotate\n"
-"MatrixRotate:\n"
-"    lui   $at, 0x1f80\n"
-"    sw    $s0, 0x0($at)\n"
-"    sw    $s1, 0x4($at)\n"
-"    sw    $s2, 0x8($at)\n"
-"    sw    $s3, 0xc($at)\n"
-"    sw    $s4, 0x10($at)\n"
-"    sw    $ra, 0x2c($at)\n"
-"    lw    $t3, 0x0($a1)\n"
-"    lw    $t4, 0x4($a1)\n"
-"    lw    $t5, 0x8($a1)\n"
-"    lw    $t6, 0xc($a1)\n"
-"    jal   SetRotMatrixRegs\n"
-"     lw   $t7, 0x10($a1)\n"
-"    lw    $t3, 0x0($a2)\n"
-"    lw    $t4, 0x4($a2)\n"
-"    lw    $t5, 0x8($a2)\n"
-"    lw    $t6, 0xc($a2)\n"
-"    jal   TRIG_Unknown_8006C49C\n"
-"     lw   $t7, 0x10($a2)\n"
-"    sw    $t3, 0x0($a0)\n"
-"    sw    $t4, 0x4($a0)\n"
-"    sw    $t5, 0x8($a0)\n"
-"    sw    $t6, 0xc($a0)\n"
-"    sw    $t7, 0x10($a0)\n"
-"    lw    $ra, 0x2c($at)\n"
-"    lw    $s4, 0x10($at)\n"
-"    lw    $s3, 0xc($at)\n"
-"    lw    $s2, 0x8($at)\n"
-"    lw    $s1, 0x4($at)\n"
-"    lw    $s0, 0x0($at)\n"
-"    jr    $ra\n"
-"     nop\n"
-".set reorder\n"
-);
+typedef s32 M2C_UNK;
+
+#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+#define M2C_ERROR(desc) (0)
+
+M2C_UNK SetRotMatrixRegs();                         /* extern */
+M2C_UNK TRIG_Unknown_8006C49C();                    /* extern */
+
+void MatrixRotate(void *arg1) {
+    *(s32 *)0x1F800000 = saved_reg_s0;
+    *(s32 *)0x1F800004 = saved_reg_s1;
+    *(s32 *)0x1F800008 = saved_reg_s2;
+    *(s32 *)0x1F80000C = saved_reg_s3;
+    *(s32 *)0x1F800010 = saved_reg_s4;
+    *(s32 *)0x1F80002C = saved_reg_ra;
+    SetRotMatrixRegs();
+    TRIG_Unknown_8006C49C();
+    *M2C_ERROR(/* Read from unset register $a0 */) = M2C_ERROR(/* Read from unset register $t3 */);
+    M2C_FIELD(M2C_ERROR(/* Read from unset register $a0 */), s32 *, 4) = (s32) M2C_ERROR(/* Read from unset register $t4 */);
+    M2C_FIELD(M2C_ERROR(/* Read from unset register $a0 */), s32 *, 8) = (s32) M2C_ERROR(/* Read from unset register $t5 */);
+    M2C_FIELD(M2C_ERROR(/* Read from unset register $a0 */), s32 *, 0xC) = (s32) M2C_ERROR(/* Read from unset register $t6 */);
+    M2C_FIELD(M2C_ERROR(/* Read from unset register $a0 */), s32 *, 0x10) = (s32) M2C_ERROR(/* Read from unset register $t7 */);
+}

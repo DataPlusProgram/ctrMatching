@@ -1,8 +1,6 @@
 
 #include "../../common.h"
 
-s32 VehCalc_InterpBySpeed();
-s32 VehPhysGeneral_LerpQuarterStrength();
 s32 VehPhysGeneral_LerpToForwards(Driver *driver, s32 targetForward, s32 inputSpeed, s32 currentForward)
 {
   s32 wasNegative;

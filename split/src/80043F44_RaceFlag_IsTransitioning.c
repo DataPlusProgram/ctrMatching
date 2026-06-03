@@ -3,7 +3,6 @@
 #define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
 
 s16 RaceFlag_ElapsedTime;
-extern void *gT;
 
 s32 RaceFlag_IsTransitioning(void)
 {
@@ -15,7 +14,7 @@ s32 RaceFlag_IsTransitioning(void)
         (RaceFlag_ElapsedTime != -5000) &&
         (RaceFlag_ElapsedTime != 5000))
     {
-        temp_v0 = M2C_FIELD(gT, s32 *, 0x256C) & 0x1000;
+        temp_v0 = ((GameTracker *)gT)->renderFlags & 0x1000;
         var_a0 = (u32)var_a0 < (u32)temp_v0;
     }
 

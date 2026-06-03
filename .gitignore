@@ -2,6 +2,9 @@ SCUS_*
 SCUS-*
 objectFiles/
 split/asm/
+split_test/
+executable_cfg_test.yaml
+221_cfg_test.yaml
 __pycache__/
 *.pyc
 *.pyo

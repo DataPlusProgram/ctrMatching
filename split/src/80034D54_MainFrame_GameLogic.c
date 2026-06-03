@@ -7,16 +7,6 @@ typedef int undefined4;
 typedef void code(int);
 typedef void (*VehicleFuncPtr)(Thread *thread, Driver *driver);
 
-typedef struct MainFrameThreadBucket
-{
-    Thread *thread;
-    s32 unk4;
-    s32 unk8;
-    u32 flags;
-    s32 unk10;
-}
-MainFrameThreadBucket;
-
 #ifndef true
 #define true 1
 #endif
@@ -68,12 +58,13 @@ GameTracker *s_OTMem;
 
 void MainFrame_GameLogic(GameTracker *gGT, GamepadSystem *gamepads)
 {
-    volatile s16 wasOutsideGameplay;
+    s16 wasOutsideGameplay;
     s16 menuResult;
     s32 elapsedTime;
     s32 numConnected;
     s32 i;
     s32 j;
+    s32 bucketOffset;
     s32 spreadValue;
     u32 gameMode1;
     u32 blurAmount;
@@ -240,23 +231,24 @@ void MainFrame_GameLogic(GameTracker *gGT, GamepadSystem *gamepads)
             }
         }
 
-        threadBuckets = (MainFrameThreadBucket *)s_OTMem->threadBuckets;
+        threadBuckets = (MainFrameThreadBucket *)gGT->threadBuckets;
 
+        bucketOffset = 0;
         for (i = 0; i < 0x11; i++)
         {
-            if ((((s_OTMem->gameMode1 & 0x10) == 0) || ((threadBuckets[i].flags & 1) != 0)) &&
-                (threadBuckets[i].thread != NULL))
+            if ((((s_OTMem->gameMode1 & 0x10) == 0) || ((M2C_FIELD((s8 *)gGT + bucketOffset, u32 *, 0x1B38) & 1) != 0)) &&
+                (M2C_FIELD((s8 *)gGT + bucketOffset, Thread **, 0x1B2C) != NULL))
             {
                 if (i == 0)
                 {
-                    for (thread = threadBuckets[0].thread; thread != NULL; thread = thread->siblingThread)
+                    for (thread = M2C_FIELD(s_OTMem, Thread **, 0x1B2C); thread != NULL; thread = thread->siblingThread)
                     {
                         VehPickupItem_ShootOnCirclePress(thread->object);
                     }
 
                     for (j = 0; j < 0xd; j++)
                     {
-                        for (thread = threadBuckets[0].thread; thread != NULL; thread = thread->siblingThread)
+                        for (thread = M2C_FIELD((s8 *)s_OTMem + bucketOffset, Thread **, 0x1B2C); thread != NULL; thread = thread->siblingThread)
                         {
                             if (thread->funcThTick == NULL)
                             {
@@ -272,8 +264,10 @@ void MainFrame_GameLogic(GameTracker *gGT, GamepadSystem *gamepads)
                     }
                 }
 
-                ThTick_RunBucket(threadBuckets[i].thread);
+                ThTick_RunBucket(M2C_FIELD((s8 *)gGT + bucketOffset, Thread **, 0x1B2C));
             }
+
+            bucketOffset += sizeof(MainFrameThreadBucket);
         }
 
         BOTS_UpdateGlobals(s_OTMem);
@@ -310,23 +304,39 @@ void MainFrame_GameLogic(GameTracker *gGT, GamepadSystem *gamepads)
     }
 
     gGT->gameMode1PrevFrame = gGT->gameMode1;
-    numConnected = GAMEPAD_GetNumConnected(M2C_FIELD(s_OTMem, GamepadSystem **, 4));
+    numConnected = GAMEPAD_GetNumConnected(M2C_FIELD(&s_OTMem, GamepadSystem **, 4));
     gameMode1 = s_OTMem->gameMode1;
 
     if ((gameMode1 & 0x200000) != 0)
     {
-        if (s_OTMem->timerEndOfRaceVS == 0)
+        if (s_OTMem->timerEndOfRaceVS != 0)
         {
-            if ((s_OTMem->gameModeEnd & 0x1000000) == 0)
+            if ((gameMode1 & 0x400000) == 0)
             {
-                if ((s_OTMem->gameModeEnd & 0x8000000) == 0)
+                if (s_OTMem->timerEndOfRaceVS < 0x96)
                 {
-                    if (s_OTMem->unkTimerCooldownSimilarTo1D36 == 0)
+                    UI_VsQuipDrawAll();
+                    UI_VsWaitForPressX();
+
+                    if (s_OTMem->timerEndOfRaceVS > 0x1e)
                     {
-                        return;
+                        s_OTMem->timerEndOfRaceVS--;
                     }
                 }
-                else if (s_OTMem->unkTimerCooldownSimilarTo1D36 == 0)
+            }
+            else
+            {
+                s_OTMem->timerEndOfRaceVS = 0;
+            }
+
+            return;
+        }
+
+        if ((s_OTMem->gameModeEnd & 0x1000000) == 0)
+        {
+            if ((s_OTMem->gameModeEnd & 0x8000000) != 0)
+            {
+                if (s_OTMem->unkTimerCooldownSimilarTo1D36 == 0)
                 {
                     if ((s_OTMem->gameModeEnd & 2) == 0)
                     {
@@ -353,26 +363,13 @@ void MainFrame_GameLogic(GameTracker *gGT, GamepadSystem *gamepads)
                     s_OTMem->gameModeEnd &= 0xf3ffffff;
                     return;
                 }
-
-                s_OTMem->unkTimerCooldownSimilarTo1D36--;
             }
-        }
-        else if ((gameMode1 & 0x400000) == 0)
-        {
-            if (s_OTMem->timerEndOfRaceVS < 0x96)
+            else if (s_OTMem->unkTimerCooldownSimilarTo1D36 == 0)
             {
-                UI_VsQuipDrawAll();
-                UI_VsWaitForPressX();
+                return;
             }
 
-            if (s_OTMem->timerEndOfRaceVS > 0x1e)
-            {
-                s_OTMem->timerEndOfRaceVS--;
-            }
-        }
-        else
-        {
-            s_OTMem->timerEndOfRaceVS = 0;
+            s_OTMem->unkTimerCooldownSimilarTo1D36--;
         }
 
         return;
@@ -380,55 +377,56 @@ void MainFrame_GameLogic(GameTracker *gGT, GamepadSystem *gamepads)
 
     if (wasOutsideGameplay || ((gGT->gameMode1 & 0xf) != 0))
     {
-        if (s_OTMem->cooldownfromPauseUntilUnpause == 0)
-        {
-            if ((ptrActiveMenu != &menuRacingWheelConfig) &&
-                (ptrActiveMenu != &DAT_800b518c) &&
-                ((AnyPlayerTap & 0x1000) != 0))
-            {
-                RECTMENU_ClearInput();
-                s_OTMem->gameMode1 &= 0xfffffffe;
-                MainFrame_TogglePauseAudio(0);
-                OtherFX_Play(1, 1);
-                MainFreeze_SafeAdvDestroy();
-                ElimBG_Deactivate(s_OTMem);
-                RECTMENU_Hide(ptrActiveMenu);
-                s_OTMem->cooldownFromUnpauseUntilPause = 5;
-            }
-        }
-        else
+        if ((u8)s_OTMem->cooldownfromPauseUntilUnpause != 0)
         {
             s_OTMem->cooldownfromPauseUntilUnpause--;
+            return;
+        }
+
+        if ((ptrActiveMenu != &menuRacingWheelConfig) &&
+            (ptrActiveMenu != &DAT_800b518c) &&
+            ((AnyPlayerTap & 0x1000) != 0))
+        {
+            RECTMENU_ClearInput();
+            s_OTMem->gameMode1 &= 0xfffffffe;
+            MainFrame_TogglePauseAudio(0);
+            OtherFX_Play(1, 1);
+            MainFreeze_SafeAdvDestroy();
+            ElimBG_Deactivate(s_OTMem);
+            RECTMENU_Hide(ptrActiveMenu);
+            s_OTMem->cooldownFromUnpauseUntilPause = 5;
         }
 
         return;
     }
 
-    if (s_OTMem->cooldownFromUnpauseUntilPause == 0)
-    {
-        if (((gameMode1 & 0x20202000) == 0) &&
-            (ptrActiveMenu == NULL) &&
-            (boolDraw3D_AdvMask == 0) &&
-            (RaceFlag_IsFullyOnScreen() == 0) &&
-            (gGT->numPlyrCurrGame != 0))
-        {
-            for (i = 0; i < (u8)gGT->numPlyrCurrGame; i++)
-            {
-                if ((((numConnected != 0) &&
-                    (MainFrame_HaveAllPads(s_OTMem->numPlyrNextGame) == 0) &&
-                    ((gGT->gameMode1 & 0xf) == 0)) ||
-                    ((gamepads->gamepad[i].buttonsTapped & 0x1000) != 0)) &&
-                    (M2C_FIELD(s_OTMem, u8 *, 0x2541) != 0xff))
-                {
-                    s_OTMem->gameModeEnd = (s_OTMem->gameMode1 & 0x3e0020) | 1;
-                    MainFreeze_IfPressStart();
-                    s_OTMem->cooldownfromPauseUntilUnpause = 5;
-                }
-            }
-        }
-    }
-    else
+    if ((u8)s_OTMem->cooldownFromUnpauseUntilPause != 0)
     {
         s_OTMem->cooldownFromUnpauseUntilPause--;
+        return;
+    }
+
+    if (((gameMode1 & 0x20202000) == 0) &&
+        (ptrActiveMenu == NULL) &&
+        (boolDraw3D_AdvMask == 0) &&
+        (RaceFlag_IsFullyOnScreen() == 0) &&
+        (gGT->numPlyrCurrGame != 0))
+    {
+        i = 0;
+        do
+        {
+            if ((((numConnected != 0) &&
+                ((s16)MainFrame_HaveAllPads(s_OTMem->numPlyrNextGame) == 0) &&
+                ((gGT->gameMode1 & 0xf) == 0)) ||
+                ((gamepads->gamepad[i].buttonsTapped & 0x1000) != 0)) &&
+                (M2C_FIELD(s_OTMem, u8 *, 0x2541) != 0xff))
+            {
+                s_OTMem->gameModeEnd = (s_OTMem->gameMode1 & 0x3e0020) | 1;
+                MainFreeze_IfPressStart();
+                s_OTMem->cooldownfromPauseUntilUnpause = 5;
+            }
+
+            i++;
+        } while (i < (u8)gGT->numPlyrCurrGame);
     }
 }

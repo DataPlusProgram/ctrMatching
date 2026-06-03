@@ -1,72 +1,89 @@
-typedef signed char s8;
-typedef unsigned char u8;
-typedef short s16;
-typedef unsigned short u16;
-typedef int s32;
+#include "../../common.h"
 
-#define NULL 0
-typedef s32 M2C_UNK;
-
-#define M2C_FIELD(expr, typePtr, offset) (*(typePtr)((s8 *)(expr) + (offset)))
+typedef struct
+{
+    u8 pad[0x2D4];
+    Vec3 posCurr;
+} DriverPosCurrView;
+typedef struct
+{
+    u8 flags;
+    u8 pad01[0x1C - 0x01];
+    void *levInstData;
+} HitInstanceView;
+typedef struct
+{
+    u8 pad00[0x2C];
+    s32 modelData;
+    u8 pad30[0x3C - 0x30];
+    s16 modelId;
+} LevInstDataView;
 
 M2C_UNK COLL_FIXED_BotsSearch();
-void *COLL_LevModelMeta();
-extern void *D_8008D2AC;
+LevModelMetaView *COLL_LevModelMeta(unsigned int arg0);
+extern GameTracker *gT;
 
-typedef struct {
+typedef struct
+{
     s16 x;
     s16 y;
     s16 z;
 } Vec3s;
 
-void BOTS_LevInstColl(void *arg0)
+void BOTS_LevInstColl(Thread *arg0)
 {
     Vec3s sp10;
     Vec3s sp18;
-    M2C_UNK (*temp_v0_3)(s32, void *, M2C_UNK);
-    s32 temp_s0;
+    M2C_UNK (*collisionFunc)(s32, void *, M2C_UNK);
+    s32 modelData;
     s32 temp_model;
-    void *temp_v0;
-    void *temp_v0_2;
-    void *temp_v1;
-    void *temp_v1_2;
-    void *temp_s0Ptr;
+    LevInstDataView *levInstData;
+    LevModelMetaView *levModelMeta;
+    DriverPosCurrView *driver;
+    HitInstanceView *hitInstance;
+    BotsLevInstCollScratch *scratch;
     void *temp_modelPtr;
 
-    temp_s0Ptr = (void *)0x1F800108;
-    temp_modelPtr = M2C_FIELD(D_8008D2AC, void **, 0x160);
-    temp_v1 = M2C_FIELD(arg0, void **, 0x30);
-    temp_model = M2C_FIELD(temp_modelPtr, s32 *, 0);
+    scratch = (BotsLevInstCollScratch *)0x1F800108;
+    temp_modelPtr = M2C_FIELD(gT, void **, 0x160);
+    driver = M2C_FIELD(arg0, DriverPosCurrView **, 0x30);
+    temp_model = *(s32 *)temp_modelPtr;
 
-    M2C_FIELD(temp_s0Ptr, u16 *, 0x22) = 1U;
-    M2C_FIELD(temp_s0Ptr, s16 *, 0xC) = 0x3F;
-    M2C_FIELD(temp_s0Ptr, s32 *, 0x24) = 0;
-    M2C_FIELD(temp_s0Ptr, s32 *, 0x28) = 0;
-    M2C_FIELD(temp_s0Ptr, s16 *, 6) = 0x19;
-    M2C_FIELD(temp_s0Ptr, s32 *, 0x2C) = temp_model;
+    scratch->collisionFlags = 1;
+    scratch->unk0C = 0x3F;
+    scratch->unk24 = 0;
+    scratch->unk28 = 0;
+    scratch->bboxRadius = 0x19;
+    scratch->levelRootValue = temp_model;
 
-    sp10.x = (s16) ((s32) M2C_FIELD(temp_v1, s32 *, 0x2D4) >> 8);
-    sp10.y = ((s32) M2C_FIELD(temp_v1, s32 *, 0x2D8) >> 8) + 0x19;
-    sp10.z = (s16) ((s32) M2C_FIELD(temp_v1, s32 *, 0x2DC) >> 8);
+    /* Confirmed driver position fields, kept as offset reads for matching. */
+    sp10.x =  M2C_FIELD(driver, s32 *, 0x2D4) >> 8;
+    sp10.y = (M2C_FIELD(driver, s32 *, 0x2D8) >> 8) + 0x19;
+    sp10.z = M2C_FIELD(driver, s32 *, 0x2DC) >> 8;
 
-    sp18.x = (s16) ((s32) M2C_FIELD(temp_v1, s32 *, 0x2E0) >> 8);
-    sp18.y = ((s32) M2C_FIELD(temp_v1, s32 *, 0x2E4) >> 8) + 0x19;
-    sp18.z = (s16) ((s32) M2C_FIELD(temp_v1, s32 *, 0x2E8) >> 8);
+    sp18.x =  M2C_FIELD(driver, s32 *, 0x2E0) >> 8;
+    sp18.y = ( M2C_FIELD(driver, s32 *, 0x2E4) >> 8) + 0x19;
+    sp18.z =   M2C_FIELD(driver, s32 *, 0x2E8) >> 8;
 
-    COLL_FIXED_BotsSearch(&sp10, &sp18, temp_s0Ptr);
+    COLL_FIXED_BotsSearch(&sp10, &sp18, scratch);
 
-    if (M2C_FIELD(temp_s0Ptr, u16 *, 0x42) != 0) {
-        temp_v1_2 = M2C_FIELD(temp_s0Ptr, void **, 0x48);
-        M2C_FIELD(temp_s0Ptr, u16 *, 0x22) = M2C_FIELD(temp_s0Ptr, u16 *, 0x22) & 0xFFF7;
-        if (M2C_FIELD(temp_v1_2, u8 *, 0) & 0x80) {
-            temp_v0 = M2C_FIELD(temp_v1_2, void **, 0x1C);
-            temp_s0 = M2C_FIELD(temp_v0, s32 *, 0x2C);
-            if (temp_s0 != 0) {
-                temp_v0_2 = COLL_LevModelMeta(M2C_FIELD(temp_v0, s16 *, 0x3C));
-                if (temp_v0_2 != NULL) {
-                    temp_v0_3 = M2C_FIELD(temp_v0_2, M2C_UNK (**)(s32, void *, M2C_UNK), 8);
-                    if (temp_v0_3 != NULL) {
-                        temp_v0_3(temp_s0, arg0, temp_s0Ptr);
+    if (scratch->foundHitType != 0)
+    {
+        hitInstance = scratch->hitInstance;
+        scratch->collisionFlags &= 0xFFF7;
+        if (hitInstance->flags & 0x80)
+        {
+            levInstData = hitInstance->levInstData;
+            modelData = levInstData->modelData;
+            if (modelData != 0)
+            {
+                levModelMeta = COLL_LevModelMeta(levInstData->modelId);
+                if (levModelMeta != NULL)
+                {
+                    collisionFunc = levModelMeta->collisionFunc;
+                    if (collisionFunc != NULL)
+                    {
+                        collisionFunc(modelData, arg0, scratch);
                     }
                 }
             }

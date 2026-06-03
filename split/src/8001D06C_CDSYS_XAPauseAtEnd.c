@@ -1,3 +1,12 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8001D06C_CDSYS_XAPauseAtEnd/8001D06C_CDSYS_XAPauseAtEnd.s")
+typedef s32 M2C_UNK;
+
+M2C_UNK CDSYS_XAPauseForce();                       /* extern */
+s32 ptrArray_numSongs;
+
+void CDSYS_XAPauseAtEnd(void) {
+    if (ptrArray_numSongs != 0) {
+        CDSYS_XAPauseForce();
+    }
+}

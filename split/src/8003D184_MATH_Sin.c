@@ -1,22 +1,22 @@
-typedef unsigned int u32;
-typedef int s32;
+#include "../../common.h"
 
 extern s32 D_800845A0[];
 
-s32 FUN_8003d184(u32 param_1) {
-    s32 iVar1;
+s32 MATH_Sin(s32 angle)
+{
+    s32 sinValue;
 
-    iVar1 = D_800845A0[param_1 & 0x3FF];
+    sinValue = D_800845A0[angle & 0x3FF];
 
-    if ((param_1 & 0x400) == 0) {
-        iVar1 <<= 0x10;
+    if ((angle & 0x400) == 0) {
+        sinValue <<= 0x10;
     }
 
-    iVar1 >>= 0x10;
+    sinValue >>= 0x10;
 
-    if ((param_1 & 0x800) != 0) {
-        iVar1 = -iVar1;
+    if ((angle & 0x800) != 0) {
+        sinValue = -sinValue;
     }
 
-    return iVar1;
+    return sinValue;
 }

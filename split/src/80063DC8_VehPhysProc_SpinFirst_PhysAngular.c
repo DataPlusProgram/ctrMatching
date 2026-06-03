@@ -1,8 +1,7 @@
 #include "../../common.h"
 
-s16 VehCalc_InterpBySpeed();         /* extern */
+s32 VehCalc_InterpBySpeed();         /* extern */
 M2C_UNK VehPhysForce_RotAxisAngle(); /* extern */
-extern GameTracker *gT;
 
 void VehPhysProc_SpinFirst_PhysAngular(Thread *thread, Driver *driver) {
     s32 tempLo;
@@ -10,7 +9,7 @@ void VehPhysProc_SpinFirst_PhysAngular(Thread *thread, Driver *driver) {
     u16 tempA0_2;
     u16 tempV0;
     u16 tempV1;
-    volatile u16 *spinVel;
+    u16 *spinVel;
 
     spinVel = &driver->rotationSpinRate;
 
@@ -44,11 +43,7 @@ void VehPhysProc_SpinFirst_PhysAngular(Thread *thread, Driver *driver) {
 
     driver->rotCurr[3] =
         VehCalc_InterpBySpeed(
-            driver->rotCurr[3],
-            (M2C_FIELD(gT, s32 *, 0x1D04) << 5) >> 5,
-            0,
-            tempLo
-        );
+            driver->rotCurr[3], (M2C_FIELD(gT, s32 *, 0x1D04) << 5) >> 5, 0);
 
     VehPhysForce_RotAxisAngle(
         &driver->matrixMovingDir,

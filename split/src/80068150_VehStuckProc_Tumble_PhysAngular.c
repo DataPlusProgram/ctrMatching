@@ -1,62 +1,60 @@
 #include "../../common.h"
 
-s16 VehCalc_InterpBySpeed();
+s32 VehCalc_InterpBySpeed();
 void VehPhysForce_RotAxisAngle();
-extern GameTracker *gT;
 
 void VehStuckProc_Tumble_PhysAngular(Thread *thread, Driver *driver)
 {
-    s32 tempLo;
+    s32 spinAngleDelta;
     GameTracker *gameState;
-    u16 tempA0;
-    u16 tempV0;
-    u16 tempV1;
-    u16 tempV1_2;
+    u16 lerpToForwards;
+    u16 angle;
+    u16 spinRate;
+    u16 decayedSpinRate;
 
-    tempV1 = driver->rotationSpinRate;
-    tempA0 = driver->unkLerpToForwards;
+    spinRate = driver->rotationSpinRate;
+    spinRate -= ((s32)(spinRate << 0x10) >> 0x13);
+    driver->rotationSpinRate = spinRate;
+
+    lerpToForwards = driver->unkLerpToForwards;
     gameState = gT;
 
     driver->numFramesSpentSteering = 10000;
 
-    tempV1 -= ((s32)(tempV1 << 0x10) >> 0x13);
-    driver->rotationSpinRate = tempV1;
+    lerpToForwards -= ((s32)(lerpToForwards << 0x10) >> 0x13);
 
-    tempA0 -= ((s32)(tempA0 << 0x10) >> 0x13);
+    angle = driver->turnAngleCurr;
+    decayedSpinRate = driver->rotationSpinRate;
 
-    tempV0 = driver->turnAngleCurr;
-    tempV1_2 = driver->rotationSpinRate;
+    driver->unkLerpToForwards = lerpToForwards;
 
-    driver->unkLerpToForwards = tempA0;
+    angle += lerpToForwards;
+    angle = (angle + 0x800) & 0xFFF;
 
-    tempV0 += tempA0;
-    tempV0 = (tempV0 + 0x800) & 0xFFF;
+    lerpToForwards = driver->unk3D4[0];
 
-    tempA0 = driver->unk3D4[0];
+    angle -= 0x800;
+    driver->ampTurnState = decayedSpinRate;
 
-    tempV0 -= 0x800;
-    driver->ampTurnState = tempV1_2;
+    spinAngleDelta = (s16)decayedSpinRate;
+    driver->turnAngleCurr = angle;
 
-    tempLo = (s16)tempV1_2;
-    driver->turnAngleCurr = tempV0;
+    lerpToForwards -= ((s32)(lerpToForwards << 0x10) >> 0x13);
+    driver->unk3D4[0] = lerpToForwards;
 
-    tempA0 -= ((s32)(tempA0 << 0x10) >> 0x13);
-    driver->unk3D4[0] = tempA0;
+    spinAngleDelta *= gameState->elapsedTimeMS;
 
-    tempLo *= gameState->elapsedTimeMS;
+    angle = driver->angle;
+    angle = (angle + (spinAngleDelta >> 0xD)) & 0xFFF;
 
-    tempV0 = driver->angle;
-    tempV0 = (tempV0 + (tempLo >> 0xD)) & 0xFFF;
-
-    driver->angle = tempV0;
-    driver->rotCurr[1] = driver->unk3D4[0] + (tempV0 + driver->turnAngleCurr);
+    driver->angle = angle;
+    driver->rotCurr[1] = driver->unk3D4[0] + (angle + driver->turnAngleCurr);
 
     driver->rotCurr[3] = VehCalc_InterpBySpeed(
         driver->rotCurr[3],
         (gameState->elapsedTimeMS << 5) >> 5,
-        0,
-        tempLo
+        0
     );
 
-    VehPhysForce_RotAxisAngle(&driver->matrixMovingDir, &driver->axisAngle1NormalVec.x, (s16)driver->angle);
+    VehPhysForce_RotAxisAngle(&driver->matrixMovingDir,&driver->axisAngle1NormalVec.x,(s16)driver->angle);
 }

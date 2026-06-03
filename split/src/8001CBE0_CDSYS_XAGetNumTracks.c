@@ -1,3 +1,19 @@
-#include "../../common.h"
+typedef int s32;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/8001CBE0_CDSYS_XAGetNumTracks/8001CBE0_CDSYS_XAGetNumTracks.s")
+s32 *D_8008D6E0;
+s32 irqAddr;
+
+s32 CDSYS_XAGetNumTracks(s32 arg0)
+{
+    if (irqAddr == 0)
+    {
+        return 0;
+    }
+
+    if (arg0 < 3)
+    {
+        return D_8008D6E0[arg0];
+    }
+
+    return 0;
+}

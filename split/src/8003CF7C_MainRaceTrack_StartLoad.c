@@ -1,10 +1,7 @@
-typedef short s16;
-typedef int s32;
-
-typedef s32 M2C_UNK;
+#include "../../common.h"
 
 M2C_UNK ElimBG_Deactivate();                     /* extern */
-M2C_UNK LOAD_LevelFile();                        /* extern */
+void LOAD_LevelFile(u32 levelId);
 M2C_UNK howl_StopAudio();  /* extern */
 s32 s_OTMem;
 
